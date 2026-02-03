@@ -116,6 +116,7 @@ public class Model {
 				// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*1000),0,0))); 
 			}
 		}
+		System.out.println(EnemiesList.size());
 	}
 
 	private void bulletLogic() {
