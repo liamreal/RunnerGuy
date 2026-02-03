@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java:java/util/concurrent/CopyOnWriteArrayList#remove().
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+empty definition using pc, found symbol in pc: java/util/concurrent/CopyOnWriteArrayList#remove().
+found definition using semanticdb; symbol Model#BulletList.
+empty definition using fallback
+non-local guesses:
+
+offset: 4402
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -124,14 +135,16 @@ public class Model {
 	  
 		for (GameObject temp : BulletList) 
 		{
-		    // move bullet down Y axis
+		    //check to move them
+			  
 			temp.getCentre().ApplyVector(new Vector3f(0,1,0));
 			//see if they hit anything 
 			
-			// once bullet fully off-screen, remove
+			//see if they get to the top of the screen ( remember 0 is the top 
+			System.out.println(temp.getCentre());
 			if (temp.getCentre().getY()<=-temp.getHeight())
 			{
-			 	BulletList.remove(temp);
+			 	BulletList.remo@@ve(temp);
 				System.out.println(temp.getCentre());
 			} 
 
@@ -348,3 +361,10 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  */
 
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/util/concurrent/CopyOnWriteArrayList#remove().
