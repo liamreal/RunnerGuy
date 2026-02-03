@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java:_empty_/EnemyObject#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+empty definition using pc, found symbol in pc: _empty_/EnemyObject#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 2433
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -55,10 +66,10 @@ public class Model {
 		Player= new PlayerObject(50,50,new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
 		//Enemies  starting with four 
 		
-		EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*50+400 ),0,0))); 
-		EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*50+500 ),0,0)));
-		EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*100+500 ),0,0)));
-		EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*100+400 ),0,0)));
+		EnemiesList.add(new @@EnemyObject(50,50,new Point3f(((float)Math.random()*50+400 ),0,0))); 
+		EnemiesList.add(new GameObject("res/UFO.png",50,50,new Point3f(((float)Math.random()*50+500 ),0,0)));
+		EnemiesList.add(new GameObject("res/UFO.png",50,50,new Point3f(((float)Math.random()*100+500 ),0,0)));
+		EnemiesList.add(new GameObject("res/UFO.png",50,50,new Point3f(((float)Math.random()*100+400 ),0,0)));
 		
 		
 	    
@@ -342,3 +353,10 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  */
 
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/EnemyObject#
