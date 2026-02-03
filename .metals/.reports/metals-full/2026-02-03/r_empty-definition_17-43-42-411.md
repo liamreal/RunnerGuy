@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/util/GameObject.java:_empty_/GameDisplay#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/util/GameObject.java
+empty definition using pc, found symbol in pc: _empty_/GameDisplay#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1347
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/util/GameObject.java
+text:
+```scala
 package util;
 import display.GameDisplay;
 import display.TextureLoader;
@@ -26,7 +37,7 @@ SOFTWARE.
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
 public class GameObject {
-	private Point3f centre= new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0);			// where centre of object is on screen, using 3D as objects may be scaled  
+	private Point3f centre= new Point3f(GameDi@@splay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0);			// Centre of object, using 3D as objects may be scaled  
 	private int width=50;
 	private int height=50;
 	private boolean hasTextured=false;
@@ -134,3 +145,9 @@ public class GameObject {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 */
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameDisplay#
