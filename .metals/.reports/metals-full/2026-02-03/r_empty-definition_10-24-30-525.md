@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java:javax/swing/ImageIcon#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java
+empty definition using pc, found symbol in pc: javax/swing/ImageIcon#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 4187
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -87,7 +98,7 @@ public class MainWindow {
 			try {
 				 
 				 BufferedImage myPicture = ImageIO.read(BackgroundToLoad);
-				 BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
+				 BackgroundImageForStartMenu = new JLabel(new @@ImageIcon(myPicture));
 				 BackgroundImageForStartMenu.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
 				frame.add(BackgroundImageForStartMenu); 
 			}  catch (IOException e) { 
@@ -194,3 +205,10 @@ $$$I~::::::::::::::::::::::::::::::::::::::::::II+,,,OOO7?$DOZII$I$I7=77?,,,,,,:
  * 
  * 
  */
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: javax/swing/ImageIcon#

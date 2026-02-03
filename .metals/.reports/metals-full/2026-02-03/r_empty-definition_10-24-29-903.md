@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java:javax/imageio/ImageIO#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java
+empty definition using pc, found symbol in pc: javax/imageio/ImageIO#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 4107
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -86,7 +97,7 @@ public class MainWindow {
 	        File BackgroundToLoad = new File("res/startscreen.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 			try {
 				 
-				 BufferedImage myPicture = ImageIO.read(BackgroundToLoad);
+				 BufferedImage myPicture = Ima@@geIO.read(BackgroundToLoad);
 				 BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
 				 BackgroundImageForStartMenu.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
 				frame.add(BackgroundImageForStartMenu); 
@@ -194,3 +205,10 @@ $$$I~::::::::::::::::::::::::::::::::::::::::::II+,,,OOO7?$DOZII$I$I7=77?,,,,,,:
  * 
  * 
  */
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: javax/imageio/ImageIO#

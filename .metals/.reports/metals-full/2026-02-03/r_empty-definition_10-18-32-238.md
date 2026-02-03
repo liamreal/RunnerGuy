@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java:_empty_/GameDisplay#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java
+empty definition using pc, found symbol in pc: _empty_/GameDisplay#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 3678
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/MainWindow.java
+text:
+```scala
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -80,13 +91,13 @@ public class MainWindow {
 	            canvas.requestFocusInWindow();   // making sure that the Canvas is in focus so keyboard input will be taking in .
 					startGame=true;
 				}});  
-	        startMenuButton.setBounds(GameDisplay.getDisplayX()/3, GameDisplay.getDisplayY()/3, (GameDisplay.getDisplayX()/6)*2, (GameDisplay.getDisplayY()/6)*2); 
+	        startMenuButton.setBounds(Ga@@meDisplay.getDisplayX()/3, 500, 200, 40); 
 	        
 	        //loading background image 
-	        File BackgroundToLoad = new File("res/startscreen.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+	        File BackroundToLoad = new File("res/startscreen.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 			try {
 				 
-				 BufferedImage myPicture = ImageIO.read(BackgroundToLoad);
+				 BufferedImage myPicture = ImageIO.read(BackroundToLoad);
 				 BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
 				 BackgroundImageForStartMenu.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
 				frame.add(BackgroundImageForStartMenu); 
@@ -194,3 +205,10 @@ $$$I~::::::::::::::::::::::::::::::::::::::::::II+,,,OOO7?$DOZII$I$I7=77?,,,,,,:
  * 
  * 
  */
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameDisplay#
