@@ -1,10 +1,22 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/objects/EnemyObject.java:java/util/concurrent/ThreadLocalRandom#nextInt(+2).
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/objects/EnemyObject.java
+empty definition using pc, found symbol in pc: java/util/concurrent/ThreadLocalRandom#nextInt(+2).
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1815
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/objects/EnemyObject.java
+text:
+```scala
 package objects;
+import java.util.concurrent.ThreadLocalRandom;
+
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
 import util.GameObject;
 import util.Point3f;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class EnemyObject extends GameObject {
@@ -43,12 +55,20 @@ public class EnemyObject extends GameObject {
     protected void setCentre() {
         // enemies will spawn randomly on x-axis
         int enemyWidth = this.getWidth();
-        int minX = enemyWidth;
-        int maxX = GameDisplay.getDisplayX() - enemyWidth;
-        int randomX = ThreadLocalRandom.current().nextInt(minX, maxX);
-        super.setCentre(new Point3f(randomX, -100, 0));
+        int minX = this.getWidth();
+        int maxX = GameDisplay.getDisplayX() - this.getWidth();
+        int randomX = (int) ((Math.random() * (maxX - minX)) + minX);
+        ThreadLocalRandom.current().nextInt@@(min, max);
+        super.setCentre(new Point3f(randomX, -this.getWidth(), 0));
     }
 
     
 		// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*50+500 ),0,0)));
 }
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/util/concurrent/ThreadLocalRandom#nextInt(+2).

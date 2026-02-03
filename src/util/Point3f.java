@@ -92,10 +92,14 @@ public class Point3f {
 	
 	
 	 //Use for direct application of a Vector 
-	public void ApplyVector(Vector3f vector) { 
-		 setX(CheckBoundary(this.getX()+vector.getX()));
-		 setY(CheckBoundary(this.getY()-vector.getY()));
-		 setZ(CheckBoundary(this.getZ()-vector.getZ())); 
+	public void ApplyVector(Vector3f vector) {
+		// // if you want it to check boundaries (will stop enemies/bullets before they exit edge of screen in negative coords and break code i wrote to remove them at those stages)
+		//  setX(CheckBoundary(this.getX()+vector.getX()));
+		//  setY(CheckBoundary(this.getY()-vector.getY()));
+		//  setZ(CheckBoundary(this.getZ()-vector.getZ())); 
+		 setX(this.getX()+vector.getX());
+		 setY(this.getY()-vector.getY());
+		 setZ(this.getZ()-vector.getZ()); 
 	}
 
 	private float CheckBoundary(float f) {

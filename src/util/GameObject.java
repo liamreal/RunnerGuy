@@ -26,7 +26,9 @@ SOFTWARE.
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
 public class GameObject {
+	// by default spawn in middle of screen
 	private Point3f centre= new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0);			// where centre of object is on screen, using 3D as objects may be scaled  
+	// by default objects have pixel size of 50
 	private int width=50;
 	private int height=50;
 	private boolean hasTextured=false;

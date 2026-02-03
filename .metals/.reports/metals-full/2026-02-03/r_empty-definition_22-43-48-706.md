@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java:_empty_/GameObject#getCentre#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+empty definition using pc, found symbol in pc: _empty_/GameObject#getCentre#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 5071
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -99,7 +110,7 @@ public class Model {
 			 
 			 
 			//see if they get to the top of the screen ( remember 0 is the top 
-			if (temp.getCentre().getY()>= GameDisplay.getDisplayY())  // current boundary need to pass value to model 
+			if (temp.getCentre().getY()==900.0f)  // current boundary need to pass value to model 
 			{
 				EnemiesList.remove(temp);
 				
@@ -111,9 +122,8 @@ public class Model {
 		if (EnemiesList.size()<2)
 		{
 			while (EnemiesList.size()<6)
-			{         
-				EnemiesList.add(new EnemyObject(EnemyType.BASIC)); 
-				// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*1000),0,0))); 
+			{
+				EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*1000),0,0))); 
 			}
 		}
 	}
@@ -130,7 +140,7 @@ public class Model {
 			//see if they hit anything 
 			
 			//see if they get to the top of the screen ( remember 0 is the top 
-			if (temp.getCentre().getY()<=-temp.getHeight())
+			if (temp.getCentre().getY()==0)
 			{
 			 	BulletList.remove(temp);
 			} 
@@ -144,17 +154,7 @@ public class Model {
 		 
 		//check for movement and if you fired a bullet 
 		  
-		if(Controller.getInstance().isKeyAPressed())
-			{	
-				// prevent further movement of player left (outside screen)
-				if (Player.getCentre().getX() < 0) {
-					System.out.println("OUT OF BOUNDS X left - not moving further left");
-				}
-				// otherwise go left
-				else {
-					Player.getCentre().ApplyVector( new Vector3f(-2,0,0));
-				}
-			}
+if(Controller.getInstance().isKeyAPressed()){Player.getCentre().ApplyVector( new Vector3f(-2,0,0)); }
 		if(Controller.getInstance().isKeyDPressed())
 		{
 
@@ -170,14 +170,7 @@ public class Model {
 			
 		if(Controller.getInstance().isKeyWPressed())
 		{
-			// prevent further movement of player up (outside screen)
-			if (Player.getCentre().getY() < 0) {
-				System.out.println("OUT OF BOUNDS Y up - not moving further up");
-			}
-			// otherwise go up
-			else {
-				Player.getCentre().ApplyVector( new Vector3f(0,2,0));
-			}
+			Player.@@getCentre().ApplyVector( new Vector3f(0,2,0));
 		}
 		
 		if(Controller.getInstance().isKeySPressed()){
@@ -347,3 +340,10 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  */
 
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameObject#getCentre#

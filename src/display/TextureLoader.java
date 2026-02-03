@@ -8,6 +8,7 @@ public class TextureLoader {
     public static String getGameType() {return gameType;}
     public static String getAssetsPath() {return assetsPath;}
 
+    // to switch between different game types (the idea is to later allow easy switching of assets for recyclable gameplay)
     public static void setGameType(String newGameType) {gameType = newGameType;}
 
 }

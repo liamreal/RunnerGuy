@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/objects/EnemyObject.java:_empty_/GameObject#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/objects/EnemyObject.java
+empty definition using pc, found symbol in pc: _empty_/GameObject#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 236
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/objects/EnemyObject.java
+text:
+```scala
 package objects;
 import display.GameDisplay;
 import display.TextureLoader;
@@ -7,7 +18,7 @@ import util.Point3f;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class EnemyObject extends GameObject {
+public class EnemyObject extends G@@ameObject {
     // will have some data specific to player and inherit superclass methods
     public EnemyObject(EnemyType enemyType) {  
         super();
@@ -46,9 +57,16 @@ public class EnemyObject extends GameObject {
         int minX = enemyWidth;
         int maxX = GameDisplay.getDisplayX() - enemyWidth;
         int randomX = ThreadLocalRandom.current().nextInt(minX, maxX);
-        super.setCentre(new Point3f(randomX, -100, 0));
+        super.setCentre(new Point3f(randomX, -enemyWidth, 0));
     }
 
     
 		// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*50+500 ),0,0)));
 }
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameObject#
