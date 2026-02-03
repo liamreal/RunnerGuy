@@ -1,9 +1,19 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java:_empty_/GameDisplay#
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+empty definition using pc, found symbol in pc: _empty_/GameDisplay#
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 1888
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import display.GameDisplay;
-import display.TextureLoader;
 import util.GameObject;
 import util.Point3f;
 import util.Vector3f; 
@@ -43,15 +53,7 @@ public class Model {
 	public Model() {
 		 //setup game world 
 		//Player 
-		
-		//// idk why this doesnt work when i substitute it as texture location
-		System.out.println("--------------------------------------------");
-		String myString = String.format("%s/textures/player/player.png", TextureLoader.getAssetsPath());
-        System.out.println(myString);
-        System.out.println("assets/default/textures/player/player.png");
-
-		
-		Player= new PlayerObject(50,50,new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
+		Player= new PlayerObject(50,50,new Point3f(500,@@GameDisplay.getDisplayX()/2,0));
 		//Enemies  starting with four 
 		
 		EnemiesList.add(new GameObject("res/UFO.png",50,50,new Point3f(((float)Math.random()*50+400 ),0,0))); 
@@ -341,3 +343,10 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  */
 
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: _empty_/GameDisplay#

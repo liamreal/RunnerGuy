@@ -1,3 +1,14 @@
+error id: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java:java/io/PrintStream#println(+8).
+file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+empty definition using pc, found symbol in pc: java/io/PrintStream#println(+8).
+empty definition using semanticdb
+empty definition using fallback
+non-local guesses:
+
+offset: 2184
+uri: file:///C:/College/Stage_4_Term_2/COMP30540_Game_Development/RunnerGuy/src/Model.java
+text:
+```scala
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -48,7 +59,7 @@ public class Model {
 		System.out.println("--------------------------------------------");
 		String myString = String.format("%s/textures/player/player.png", TextureLoader.getAssetsPath());
         System.out.println(myString);
-        System.out.println("assets/default/textures/player/player.png");
+        System.out.println@@("assets/default/textures/player/player.png");
 
 		
 		Player= new PlayerObject(50,50,new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
@@ -341,3 +352,10 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
  */
 
+
+```
+
+
+#### Short summary: 
+
+empty definition using pc, found symbol in pc: java/io/PrintStream#println(+8).
