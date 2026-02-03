@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import display.Screen;
+import display.GameDisplay;
 import util.GameObject;
 import util.Point3f;
 import util.Vector3f; 
@@ -150,7 +150,7 @@ if(Controller.getInstance().isKeyAPressed()){Player.getCentre().ApplyVector( new
 		{
 
 			// prevent further movement of player right (outside screen)
-			if (Player.getCentre().getX() + Player.getWidth() > Screen.SCREEN_X) {
+			if (Player.getCentre().getX() + Player.getWidth() > GameDisplay.getDisplayX()) {
 				System.out.println("OUT OF BOUNDS Y right - not moving further right");
 			}
 			// otherwise go right
@@ -166,7 +166,7 @@ if(Controller.getInstance().isKeyAPressed()){Player.getCentre().ApplyVector( new
 		
 		if(Controller.getInstance().isKeySPressed()){
 			// prevent further movement of player down (outside screen)
-			if (Player.getCentre().getY() + Player.getHeight() > Screen.SCREEN_Y) {
+			if (Player.getCentre().getY() + Player.getHeight() > GameDisplay.getDisplayY()) {
 				System.out.println("OUT OF BOUNDS Y down - not moving further down");
 			}
 			// otherwise go down

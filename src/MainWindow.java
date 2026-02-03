@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import util.UnitTests;
-import display.Screen;
+import display.GameDisplay;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -55,7 +55,7 @@ public class MainWindow {
 	 private   JLabel BackgroundImageForStartMenu;
 	  
 	public MainWindow() {
-	        frame.setSize(Screen.SCREEN_X, Screen.SCREEN_Y);  // you can customise this later and adapt it to change on size.
+	        frame.setSize(GameDisplay.getDisplayX(), GameDisplay.getDisplayY());  // you can customise this later and adapt it to change on size.
 //	        frame.setResizable(false); // later on should remove when re-rendering game
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   //If exit // you can modify with your way of quitting , just is a template.
 	        frame.setLayout(null);
@@ -63,7 +63,7 @@ public class MainWindow {
 
 
 	        frame.add(canvas);  
-	        canvas.setBounds(0, 0, Screen.SCREEN_X, Screen.SCREEN_Y); 
+	        canvas.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY()); 
 	        canvas.setBackground(new Color(255,255,255)); //white background  replaced by Space background but if you remove the background method this will draw a white screen 
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
 		          
@@ -88,7 +88,7 @@ public class MainWindow {
 				 
 				 BufferedImage myPicture = ImageIO.read(BackroundToLoad);
 				 BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
-				 BackgroundImageForStartMenu.setBounds(0, 0, Screen.SCREEN_X, Screen.SCREEN_Y);
+				 BackgroundImageForStartMenu.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
 				frame.add(BackgroundImageForStartMenu); 
 			}  catch (IOException e) { 
 				e.printStackTrace();

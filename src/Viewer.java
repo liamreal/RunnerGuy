@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import util.GameObject;
-import display.Screen;
+import display.GameDisplay;
 
 
 /*
@@ -132,7 +132,7 @@ public class Viewer extends JPanel {
 		File TextureToLoad = new File("res/spacebackground.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
-			 g.drawImage(myImage, 0,0, Screen.SCREEN_X, Screen.SCREEN_Y, 0 , 0, Screen.SCREEN_X, Screen.SCREEN_Y, null); 
+			 g.drawImage(myImage, 0,0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY(), 0 , 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY(), null); 
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
