@@ -37,7 +37,7 @@ SOFTWARE.
 public class Model {
 	
 	 private  GameObject Player;
-	 private Controller controller = Controller.getInstance();
+	//  private Controller controller = Controller.getInstance();
 	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
 	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
 	 private int Score=0; 
@@ -116,7 +116,6 @@ public class Model {
 				// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*1000),0,0))); 
 			}
 		}
-		System.out.println(EnemiesList.size());
 	}
 
 	private void bulletLogic() {
@@ -133,7 +132,6 @@ public class Model {
 			if (temp.getCentre().getY()<=-temp.getHeight())
 			{
 			 	BulletList.remove(temp);
-				System.out.println(temp.getCentre());
 			} 
 
 		} 

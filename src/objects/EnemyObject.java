@@ -11,7 +11,7 @@ public class EnemyObject extends GameObject {
     // will have some data specific to player and inherit superclass methods
     public EnemyObject(EnemyType enemyType) {  
         super();
-        this.setCentre();
+        this.setRandomCentre();
         // set enemy texture
         this.setTexture(enemyType);
 	}
@@ -40,13 +40,13 @@ public class EnemyObject extends GameObject {
             enemy
         ));
     }
-    protected void setCentre() {
-        // enemies will spawn randomly on x-axis
+    protected void setRandomCentre() {
+        // enemies will spawn randomly on x-axis off screen up
         int enemyWidth = this.getWidth();
         int minX = enemyWidth;
         int maxX = GameDisplay.getDisplayX() - enemyWidth;
         int randomX = ThreadLocalRandom.current().nextInt(minX, maxX);
-        super.setCentre(new Point3f(randomX, -100, 0));
+        super.setCentre(new Point3f(randomX, -this.getHeight(), 0));
     }
 
     

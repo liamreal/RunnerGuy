@@ -33,7 +33,7 @@ public class GameObject {
 	private int height=50;
 	private boolean hasTextured=false;
 	private String textureLocation; 
-	private String blanktexture= String.format("%s/blank.png", TextureLoader.getAssetsPath());
+	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
 
 	public GameObject() {}
     public GameObject(String textureLocation,int width,int height,Point3f centre) { 
@@ -70,7 +70,7 @@ public class GameObject {
 			{
 			return textureLocation;
 			}
-		return blanktexture; 
+		return blankTexture; 
 	}
   
 	// used to update texture within constructors for classes that extend this
