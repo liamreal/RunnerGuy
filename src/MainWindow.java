@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import util.UnitTests;
 import display.GameDisplay;
+import controllers.Controller;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.

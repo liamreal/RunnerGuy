@@ -8,8 +8,10 @@ import enums.EnemyType;
 import util.GameObject;
 import util.Point3f;
 import util.Vector3f;
+import objects.BulletObject;
 import objects.EnemyObject;
 import objects.PlayerObject;
+import controllers.Controller;
 /*
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -37,7 +39,7 @@ SOFTWARE.
 public class Model {
 	
 	 private  GameObject Player;
-	//  private Controller controller = Controller.getInstance();
+	 private Controller controller = Controller.getInstance();
 	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
 	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
 	 private int Score=0; 
@@ -90,6 +92,8 @@ public class Model {
 	}
 
 	private void enemyLogic() {
+		// // monitor number of enemies in list
+		// System.out.println(String.format("Num of enemies: %d", EnemiesList.size()));
 		// TODO Auto-generated method stub
 		for (GameObject temp : EnemiesList) 
 		{
@@ -121,6 +125,9 @@ public class Model {
 	private void bulletLogic() {
 		// TODO Auto-generated method stub
 		// move bullets 
+		
+		// // monitor number of bullets in list
+		// System.out.println(String.format("Num of bullets: %d", BulletList.size()));
 	  
 		for (GameObject temp : BulletList) 
 		{
@@ -200,8 +207,8 @@ public class Model {
 	}
 
 	private void CreateBullet() {
-		BulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(Player.getCentre().getX(),Player.getCentre().getY(),0.0f)));
-		
+		// BulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(Player.getCentre().getX(),Player.getCentre().getY(),0.0f)));
+		BulletList.add(new BulletObject(Player));
 	}
 
 	public GameObject getPlayer() {
