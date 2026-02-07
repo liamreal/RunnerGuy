@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
+import logic.EnemyLogicManager;
 import logic.PlayerLogic;
 import util.GameObject;
 import util.Point3f;
@@ -40,6 +41,7 @@ SOFTWARE.
 public class Model {
 	
 	 private  PlayerLogic player;
+	 private  EnemyLogicManager enemies;
 	 private Controller controller = Controller.getInstance();
 	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
 	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
@@ -50,6 +52,8 @@ public class Model {
 		// Player= new PlayerObject();
 		player = new PlayerLogic(new PlayerObject());
 		//Enemies  starting with four 
+
+		enemies = new EnemyLogicManager();
 		
 		EnemiesList.add(new EnemyObject(EnemyType.BASIC));
 		EnemiesList.add(new EnemyObject(EnemyType.ADVANCED));
