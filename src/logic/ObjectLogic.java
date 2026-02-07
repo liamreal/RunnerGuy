@@ -13,15 +13,14 @@ public class ObjectLogic {
     private GameObject gameObject;
     private int moveSpeed;
 
-    // constructor requires an associated game object for which to apply logic to
-    public ObjectLogic(GameObject gameObject) {
-        this.gameObject = gameObject;
-        this.moveSpeed = Config.moveSpeed;
-    }
-    // can also specify moveSpeed of object (otherwise uses config class)
+    // specify game object and moveSpeed of object
     public ObjectLogic(GameObject gameObject, int moveSpeed) {
         this.gameObject = gameObject;
         this.moveSpeed = moveSpeed;
+    }
+    // otherwise grab move speed from config and call above constructor
+    public ObjectLogic(GameObject gameObject) {
+        this(gameObject, Config.moveSpeed);
     }
 
     // by default moves object down (if no argument) using method overloading
@@ -29,23 +28,23 @@ public class ObjectLogic {
         this.move(Direction.DOWN);
     }
 
-    // otherwise can specify direction based on enum
-    public void move(Direction direction) {
+    // otherwise can specify direction based on enum, returns Direction, used to check then if out of bounds
+    public Direction move(Direction direction) {
         Point3f centre = this.gameObject.getCentre();
         switch(direction) {
             // put down as first direction as most of time will be this
             case DOWN:
                 centre.ApplyVector(new Vector3f(0,this.moveSpeed,0));
-                break;
+                return Direction.DOWN;
             case UP:
                 centre.ApplyVector(new Vector3f(0,-this.moveSpeed,0));
-                break;
+                return Direction.UP;
             case LEFT:
                 centre.ApplyVector(new Vector3f(-this.moveSpeed,0,0));
-                break;
+                return Direction.LEFT;
             case RIGHT:
                 centre.ApplyVector(new Vector3f(this.moveSpeed,0,0));
-                break;
+                return Direction.RIGHT;
             // if not valid throw exception
             default:
                 // not a valid direction in cases
