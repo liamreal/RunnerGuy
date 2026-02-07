@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
+import logic.PlayerLogic;
 import util.GameObject;
 import util.Point3f;
 import util.Vector3f;
@@ -38,7 +39,7 @@ SOFTWARE.
  */ 
 public class Model {
 	
-	 private  GameObject Player;
+	 private  PlayerLogic player;
 	 private Controller controller = Controller.getInstance();
 	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
 	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
@@ -46,7 +47,8 @@ public class Model {
 
 	public Model() {
 		//setup game world 
-		Player= new PlayerObject();
+		// Player= new PlayerObject();
+		player = new PlayerLogic(new PlayerObject());
 		//Enemies  starting with four 
 		
 		EnemiesList.add(new EnemyObject(EnemyType.BASIC));
@@ -150,53 +152,7 @@ public class Model {
 		// smoother animation is possible if we make a target position  // done but may try to change things for students  
 		 
 		//check for movement and if you fired a bullet 
-		  
-		if(Controller.getInstance().isKeyAPressed())
-			{	
-				// prevent further movement of player left (outside screen)
-				if (Player.getCentre().getX() < 0) {
-					System.out.println("OUT OF BOUNDS X left - not moving further left");
-				}
-				// otherwise go left
-				else {
-					Player.getCentre().ApplyVector( new Vector3f(-2,0,0));
-				}
-			}
-		if(Controller.getInstance().isKeyDPressed())
-		{
-
-			// prevent further movement of player right (outside screen)
-			if (Player.getCentre().getX() + Player.getWidth() > GameDisplay.getDisplayX()) {
-				System.out.println("OUT OF BOUNDS Y right - not moving further right");
-			}
-			// otherwise go right
-			else {
-				Player.getCentre().ApplyVector( new Vector3f(2,0,0));
-			}
-		}
-			
-		if(Controller.getInstance().isKeyWPressed())
-		{
-			// prevent further movement of player up (outside screen)
-			if (Player.getCentre().getY() < 0) {
-				System.out.println("OUT OF BOUNDS Y up - not moving further up");
-			}
-			// otherwise go up
-			else {
-				Player.getCentre().ApplyVector( new Vector3f(0,2,0));
-			}
-		}
-		
-		if(Controller.getInstance().isKeySPressed()){
-			// prevent further movement of player down (outside screen)
-			if (Player.getCentre().getY() + Player.getHeight() > GameDisplay.getDisplayY()) {
-				System.out.println("OUT OF BOUNDS Y down - not moving further down");
-			}
-			// otherwise go down
-			else {
-				Player.getCentre().ApplyVector( new Vector3f(0,-2,0));
-			}
-		}
+		player.move();
 		
 		if(Controller.getInstance().isKeySpacePressed())
 		{
@@ -208,11 +164,11 @@ public class Model {
 
 	private void CreateBullet() {
 		// BulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(Player.getCentre().getX(),Player.getCentre().getY(),0.0f)));
-		BulletList.add(new BulletObject(Player));
+		BulletList.add(new BulletObject(player.getGameObject()));
 	}
 
 	public GameObject getPlayer() {
-		return Player;
+		return player.getGameObject();
 	}
 
 	public CopyOnWriteArrayList<GameObject> getEnemies() {

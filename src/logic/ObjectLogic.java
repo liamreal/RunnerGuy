@@ -47,10 +47,11 @@ public class ObjectLogic {
         switch(direction) {
             // put down as first direction as most of time will be this
             case DOWN:
-                centre.ApplyVector(new Vector3f(0,moveSpeed,0));
+                // WEIRD!!! im not sure why but for some reason the DOWN and UP are swapped?? but when you go down coords for y go up...
+                centre.ApplyVector(new Vector3f(0,-moveSpeed,0));
                 return Direction.DOWN;
             case UP:
-                centre.ApplyVector(new Vector3f(0,-moveSpeed,0));
+                centre.ApplyVector(new Vector3f(0,moveSpeed,0));
                 return Direction.UP;
             case LEFT:
                 centre.ApplyVector(new Vector3f(-moveSpeed,0,0));
