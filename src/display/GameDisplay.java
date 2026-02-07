@@ -1,6 +1,6 @@
 package display;
 
-
+import util.Point3f;
 
 public class GameDisplay {
 
@@ -9,6 +9,10 @@ public class GameDisplay {
 	
 	public static int getDisplayX() {return DISPLAY_X;}
 	public static int getDisplayY() {return DISPLAY_Y;};
+	// get centre of screen (useful if placing a new item)
+	public static Point3f getDisplayCentre() {return new Point3f(getDisplayX()/2,getDisplayY()/2,0);}
+
+
 	
 
 }

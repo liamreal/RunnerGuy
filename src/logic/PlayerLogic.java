@@ -6,7 +6,7 @@ import objects.PlayerObject;
 
 public class PlayerLogic extends ObjectLogic {
     // FIX THIS, NOT IMPORTING THE ONE INSTANCE FOR SOME REASON
-    private Controller playerController = Controller.getInstance();
+    // private Controller playerController = Controller.getInstance();
 
     public PlayerLogic(PlayerObject playerObject) {
         // by default if no speed specified, player moves twice as fast as enemies
@@ -18,9 +18,8 @@ public class PlayerLogic extends ObjectLogic {
     }
 
     // player checks for movement using WASD
-    @Override
-    public move() {
-
+    public void move() {
+        
     }
 
     public static void playerLogic() {

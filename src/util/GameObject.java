@@ -27,7 +27,7 @@ SOFTWARE.
  */ 
 public class GameObject {
 	// by default spawn in middle of screen
-	private Point3f centre= new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0);			// where centre of object is on screen, using 3D as objects may be scaled  
+	private Point3f centre= GameDisplay.getDisplayCentre();			// by default place object in centre of screen (roughly - places top left corner in centre)
 	// by default objects have pixel size of 50
 	private int width=50;
 	private int height=50;

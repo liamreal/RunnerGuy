@@ -2,6 +2,9 @@ package logic;
 import util.GameObject;
 import util.Vector3f;
 import util.Point3f;
+
+import java.util.Arrays;
+
 import enums.Direction;
 import user.Config;
 
@@ -21,15 +24,19 @@ public class ObjectLogic {
         this.moveSpeed = moveSpeed;
     }
 
-    // by default moves object down (if no argument)
+    // by default moves object down (if no argument) using method overloading
     public void move() {
-        gameObject.getCentre().ApplyVector(new Vector3f(0,this.moveSpeed,0));
+        this.move(Direction.DOWN);
     }
 
     // otherwise can specify direction based on enum
     public void move(Direction direction) {
         Point3f centre = this.gameObject.getCentre();
         switch(direction) {
+            // put down as first direction as most of time will be this
+            case DOWN:
+                centre.ApplyVector(new Vector3f(0,this.moveSpeed,0));
+                break;
             case UP:
                 centre.ApplyVector(new Vector3f(0,-this.moveSpeed,0));
                 break;
@@ -39,10 +46,11 @@ public class ObjectLogic {
             case RIGHT:
                 centre.ApplyVector(new Vector3f(this.moveSpeed,0,0));
                 break;
-            // by default move down
+            // if not valid throw exception
             default:
-                centre.ApplyVector(new Vector3f(0,this.moveSpeed,0));
-                break;
+                // not a valid direction in cases
+                String errorMessage = String.format("Direction %s not in %s", direction, Direction.getAllDirections().toString());
+                throw new IllegalArgumentException(errorMessage);
         }
     }
 
