@@ -106,6 +106,7 @@ public class Model {
 		// TODO Auto-generated method stub
 		// move bullets 
 		bullets.moveBullets();
+		// System.out.println(bullets.getBullets().size());
 		
 		// // monitor number of bullets in list
 		// System.out.println(String.format("Num of bullets: %d", BulletList.size()));
