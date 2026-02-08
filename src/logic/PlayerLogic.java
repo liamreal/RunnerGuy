@@ -17,7 +17,7 @@ public class PlayerLogic extends ObjectLogic {
     private Controller playerController = Controller.getInstance();
     private GameObject playerObject = super.getGameObject();
     private Instant enemyHitCooldownStartTime = Instant.now(); // for checking when player hit last enemy
-    private double enemyHitCooldownLength = 0.5; // player will be invincible during this time
+    private double enemyHitCooldownLength = 1.0; // player will be invincible during this time
     
 
     // specify player speed
@@ -34,6 +34,7 @@ public class PlayerLogic extends ObjectLogic {
     public int getHealth() { return playerObject.getHealth(); }
     private Instant getEnemyHitCooldownStartTime() { return this.enemyHitCooldownStartTime; }
     public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
+    private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
 
     // // find time (in seconds) since last cooldown application
     // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
@@ -47,32 +48,22 @@ public class PlayerLogic extends ObjectLogic {
     //     return this.findTimeSinceLastCooldown(cooldownStartTime) <= cooldownLength;
     // }
 
-    // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
-    public void resetCooldown(Instant newTime) {
-        CooldownHandler.resetCooldown(newTime);
-    }
     // reset start time of last time enemy hit player
     public void resetEnemyHitCooldown() {
-        this.resetCooldown(this.enemyHitCooldownStartTime);
+        this.setEnemyHitCooldownStartTime(Instant.now());
     }
 
     // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
     public GameObject collideEnemy(EnemyLogicManager enemyLogicManager) {
         GameObject collidedEnemyObject = super.collide(enemyLogicManager);
-        // check last time player hit enemy
-        Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
-        // System.out.println();
-        // System.out.println(lastEnemyHitTime);
-        // System.out.println(this.enemyHitCooldownLength);
-        // System.out.println(CooldownHandler.findTimeSinceLastCooldown(lastEnemyHitTime));
-        boolean wasHitAlready = CooldownHandler.isOnCooldown(lastEnemyHitTime, this.enemyHitCooldownLength);
-        if (collidedEnemyObject != null && !wasHitAlready) {
-            // System.out.println(!enemyLogicManager.isOnCooldown(this.enemyHitCooldownStartTime, this.enemyHitCooldownLength));
-            // System.out.println("COLLIDE AND DAMAGE");
-            this.resetEnemyHitCooldown();
-            // decrease player health by object health
-            playerObject.decreaseHealth(collidedEnemyObject.getHealth());
-            System.out.println(this.getHealth());
+        if (collidedEnemyObject != null) {
+            // check last time player hit enemy
+            Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
+            if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.enemyHitCooldownLength)) {
+                this.resetEnemyHitCooldown();
+                // decrease player health by object health
+                playerObject.decreaseHealth(collidedEnemyObject.getHealth());
+            }
         }
         // return collided object (or null if collide method returns nothing)
         return collidedEnemyObject;

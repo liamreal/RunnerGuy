@@ -35,7 +35,7 @@ public class BulletLogicManager extends ObjectLogicManager {
         // get time since last enemy and calculate how much time passed
         Instant lastBulletFireTime = super.getCooldownStartTime();
         // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
-        if (!CooldownHandler.isOnCooldown(lastBulletFireTime, bulletCooldownLength)) {
+        if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.bulletCooldownLength)) {
             // reset the start time
             super.resetCooldown();
             // successful bullet spawn

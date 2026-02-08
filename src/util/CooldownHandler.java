@@ -7,6 +7,7 @@ import display.GameDisplay;
 import util.GameObject;
 import util.Point3f;
 
+// helps calculate cooldown times
 public class CooldownHandler {
     
     // find time (in seconds) since last cooldown application
@@ -17,18 +18,6 @@ public class CooldownHandler {
     }
 
     public static boolean isOnCooldown(Instant lastCooldownStart, double cooldownLength) {
-        // if (findTimeSinceLastCooldown(lastCooldownStart) <= cooldownLength) {
-        //     System.out.println("less or equal...");
-        // }
-        // else {
-        //     System.out.println("MORE");
-        // }
         return findTimeSinceLastCooldown(lastCooldownStart) <= cooldownLength;
-    }
-
-    
-    // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
-    public static void resetCooldown(Instant lastCooldownStart) {
-        lastCooldownStart = Instant.now();
     }
 }
