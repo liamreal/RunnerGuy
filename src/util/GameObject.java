@@ -34,6 +34,7 @@ public class GameObject {
 	private boolean hasTextured=false;
 	private String textureLocation; 
 	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
+	private int health=1;
 
 	public GameObject() {}
     public GameObject(String textureLocation,int width,int height,Point3f centre) { 
@@ -51,13 +52,15 @@ public class GameObject {
 	}
 
 	public Point3f getCentre() { return centre; }
-	public void setCentre(Point3f centre) { this.centre = centre; }
+	public int getHealth() { return this.health; }
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 	public String getTexture() {
 		if(hasTextured) { return textureLocation; }
 		return blankTexture; 
 	}
+	public void setCentre(Point3f centre) { this.centre = centre; }
+	public void setHealth(int newHealth) { this.health = 1; }
   
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {

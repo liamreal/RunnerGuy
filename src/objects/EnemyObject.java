@@ -20,9 +20,7 @@ public class EnemyObject extends GameObject {
 	}
     // auto-build texture based on file path pre-specified field (the way i will use for base folder structure)
     public EnemyObject(int width,int height, Point3f centre) { 
-        super(width, height, centre);
-        // set enemy texture
-        this.setTexture(EnemyType.BASIC);
+        this(width, height, centre, EnemyType.BASIC);
 	} 
     public EnemyObject(int width,int height, Point3f centre, EnemyType enemyType) { 
         super(width, height, centre);
