@@ -1,0 +1,53 @@
+package logic;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
+import enums.EnemyType;
+import objects.EnemyObject;
+import user.Config;
+import util.GameObject;
+import enums.Direction;
+
+// generic method to manage different logics (will manage for example enemy logic thru a subclass)
+public class BulletLogicManager extends ObjectLogicManager {
+    // objects list (in subclasses will have a getter which is respective to item managing)
+	private CopyOnWriteArrayList<ObjectLogic> bullets = super.getObjects();
+    private double bulletCooldownLength = super.getCooldownLength();
+
+    public BulletLogicManager() {
+        super();
+    }
+    // by default move bullets up
+    public void moveBullets() {
+        this.moveBullets(Direction.DOWN);
+    }
+    // move every bullet in list
+    public void moveBullets(Direction direction) {
+		super.moveObjects(direction);
+    }
+
+    // spawns an enemy by adding a new EnemyLogic to list
+    public boolean spawnBullet() {
+        // get time since last enemy and calculate how much time passed
+        Instant lastBulletFireTime = super.getCooldownStartTime();
+        Duration durationSinceLastBullet = Duration.between(lastBulletFireTime, Instant.now());
+        double secondsSinceLastBullet = durationSinceLastBullet.getSeconds() + durationSinceLastBullet.getNano() / 1000000000.0;
+        // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
+        if (secondsSinceLastBullet > this.bulletCooldownLength) {
+            // reset the start time
+            this.resetCooldown();
+            // successful bullet spawn
+            return true;
+        }
+        // enemy was not spawned or failed to spawn (based on random chance)
+        return false;
+    }
+
+    // obtain list of objects being managed
+    public CopyOnWriteArrayList<ObjectLogic> getBullets() {
+        return this.bullets;
+    }
+}

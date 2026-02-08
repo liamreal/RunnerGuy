@@ -16,7 +16,7 @@ public class EnemyLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> enemies = super.getObjects();
     private EnemyType enemyType = EnemyType.BASIC;
-    private double enemySpawnFrequencySeconds = 0.5;
+    private double enemySpawnFrequencySeconds = super.getCooldownLength();
 
     public EnemyLogicManager() {
         super();
@@ -69,6 +69,6 @@ public class EnemyLogicManager extends ObjectLogicManager {
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getEnemies() {
-        return enemies;
+        return this.enemies;
     }
 }
