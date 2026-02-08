@@ -34,10 +34,10 @@ public class ObjectLogic {
     }
     
 
-    // by default moves object down (if no argument) using method overloading
-    public void move() {
-        this.move(Direction.DOWN);
-    }
+    // // by default moves object down (if no argument) using method overloading
+    // public void move() {
+    //     this.move(Direction.DOWN);
+    // }
 
     // otherwise can specify direction based on enum, returns Direction, used to check then if out of bounds
     public Direction move(Direction direction) {
