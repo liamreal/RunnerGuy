@@ -108,7 +108,7 @@ public class Model {
 			temp.getCentre().ApplyVector(new Vector3f(0,-1,0));
 			 
 			 
-			//see if they get to the top of the screen ( remember 0 is the top 
+			//see if they get to the bottom of the screen (remember 0 is the top) 
 			if (temp.getCentre().getY()>= GameDisplay.getDisplayY())  // current boundary need to pass value to model 
 			{
 				EnemiesList.remove(temp);

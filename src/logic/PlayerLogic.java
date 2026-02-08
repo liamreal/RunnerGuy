@@ -6,7 +6,6 @@ import enums.Direction;
 import user.Config;
 import util.GameObject;
 import util.Point3f;
-import util.Vector3f;
 import objects.PlayerObject;
 
 public class PlayerLogic extends ObjectLogic {
