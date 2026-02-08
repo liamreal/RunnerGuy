@@ -1,9 +1,13 @@
 package logic;
 
+import java.time.Duration;
+import java.time.Instant;
+
 import controllers.Controller;
 import display.GameDisplay;
 import enums.Direction;
 import user.Config;
+import util.CooldownHandler;
 import util.GameObject;
 import util.Point3f;
 import objects.EnemyObject;
@@ -12,6 +16,9 @@ import objects.PlayerObject;
 public class PlayerLogic extends ObjectLogic {
     private Controller playerController = Controller.getInstance();
     private GameObject playerObject = super.getGameObject();
+    private Instant enemyHitCooldownStartTime = Instant.now(); // for checking when player hit last enemy
+    private double enemyHitCooldownLength = 0.5; // player will be invincible during this time
+    
 
     // specify player speed
     public PlayerLogic(PlayerObject playerObject, int moveSpeed) {
@@ -24,22 +31,54 @@ public class PlayerLogic extends ObjectLogic {
 
     }
 
-    public int getHealth() {
-        return playerObject.getHealth();
+    public int getHealth() { return playerObject.getHealth(); }
+    private Instant getEnemyHitCooldownStartTime() { return this.enemyHitCooldownStartTime; }
+    public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
+
+    // // find time (in seconds) since last cooldown application
+    // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
+    //     // get time since last enemy and calculate how much time passed
+    //     Instant lastCooldownStart = cooldownStartTime;
+    //     Duration durationSinceLastCooldown = Duration.between(lastCooldownStart, Instant.now());
+    //     double secondsSinceLastCooldown = durationSinceLastCooldown.getSeconds() + durationSinceLastCooldown.getNano() / 1000000000.0;
+    //     return secondsSinceLastCooldown;
+    // }
+    // protected boolean isOnCooldown(Instant cooldownStartTime, double cooldownLength) {
+    //     return this.findTimeSinceLastCooldown(cooldownStartTime) <= cooldownLength;
+    // }
+
+    // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
+    public void resetCooldown(Instant newTime) {
+        CooldownHandler.resetCooldown(newTime);
     }
-    public void setHealth(int newHealth) {
-        playerObject.setHealth(newHealth);
+    // reset start time of last time enemy hit player
+    public void resetEnemyHitCooldown() {
+        this.resetCooldown(this.enemyHitCooldownStartTime);
     }
 
     // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
     public GameObject collideEnemy(EnemyLogicManager enemyLogicManager) {
         GameObject collidedEnemyObject = super.collide(enemyLogicManager);
-        if (collidedEnemyObject != null) {
+        // check last time player hit enemy
+        Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
+        if (collidedEnemyObject != null && !CooldownHandler.isOnCooldown(lastEnemyHitTime, this.enemyHitCooldownLength)) {
+            // System.out.println(!enemyLogicManager.isOnCooldown(this.enemyHitCooldownStartTime, this.enemyHitCooldownLength));
+            System.out.println("COLLIDE AND DAMAGE");
+            this.resetEnemyHitCooldown();
             // decrease player health by object health
             playerObject.decreaseHealth(collidedEnemyObject.getHealth());
         }
         // return collided object (or null if collide method returns nothing)
         return collidedEnemyObject;
+    }
+
+    public boolean spawnBullet(BulletLogicManager bulletLogicManager) {
+        // check player pressing space
+        boolean playerSpace = playerController.isKeySpacePressed();
+        if (playerSpace) {
+            return true;
+        }
+        return false;
     }
 
     // player checks for movement using position, size and keystrokes

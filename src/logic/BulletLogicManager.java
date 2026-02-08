@@ -10,6 +10,7 @@ import objects.EnemyObject;
 import user.Config;
 import util.GameObject;
 import enums.Direction;
+import util.CooldownHandler;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
 public class BulletLogicManager extends ObjectLogicManager {
@@ -33,12 +34,10 @@ public class BulletLogicManager extends ObjectLogicManager {
     public boolean spawnBullet() {
         // get time since last enemy and calculate how much time passed
         Instant lastBulletFireTime = super.getCooldownStartTime();
-        Duration durationSinceLastBullet = Duration.between(lastBulletFireTime, Instant.now());
-        double secondsSinceLastBullet = durationSinceLastBullet.getSeconds() + durationSinceLastBullet.getNano() / 1000000000.0;
         // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
-        if (secondsSinceLastBullet > this.bulletCooldownLength) {
+        if (!CooldownHandler.isOnCooldown(lastBulletFireTime, bulletCooldownLength)) {
             // reset the start time
-            this.resetCooldown();
+            super.resetCooldown();
             // successful bullet spawn
             return true;
         }

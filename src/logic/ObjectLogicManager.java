@@ -1,5 +1,6 @@
 package logic;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,12 +27,13 @@ public class ObjectLogicManager {
     public Instant getCooldownStartTime() { return this.cooldownStartTime; }
     public double getCooldownLength() { return this.cooldownLength; }
     public int getMaxNumObjects() { return maxNumObjects; }
+    private void setCooldownStartTime(Instant newTime) { this.cooldownStartTime = newTime; }
+
 
     // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
     public void resetCooldown() {
-        this.cooldownStartTime = Instant.now();
+        this.setCooldownStartTime(Instant.now());
     }
-
 
     // move every object in list
     public void moveObjects(Direction direction) {

@@ -9,6 +9,7 @@ import enums.EnemyType;
 import objects.EnemyObject;
 import user.Config;
 import util.GameObject;
+import util.CooldownHandler;
 import enums.Direction;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
@@ -44,16 +45,17 @@ public class EnemyLogicManager extends ObjectLogicManager {
 		super.moveObjects(direction);
     }
 
+
+
+
     // spawns an enemy by adding a new EnemyLogic to list
     public boolean spawnEnemyAttempt() {
         // get time since last enemy and calculate how much time passed
         Instant lastEnemySpawnTime = super.getCooldownStartTime();
-        Duration durationSinceLastEnemy = Duration.between(lastEnemySpawnTime, Instant.now());
-        double secondsSinceLastEnemy = durationSinceLastEnemy.getSeconds() + durationSinceLastEnemy.getNano() / 1000000000.0;
         // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
-        if (secondsSinceLastEnemy > this.enemySpawnFrequencySeconds) {
+        if (!CooldownHandler.isOnCooldown(lastEnemySpawnTime, this.enemySpawnFrequencySeconds)) {
             // reset the start time
-            this.resetCooldown();
+            super.resetCooldown();
             // 50% chance to spawn 1 enemy every 1/4 of a second, picking from [0,2) <--- EXCLUDES 2!!!
             int randomSpawnChance = ThreadLocalRandom.current().nextInt(0, 2);
             // if hit correct chance to spawn enemy and less than max number of enemies
