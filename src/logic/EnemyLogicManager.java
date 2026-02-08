@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import enums.EnemyType;
 import objects.EnemyObject;
+import user.Config;
 import util.GameObject;
 import enums.Direction;
 
@@ -19,6 +20,8 @@ public class EnemyLogicManager extends ObjectLogicManager {
 
     public EnemyLogicManager() {
         super();
+        // set max num enemies based on config
+        this.setMaxNumEnemies(Config.maxNumEnemies);
         // // start with 2 basic enemies
         // enemies.add(new EnemyLogic(new EnemyObject(enemyType)));
         // enemies.add(new EnemyLogic(new EnemyObject(enemyType)));

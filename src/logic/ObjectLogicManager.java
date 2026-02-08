@@ -11,7 +11,7 @@ public class ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> objects  = new CopyOnWriteArrayList<ObjectLogic>();
     private Instant cooldownStartTime = Instant.now(); // for checking elapsed seconds between last enemy and current enemy
-    private int maxNumObjects = 6; // max number of objects, used to cap enemy spawns
+    private int maxNumObjects = 6; // max number of objects code default, can auto-define a max if not overwritten in subclass constructor, e.g. how max enemies in EnemyLogicManager is
 
     public ObjectLogicManager() {}
 

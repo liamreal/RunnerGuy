@@ -16,6 +16,7 @@ public class PlayerLogic extends ObjectLogic {
     // specify player speed
     public PlayerLogic(PlayerObject playerObject, int moveSpeed) {
         super(playerObject, moveSpeed);
+        this.setHealth(Config.playerHealth);
     }
     public PlayerLogic(PlayerObject playerObject) {
         // by default if no speed specified, player moves twice as fast as enemies, calls constructor above which calls super class
@@ -25,6 +26,9 @@ public class PlayerLogic extends ObjectLogic {
 
     public int getHealth() {
         return playerObject.getHealth();
+    }
+    public void setHealth(int newHealth) {
+        playerObject.setHealth(newHealth);
     }
 
     // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
