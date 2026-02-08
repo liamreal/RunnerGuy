@@ -5,8 +5,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
+import logic.EnemyLogic;
 import logic.EnemyLogicManager;
 import logic.PlayerLogic;
+import logic.ObjectLogic;
 import util.GameObject;
 import util.Point3f;
 import util.Vector3f;
@@ -54,11 +56,6 @@ public class Model {
 		//Enemies  starting with four 
 
 		enemies = new EnemyLogicManager();
-		
-		EnemiesList.add(new EnemyObject(EnemyType.BASIC));
-		EnemiesList.add(new EnemyObject(EnemyType.ADVANCED));
-		// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*50+500 ),0,0)));
-		
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
@@ -98,34 +95,8 @@ public class Model {
 	}
 
 	private void enemyLogic() {
-		// // monitor number of enemies in list
-		// System.out.println(String.format("Num of enemies: %d", EnemiesList.size()));
-		// TODO Auto-generated method stub
-		for (GameObject temp : EnemiesList) 
-		{
-		    // Move enemies 
-			  
-			temp.getCentre().ApplyVector(new Vector3f(0,-1,0));
-			 
-			 
-			//see if they get to the bottom of the screen (remember 0 is the top) 
-			if (temp.getCentre().getY()>= GameDisplay.getDisplayY())  // current boundary need to pass value to model 
-			{
-				EnemiesList.remove(temp);
-				
-				// enemies win so score decreased 
-				Score--;
-			} 
-		}
-		
-		if (EnemiesList.size()<2)
-		{
-			while (EnemiesList.size()<6)
-			{         
-				EnemiesList.add(new EnemyObject(EnemyType.BASIC)); 
-				// EnemiesList.add(new EnemyObject(50,50,new Point3f(((float)Math.random()*1000),0,0))); 
-			}
-		}
+		enemies.moveEnemies();
+		enemies.spawnEnemy();
 	}
 
 	private void bulletLogic() {
@@ -175,8 +146,11 @@ public class Model {
 		return player.getGameObject();
 	}
 
-	public CopyOnWriteArrayList<GameObject> getEnemies() {
-		return EnemiesList;
+	// public CopyOnWriteArrayList<GameObject> getEnemies() {
+	// 	return EnemiesList;
+	// }
+	public CopyOnWriteArrayList<ObjectLogic> getEnemies() {
+		return enemies.getEnemies();
 	}
 	
 	public CopyOnWriteArrayList<GameObject> getBullets() {

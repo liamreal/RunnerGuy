@@ -11,12 +11,13 @@ public class OutOfBoundsLogic {
         Point3f objectCentre = gameObject.getCentre();
         float objectX = objectCentre.getX();
         float objectY = objectCentre.getY();
+
         // case out of bounds down
         if (objectY >= GameDisplay.getDisplayY()) {
             return true;
         }
         // case out of bounds up
-        if (objectY <= GameDisplay.getDisplayY() - gameObject.getHeight()) {
+        if (objectY <= -gameObject.getHeight()) {
             return true;
         }
         // case out of bounds right
@@ -24,7 +25,7 @@ public class OutOfBoundsLogic {
             return true;
         }
         // case out of bounds left
-        if (objectX <= GameDisplay.getDisplayX() - gameObject.getWidth()) {
+        if (objectX <= -gameObject.getWidth()) {
             return true;
         }
         // otherwise not out of bounds
