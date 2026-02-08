@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
+import logic.BulletLogicManager;
 import logic.EnemyLogic;
 import logic.EnemyLogicManager;
 import logic.PlayerLogic;
@@ -44,6 +45,7 @@ public class Model {
 	
 	 private  PlayerLogic player;
 	 private  EnemyLogicManager enemies;
+	 private  BulletLogicManager bullets;
 	 private Controller controller = Controller.getInstance();
 	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
 	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
@@ -56,6 +58,7 @@ public class Model {
 		//Enemies  starting with four 
 
 		enemies = new EnemyLogicManager();
+		bullets = new BulletLogicManager();
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
@@ -102,6 +105,7 @@ public class Model {
 	private void bulletLogic() {
 		// TODO Auto-generated method stub
 		// move bullets 
+		bullets.moveBullets();
 		
 		// // monitor number of bullets in list
 		// System.out.println(String.format("Num of bullets: %d", BulletList.size()));
@@ -129,13 +133,14 @@ public class Model {
 		//check for movement and if you fired a bullet 
 		player.move();
 		player.collideEnemy(enemies);
+		player.spawnBullet(bullets);
 
 		
-		if(Controller.getInstance().isKeySpacePressed())
-		{
-			CreateBullet();
-			Controller.getInstance().setKeySpacePressed(false);
-		} 
+		// if(Controller.getInstance().isKeySpacePressed())
+		// {
+		// 	CreateBullet();
+		// 	Controller.getInstance().setKeySpacePressed(false);
+		// } 
 		
 	}
 
@@ -155,8 +160,8 @@ public class Model {
 		return enemies.getEnemies();
 	}
 	
-	public CopyOnWriteArrayList<GameObject> getBullets() {
-		return BulletList;
+	public CopyOnWriteArrayList<ObjectLogic> getBullets() {
+		return bullets.getBullets();
 	}
 
 	public int getScore() { 

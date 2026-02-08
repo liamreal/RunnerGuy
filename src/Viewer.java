@@ -100,7 +100,7 @@ public class Viewer extends JPanel {
 		// change back 
 		gameworld.getBullets().forEach((temp) -> 
 		{ 
-			drawBullet((int) temp.getCentre().getX(), (int) temp.getCentre().getY(), (int) temp.getWidth(), (int) temp.getHeight(), temp.getTexture(),g);	 
+			drawBullet((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
 		}); 
 		
 		//Draw Enemies   

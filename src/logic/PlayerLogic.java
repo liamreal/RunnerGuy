@@ -18,6 +18,8 @@ public class PlayerLogic extends ObjectLogic {
     private GameObject playerObject = super.getGameObject();
     private Instant enemyHitCooldownStartTime = Instant.now(); // for checking when player hit last enemy
     private double enemyHitCooldownLength = 1.0; // player will be invincible during this time
+    private Instant bulletFireCooldownStartTime = Instant.now(); // for checking when player last fired bullet
+    private double bulletFireCooldownLength = 0.5; // player will be unable to fire bullets during this time
     
 
     // specify player speed
@@ -33,8 +35,10 @@ public class PlayerLogic extends ObjectLogic {
 
     public int getHealth() { return playerObject.getHealth(); }
     private Instant getEnemyHitCooldownStartTime() { return this.enemyHitCooldownStartTime; }
+    private Instant getBulletFireCooldownStartTime() { return this.bulletFireCooldownStartTime; }
     public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
     private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
+    private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }
 
     // // find time (in seconds) since last cooldown application
     // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
@@ -51,6 +55,10 @@ public class PlayerLogic extends ObjectLogic {
     // reset start time of last time enemy hit player
     public void resetEnemyHitCooldown() {
         this.setEnemyHitCooldownStartTime(Instant.now());
+    }
+    // reset start time of last time player fired bullet
+    public void resetBulletFireCooldown() {
+        this.setBulletFireCooldownStartTime(Instant.now());
     }
 
     // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
@@ -69,13 +77,23 @@ public class PlayerLogic extends ObjectLogic {
         return collidedEnemyObject;
     }
 
-    public boolean spawnBullet(BulletLogicManager bulletLogicManager) {
+    public GameObject spawnBullet(BulletLogicManager bulletLogicManager) {
         // check player pressing space
+        GameObject playerObject = this.getGameObject();
         boolean playerSpace = playerController.isKeySpacePressed();
         if (playerSpace) {
-            return true;
+            // check last time player fired bullet
+            Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
+            if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.bulletFireCooldownLength)) {
+                // spawn bullet based on player who pressing space
+                GameObject bulletSpawned = bulletLogicManager.spawnBullet(playerObject);
+                this.resetBulletFireCooldown();
+                // bullet fired success result
+                return bulletSpawned;
+            }
         }
-        return false;
+        // no bullet spawned
+        return null;
     }
 
     // player checks for movement using position, size and keystrokes
