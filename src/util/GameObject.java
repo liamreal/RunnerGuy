@@ -50,26 +50,12 @@ public class GameObject {
 		this.centre =centre;
 	}
 
-	public Point3f getCentre() {
-		return centre;
-	}
-	public void setCentre(Point3f centre) {
-		this.centre = centre;
-		
-		//make sure to put boundaries on the gameObject 
-	 
-	}
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
-	}
+	public Point3f getCentre() { return centre; }
+	public void setCentre(Point3f centre) { this.centre = centre; }
+	public int getWidth() { return width; }
+	public int getHeight() { return height; }
 	public String getTexture() {
-		if(hasTextured) 
-			{
-			return textureLocation;
-			}
+		if(hasTextured) { return textureLocation; }
 		return blankTexture; 
 	}
   
@@ -77,6 +63,27 @@ public class GameObject {
 	public void setTexture(String newTexture) {
 		hasTextured=true;
 		textureLocation = newTexture; 
+	}
+
+	public boolean collide(GameObject other) {
+		// this object
+		Point3f thisCentre = this.getCentre();
+		float thisX = thisCentre.getX();
+		float thisY = thisCentre.getY();
+		float thisWidth = this.getWidth();
+		float thisHeight = this.getHeight();
+		// other object
+		Point3f otherCentre = other.getCentre();
+		float otherX = otherCentre.getX();
+		float otherY = otherCentre.getY();
+		float otherWidth = other.getWidth();
+		float otherHeight = other.getHeight();
+
+		// use AABB collision check -- return if true (suggested in slides and seen online)
+		return 	thisX < otherX + otherWidth &&
+				thisX + thisWidth > otherX &&
+				thisY < otherY + otherHeight &&
+				thisY + thisHeight > otherY;
 	}
   
 }

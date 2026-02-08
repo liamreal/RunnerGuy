@@ -33,6 +33,26 @@ public class ObjectLogic {
         this.moveSpeed = newMoveSpeed;
     }
     
+    // various generic collision checks
+    public boolean collide(GameObject otherObject) {
+        if (gameObject.collide(otherObject)) {
+            return true;
+        }
+        return false;
+    }
+    public boolean collide(ObjectLogic otherLogic) {
+        return this.collide(otherLogic.getGameObject());
+    }
+    public boolean collide(ObjectLogicManager otherLogicManager) {
+        for (ObjectLogic otherLogic : otherLogicManager.getObjects()) {
+            // if collide with another, return true
+            if (this.collide(otherLogic)){
+                return true;
+            }
+        }
+        // no collision
+        return false;
+    }
 
     // // by default moves object down (if no argument) using method overloading
     // public void move() {

@@ -6,6 +6,7 @@ import enums.Direction;
 import user.Config;
 import util.GameObject;
 import util.Point3f;
+import objects.EnemyObject;
 import objects.PlayerObject;
 
 public class PlayerLogic extends ObjectLogic {
@@ -20,6 +21,17 @@ public class PlayerLogic extends ObjectLogic {
         // by default if no speed specified, player moves twice as fast as enemies, calls constructor above which calls super class
         this(playerObject, Config.moveSpeed*2);
 
+    }
+
+    // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
+    public boolean collideEnemy(EnemyObject enemyObject) {
+        return super.collide(enemyObject);
+    }
+    public boolean collideEnemy(EnemyLogic enemyLogic) {
+        return super.collide(enemyLogic);
+    }
+    public boolean collideEnemy(EnemyLogicManager enemyLogicManager) {
+        return super.collide(enemyLogicManager);
     }
 
     // player checks for movement using position, size and keystrokes
