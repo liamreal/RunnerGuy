@@ -23,15 +23,19 @@ public class PlayerLogic extends ObjectLogic {
 
     }
 
+    public int getHealth() {
+        return playerObject.getHealth();
+    }
+
     // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
-    public boolean collideEnemy(EnemyObject enemyObject) {
-        return super.collide(enemyObject);
-    }
-    public boolean collideEnemy(EnemyLogic enemyLogic) {
-        return super.collide(enemyLogic);
-    }
-    public boolean collideEnemy(EnemyLogicManager enemyLogicManager) {
-        return super.collide(enemyLogicManager);
+    public GameObject collideEnemy(EnemyLogicManager enemyLogicManager) {
+        GameObject collidedEnemyObject = super.collide(enemyLogicManager);
+        if (collidedEnemyObject != null) {
+            // decrease player health by object health
+            playerObject.decreaseHealth(collidedEnemyObject.getHealth());
+        }
+        // return collided object (or null if collide method returns nothing)
+        return collidedEnemyObject;
     }
 
     // player checks for movement using position, size and keystrokes

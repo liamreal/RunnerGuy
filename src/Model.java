@@ -128,10 +128,8 @@ public class Model {
 		 
 		//check for movement and if you fired a bullet 
 		player.move();
-		// System.out.println("get ready...");
-		if (player.collide(enemies)) {
-			System.out.println("TRUE");
-		}
+		player.collideEnemy(enemies);
+
 		
 		if(Controller.getInstance().isKeySpacePressed())
 		{

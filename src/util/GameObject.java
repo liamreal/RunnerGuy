@@ -60,13 +60,21 @@ public class GameObject {
 		return blankTexture; 
 	}
 	public void setCentre(Point3f centre) { this.centre = centre; }
-	public void setHealth(int newHealth) { this.health = 1; }
-  
+	public void setHealth(int newHealth) { this.health = newHealth; }
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {
 		hasTextured=true;
 		textureLocation = newTexture; 
 	}
+
+	// decrease health (by default by 1)
+    public void decreaseHealth(int healthToDecreaseBy) {
+        this.setHealth(this.getHealth()-healthToDecreaseBy);
+    }
+	// by default decrease health by 1
+    public void decreaseHealth() {
+		this.decreaseHealth(1);
+    }
 
 	public boolean collide(GameObject other) {
 		// this object
@@ -87,6 +95,11 @@ public class GameObject {
 				thisX + thisWidth > otherX &&
 				thisY < otherY + otherHeight &&
 				thisY + thisHeight > otherY;
+	}
+
+	// GameObject to string also returns location on screen
+	public String toString() {
+		return String.format("%s at (%f,%f)", super.toString(), centre.getX(), centre.getY());
 	}
   
 }

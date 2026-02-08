@@ -15,8 +15,6 @@ public class EnemyLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> enemies = super.getObjects();
     private EnemyType enemyType = EnemyType.BASIC;
-    private Instant cooldownStartTime = Instant.now(); // for checking elapsed seconds between last enemy and current enemy
-    private int maxNumEnemies = 6; // max number of enemies
     private double enemySpawnFrequencySeconds = 0.5;
 
     public EnemyLogicManager() {
@@ -28,15 +26,12 @@ public class EnemyLogicManager extends ObjectLogicManager {
 
     // getters and setters
     public EnemyType getEnemyType() { return this.enemyType; }
-    public int getMaxNumEnemies() { return this.maxNumEnemies; }
+    public int getMaxNumEnemies() { return super.getMaxNumObjects(); }
     public void setEnemyType(EnemyType newEnemyType) { this.enemyType = newEnemyType;}
-    public void setMaxNumEnemies(int newMaxNumEnemies) { this.maxNumEnemies = newMaxNumEnemies; }
+    public void setMaxNumEnemies(int newMaxNumEnemies) { super.setMaxNumObjects(newMaxNumEnemies); }
 
 
-    // reset start time (for enemy spawn cooldown)
-    protected void resetCooldown() {
-        this.cooldownStartTime = Instant.now();
-    }
+
     // by default move enemies down
     public void moveEnemies() {
         this.moveEnemies(Direction.DOWN);
@@ -48,8 +43,9 @@ public class EnemyLogicManager extends ObjectLogicManager {
 
     // spawns an enemy by adding a new EnemyLogic to list
     public boolean spawnEnemyAttempt() {
-        // get time since last enemy
-        Duration durationSinceLastEnemy = Duration.between(cooldownStartTime, Instant.now());
+        // get time since last enemy and calculate how much time passed
+        Instant lastEnemySpawnTime = super.getCooldownStartTime();
+        Duration durationSinceLastEnemy = Duration.between(lastEnemySpawnTime, Instant.now());
         double secondsSinceLastEnemy = durationSinceLastEnemy.getSeconds() + durationSinceLastEnemy.getNano() / 1000000000.0;
         // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
         if (secondsSinceLastEnemy > this.enemySpawnFrequencySeconds) {
@@ -58,9 +54,9 @@ public class EnemyLogicManager extends ObjectLogicManager {
             // 50% chance to spawn 1 enemy every 1/4 of a second, picking from [0,2) <--- EXCLUDES 2!!!
             int randomSpawnChance = ThreadLocalRandom.current().nextInt(0, 2);
             // if hit correct chance to spawn enemy and less than max number of enemies
-            if (randomSpawnChance == 1 && enemies.size() < maxNumEnemies) {
+            if (randomSpawnChance == 1 && this.enemies.size() < this.getMaxNumEnemies()) {
                 // add enemy of specified type
-                enemies.add(new EnemyLogic(new EnemyObject(this.getEnemyType())));
+                this.enemies.add(new EnemyLogic(new EnemyObject(this.getEnemyType())));
                 return true;
             }
         }

@@ -34,24 +34,24 @@ public class ObjectLogic {
     }
     
     // various generic collision checks
-    public boolean collide(GameObject otherObject) {
+    public GameObject collide(GameObject otherObject) {
         if (gameObject.collide(otherObject)) {
-            return true;
+            return gameObject;
         }
-        return false;
+        return null;
     }
-    public boolean collide(ObjectLogic otherLogic) {
+    public GameObject collide(ObjectLogic otherLogic) {
         return this.collide(otherLogic.getGameObject());
     }
-    public boolean collide(ObjectLogicManager otherLogicManager) {
+    public GameObject collide(ObjectLogicManager otherLogicManager) {
         for (ObjectLogic otherLogic : otherLogicManager.getObjects()) {
             // if collide with another, return true
-            if (this.collide(otherLogic)){
-                return true;
+            if (this.collide(otherLogic) != null){
+                return otherLogic.getGameObject();
             }
         }
         // no collision
-        return false;
+        return null;
     }
 
     // // by default moves object down (if no argument) using method overloading

@@ -10,12 +10,24 @@ import util.GameObject;
 public class ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> objects  = new CopyOnWriteArrayList<ObjectLogic>();
+    private Instant cooldownStartTime = Instant.now(); // for checking elapsed seconds between last enemy and current enemy
+    private int maxNumObjects = 6; // max number of objects, used to cap enemy spawns
 
     public ObjectLogicManager() {}
+
+    
+    public void setMaxNumObjects(int newMaxNumObjects) { this.maxNumObjects = newMaxNumObjects; }
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getObjects() {
         return objects;
+    }
+    public Instant getCooldownStartTime() { return this.cooldownStartTime; }
+    public int getMaxNumObjects() { return maxNumObjects; }
+
+    // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
+    public void resetCooldown() {
+        this.cooldownStartTime = Instant.now();
     }
 
 
