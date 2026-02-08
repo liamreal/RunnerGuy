@@ -21,9 +21,9 @@ public class EnemyLogicManager extends ObjectLogicManager {
 
     public EnemyLogicManager() {
         super();
-        // start with 2 basic enemies
-        enemies.add(new EnemyLogic(new EnemyObject(enemyType)));
-        enemies.add(new EnemyLogic(new EnemyObject(enemyType)));
+        // // start with 2 basic enemies
+        // enemies.add(new EnemyLogic(new EnemyObject(enemyType)));
+        // enemies.add(new EnemyLogic(new EnemyObject(enemyType)));
     }
 
     // getters and setters
@@ -37,26 +37,17 @@ public class EnemyLogicManager extends ObjectLogicManager {
     protected void resetCooldown() {
         this.cooldownStartTime = Instant.now();
     }
-    // by default move enemy down
+    // by default move enemies down
     public void moveEnemies() {
         this.moveEnemies(Direction.DOWN);
     }
     // move every enemy in list
     public void moveEnemies(Direction direction) {
-		for (ObjectLogic enemy : enemies) {
-            // move enemy in given direction
-            enemy.move(direction);
-            // if enemy goes out of bound
-            if (OutOfBoundsLogic.isOutOfBounds(enemy)){
-                enemies.remove(enemy);
-            }
-        }
-        // // monitor enemy list size
-        // System.out.println(enemies.size());
+		super.moveObjects(direction);
     }
 
     // spawns an enemy by adding a new EnemyLogic to list
-    public boolean spawnEnemy() {
+    public boolean spawnEnemyAttempt() {
         // get time since last enemy
         Duration durationSinceLastEnemy = Duration.between(cooldownStartTime, Instant.now());
         double secondsSinceLastEnemy = durationSinceLastEnemy.getSeconds() + durationSinceLastEnemy.getNano() / 1000000000.0;

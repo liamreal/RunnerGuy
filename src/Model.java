@@ -96,7 +96,7 @@ public class Model {
 
 	private void enemyLogic() {
 		enemies.moveEnemies();
-		enemies.spawnEnemy();
+		enemies.spawnEnemyAttempt();
 	}
 
 	private void bulletLogic() {

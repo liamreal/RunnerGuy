@@ -3,6 +3,7 @@ package logic;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import enums.Direction;
 import util.GameObject;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
@@ -17,8 +18,17 @@ public class ObjectLogicManager {
         return objects;
     }
 
-    public boolean collide(GameObject objectOne, GameObject objectTwo) {
-        return true;
+
+    // move every object in list
+    public void moveObjects(Direction direction) {
+		for (ObjectLogic object : objects) {
+            // move object in given direction
+            object.move(direction);
+            // if object goes out of bound (screen size + object size)
+            if (OutOfBoundsLogic.isOutOfBounds(object)){
+                objects.remove(object);
+            }
+        }
     }
 
 }
