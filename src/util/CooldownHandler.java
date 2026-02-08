@@ -10,13 +10,19 @@ import util.Point3f;
 public class CooldownHandler {
     
     // find time (in seconds) since last cooldown application
-    private static double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
+    public static double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
         Duration durationSinceLastCooldown = Duration.between(cooldownStartTime, Instant.now());
         double secondsSinceLastCooldown = durationSinceLastCooldown.getSeconds() + durationSinceLastCooldown.getNano() / 1000000000.0;
         return secondsSinceLastCooldown;
     }
 
     public static boolean isOnCooldown(Instant lastCooldownStart, double cooldownLength) {
+        // if (findTimeSinceLastCooldown(lastCooldownStart) <= cooldownLength) {
+        //     System.out.println("less or equal...");
+        // }
+        // else {
+        //     System.out.println("MORE");
+        // }
         return findTimeSinceLastCooldown(lastCooldownStart) <= cooldownLength;
     }
 

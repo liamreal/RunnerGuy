@@ -61,12 +61,18 @@ public class PlayerLogic extends ObjectLogic {
         GameObject collidedEnemyObject = super.collide(enemyLogicManager);
         // check last time player hit enemy
         Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
-        if (collidedEnemyObject != null && !CooldownHandler.isOnCooldown(lastEnemyHitTime, this.enemyHitCooldownLength)) {
+        // System.out.println();
+        // System.out.println(lastEnemyHitTime);
+        // System.out.println(this.enemyHitCooldownLength);
+        // System.out.println(CooldownHandler.findTimeSinceLastCooldown(lastEnemyHitTime));
+        boolean wasHitAlready = CooldownHandler.isOnCooldown(lastEnemyHitTime, this.enemyHitCooldownLength);
+        if (collidedEnemyObject != null && !wasHitAlready) {
             // System.out.println(!enemyLogicManager.isOnCooldown(this.enemyHitCooldownStartTime, this.enemyHitCooldownLength));
-            System.out.println("COLLIDE AND DAMAGE");
+            // System.out.println("COLLIDE AND DAMAGE");
             this.resetEnemyHitCooldown();
             // decrease player health by object health
             playerObject.decreaseHealth(collidedEnemyObject.getHealth());
+            System.out.println(this.getHealth());
         }
         // return collided object (or null if collide method returns nothing)
         return collidedEnemyObject;
