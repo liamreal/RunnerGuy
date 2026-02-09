@@ -17,7 +17,7 @@ import util.CooldownHandler;
 public class BulletLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> bullets = super.getObjects();
-    private double bulletCooldownLength = super.getCooldownLength();
+    private int maxEnemiesCanHit = 1; // by default bullet can only hit one enemy (can add item to add piercing)
 
     public BulletLogicManager() {
         super();
@@ -38,13 +38,16 @@ public class BulletLogicManager extends ObjectLogicManager {
         return newBullet.getGameObject();
     }
     
-    // public CopyOnWriteArrayList<ObjectLogic> collideEnemy(EnemyLogicManager enemyLogicManager) {
-    //     CopyOnWriteArrayList<ObjectLogic> collidedEnemies  = new CopyOnWriteArrayList<ObjectLogic>();
-    //     // check all bullets collided with enemies
-	// 	for (ObjectLogic bullet : this.bullets) {
-    //         if (bullet)
-    //     }
-    // }
+
+    public CopyOnWriteArrayList<GameObject> collideEnemy(EnemyLogicManager enemyLogicManager) {
+        CopyOnWriteArrayList<GameObject> collidedEnemies  = new CopyOnWriteArrayList<GameObject>();
+        // check all bullets collided with enemies
+		for (ObjectLogic bullet : this.bullets) {
+            // check current bullet collided enemies
+            CopyOnWriteArrayList<GameObject> bulletColliedEnemies = bullet.collide(enemyLogicManager);
+
+        }
+    }
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getBullets() {

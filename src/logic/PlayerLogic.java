@@ -66,7 +66,7 @@ public class PlayerLogic extends ObjectLogic {
     public GameObject collideEnemy(EnemyLogicManager enemyLogicManager) {
         CopyOnWriteArrayList<GameObject> collidedEnemies = super.collide(enemyLogicManager);
         // if multiple collisions, pick enemy object that had highest health
-        GameObject collidedEnemyObject = super.getMaxHealthGameObject(collidedEnemies);
+        GameObject collidedEnemyObject = super.getClosestGameObject(collidedEnemies);
         if (collidedEnemyObject != null) {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
@@ -74,6 +74,7 @@ public class PlayerLogic extends ObjectLogic {
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
                 playerObject.decreaseHealth(collidedEnemyObject.getHealth());
+                collidedEnemyObject.setCentre(new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
             }
         }
         // return collided object (or null if collide method returns nothing)

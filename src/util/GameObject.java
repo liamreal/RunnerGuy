@@ -1,4 +1,9 @@
 package util;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import display.GameDisplay;
 import display.TextureLoader;
 /*
@@ -75,6 +80,21 @@ public class GameObject {
     public void decreaseHealth() {
 		this.decreaseHealth(1);
     }
+
+	// by default sort a list of objects relative to this object by distance
+	public CopyOnWriteArrayList<GameObject> sortByClosest(CopyOnWriteArrayList<GameObject> otherObjects) {
+		if (otherObjects == null || otherObjects.isEmpty()) { return null; }
+		// will be our list we sort
+		List<GameObject> sortedList = new ArrayList<>(otherObjects);
+		// used ChatGPT to help with lambda function sorting, uses my squared distance calculation method as a comparison for sorting
+		sortedList.sort(
+			Comparator.comparingDouble(otherObject ->
+				Metrics.computeSquaredDistance(this, otherObject)
+			)
+		);
+		// return sorted list as a CopyOnWriteArrayList
+		return new CopyOnWriteArrayList<>(sortedList);
+	}
 
 	public boolean collide(GameObject other) {
 		// this object

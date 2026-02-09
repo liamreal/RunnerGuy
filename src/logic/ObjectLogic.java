@@ -91,6 +91,14 @@ public class ObjectLogic {
         // return found max health object (or null if not found)
         return maxHealthObject;
     }
+    // get closest object
+    public GameObject getClosestGameObject(CopyOnWriteArrayList<GameObject> gameObjects) {
+        // sort objects by closest relative to this object
+        CopyOnWriteArrayList<GameObject> closestObjects = this.getGameObject().sortByClosest(gameObjects);
+        if (closestObjects == null) { return null; } // return null if function returned null (which it should if original list was null or empty)
+        return closestObjects.get(0); // otherwise get first object (closest)
+    }
+
 
     // otherwise can specify direction based on enum, returns Direction, used to check then if out of bounds
     public Direction move(Direction direction) {
