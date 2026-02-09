@@ -2,6 +2,7 @@ package logic;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import controllers.Controller;
 import display.GameDisplay;
@@ -61,9 +62,11 @@ public class PlayerLogic extends ObjectLogic {
         this.setBulletFireCooldownStartTime(Instant.now());
     }
 
-    // various enemy collision checks (MODIFY TO DO STUFF TO HEALTH/COOLDOWN AND OTHER)
+    // various enemy collision checks
     public GameObject collideEnemy(EnemyLogicManager enemyLogicManager) {
-        GameObject collidedEnemyObject = super.collide(enemyLogicManager);
+        CopyOnWriteArrayList<GameObject> collidedEnemies = super.collide(enemyLogicManager);
+        // if multiple collisions, pick enemy object that had highest health
+        GameObject collidedEnemyObject = super.getMaxHealthGameObject(collidedEnemies);
         if (collidedEnemyObject != null) {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();

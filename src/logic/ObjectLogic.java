@@ -4,6 +4,7 @@ import util.Vector3f;
 import util.Point3f;
 
 import java.util.Arrays;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import enums.Direction;
 import user.Config;
@@ -43,15 +44,52 @@ public class ObjectLogic {
     public GameObject collide(ObjectLogic otherLogic) {
         return this.collide(otherLogic.getGameObject());
     }
-    public GameObject collide(ObjectLogicManager otherLogicManager) {
+    // maximum number of collisions allowed by our current object logic with n other logics (max = -1 means no limit)
+    public CopyOnWriteArrayList<GameObject> collide(ObjectLogicManager otherLogicManager, int maxNumCollisions) {
+        // count how many collisions so far (so can compare to max specified)
+        int collisionCount = 0;
+        CopyOnWriteArrayList<GameObject> collidedObjects = new CopyOnWriteArrayList<GameObject>();
         for (ObjectLogic otherLogic : otherLogicManager.getObjects()) {
-            // if collide with another, return true
+            // if collide with another
             if (this.collide(otherLogic) != null){
-                return otherLogic.getGameObject();
+                // if no cap on max (i.e. max = -1) or if not yet reached max number of collisions
+                if (maxNumCollisions == -1 || collisionCount < maxNumCollisions) {
+                    collidedObjects.add(otherLogic.getGameObject());
+                    collisionCount++;
+                }
             }
         }
-        // no collision
-        return null;
+        // return list of collided objects (if none collided, should be empty)
+        return collidedObjects;
+    }
+    // by default if no limit specified assume there is no limit (i.e. pass into same func name with -1)
+    public CopyOnWriteArrayList<GameObject> collide(ObjectLogicManager otherLogicManager) {
+        return this.collide(otherLogicManager, -1);
+    }
+
+    public GameObject getMaxHealthGameObject(ObjectLogicManager objectLogicManager) {
+        // list that will hold our objects we will obtain from ObjectLogicManager
+        CopyOnWriteArrayList<GameObject> gameObjects = objectLogicManager.getGameObjects();
+        // returns max health object
+        return getMaxHealthGameObject(gameObjects);
+    }
+    // find max health out of objects in a list of objects
+    public GameObject getMaxHealthGameObject(CopyOnWriteArrayList<GameObject> gameObjects) {
+        // for now max health object is not found (list could be empty)
+        GameObject maxHealthObject = null;
+        for (GameObject object : gameObjects) {
+            GameObject currentObject = object;
+            // if null automatically assign this object
+            if (maxHealthObject == null) { maxHealthObject = currentObject; }
+            // otherwise check health of two objects and update max health one
+            else {
+                if (currentObject.getHealth() > maxHealthObject.getHealth()) {
+                    maxHealthObject = currentObject;
+                }
+            }
+        }
+        // return found max health object (or null if not found)
+        return maxHealthObject;
     }
 
     // otherwise can specify direction based on enum, returns Direction, used to check then if out of bounds

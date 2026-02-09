@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import enums.Direction;
 import util.GameObject;
+import logic.ObjectLogic;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
 public class ObjectLogicManager {
@@ -24,6 +25,15 @@ public class ObjectLogicManager {
     public CopyOnWriteArrayList<ObjectLogic> getObjects() {
         return objects;
     }
+    // will return a list of GameObject instances instead of ObjectLogic instances
+    public CopyOnWriteArrayList<GameObject> getGameObjects() {
+        // list that will hold our objects we will obtain from ObjectLogicManager
+        CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<>();
+        for (ObjectLogic objectLogic : this.objects) {
+            gameObjects.add(objectLogic.getGameObject());
+        }
+        return gameObjects;
+    }
     public Instant getCooldownStartTime() { return this.cooldownStartTime; }
     public double getCooldownLength() { return this.cooldownLength; }
     public int getMaxNumObjects() { return maxNumObjects; }
@@ -35,9 +45,17 @@ public class ObjectLogicManager {
         this.setCooldownStartTime(Instant.now());
     }
 
+    // public CopyOnWriteArrayList<ObjectLogic> collide(ObjectLogicManager otherLogicManager) {
+    //     CopyOnWriteArrayList<ObjectLogic> collidedObjects  = new CopyOnWriteArrayList<ObjectLogic>();
+    //     // check all
+	// 	for (ObjectLogic object : this.objects) {
+
+    //     }
+    // }
+
     // move every object in list
     public void moveObjects(Direction direction) {
-		for (ObjectLogic object : objects) {
+		for (ObjectLogic object : this.objects) {
             // move object in given direction
             object.move(direction);
             // if object goes out of bound (screen size + object size)

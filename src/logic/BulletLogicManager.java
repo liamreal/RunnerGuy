@@ -36,18 +36,15 @@ public class BulletLogicManager extends ObjectLogicManager {
         BulletLogic newBullet = new BulletLogic(new BulletObject(playerObject));
         bullets.add(newBullet);
         return newBullet.getGameObject();
-        // // get time since last enemy and calculate how much time passed
-        // Instant lastBulletFireTime = super.getCooldownStartTime();
-        // // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
-        // if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.bulletCooldownLength)) {
-        //     // reset the start time
-        //     super.resetCooldown();
-        //     // successful bullet spawn
-        //     return true;
-        // }
-        // // enemy was not spawned or failed to spawn (based on random chance)
-        // return false;
     }
+    
+    // public CopyOnWriteArrayList<ObjectLogic> collideEnemy(EnemyLogicManager enemyLogicManager) {
+    //     CopyOnWriteArrayList<ObjectLogic> collidedEnemies  = new CopyOnWriteArrayList<ObjectLogic>();
+    //     // check all bullets collided with enemies
+	// 	for (ObjectLogic bullet : this.bullets) {
+    //         if (bullet)
+    //     }
+    // }
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getBullets() {
