@@ -78,6 +78,8 @@ public class Model {
 	private void gameLogic() {
 		// this is a way to increment across the array list data structure 
 
+		bullets.collideEnemy(enemies);
+		// System.out.println(bullets.getBullets().size());
 		
 		// see if they hit anything 
 		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 

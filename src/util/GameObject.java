@@ -80,6 +80,9 @@ public class GameObject {
     public void decreaseHealth() {
 		this.decreaseHealth(1);
     }
+	public boolean isAlive() {
+        return this.getHealth() > 0;
+    }
 
 	// by default sort a list of objects relative to this object by distance
 	public CopyOnWriteArrayList<GameObject> sortByClosest(CopyOnWriteArrayList<GameObject> otherObjects) {

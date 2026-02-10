@@ -3,6 +3,7 @@ package logic;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ThreadLocalRandom;
 
 import enums.EnemyType;
@@ -37,16 +38,14 @@ public class BulletLogicManager extends ObjectLogicManager {
         bullets.add(newBullet);
         return newBullet.getGameObject();
     }
-    
 
-    public CopyOnWriteArrayList<GameObject> collideEnemy(EnemyLogicManager enemyLogicManager) {
-        CopyOnWriteArrayList<GameObject> collidedEnemies  = new CopyOnWriteArrayList<GameObject>();
-        // check all bullets collided with enemies
-		for (ObjectLogic bullet : this.bullets) {
-            // check current bullet collided enemies
-            CopyOnWriteArrayList<GameObject> bulletColliedEnemies = bullet.collide(enemyLogicManager);
+    public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager enemyLogicManager) {
+        return this.collide(enemyLogicManager);
+    }
 
-        }
+    // this one simply kills, can instead get all collided objects and spawn explosions at them, or summon new objects and make them go backwards
+    public CopyOnWriteArraySet<GameObject> killEnemy(ObjectLogicManager enemyLogicManager) {
+        return this.collideEnemy(enemyLogicManager);
     }
 
     // obtain list of objects being managed

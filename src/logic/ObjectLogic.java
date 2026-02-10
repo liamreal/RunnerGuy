@@ -30,8 +30,14 @@ public class ObjectLogic {
     public int getMoveSpeed() {
         return moveSpeed;
     }
+    public int getHealth() {
+        return getGameObject().getHealth();
+    }
     public void setMoveSpeed(int newMoveSpeed) {
         this.moveSpeed = newMoveSpeed;
+    }
+    public boolean isAlive() {
+        return this.getGameObject().isAlive();
     }
     
     // various generic collision checks

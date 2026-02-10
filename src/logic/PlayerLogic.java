@@ -74,7 +74,8 @@ public class PlayerLogic extends ObjectLogic {
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
                 playerObject.decreaseHealth(collidedEnemyObject.getHealth());
-                collidedEnemyObject.setCentre(new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
+                // // test for collision, moves collided enemy to specific coords
+                // collidedEnemyObject.setCentre(new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
             }
         }
         // return collided object (or null if collide method returns nothing)

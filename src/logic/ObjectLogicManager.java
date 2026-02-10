@@ -3,6 +3,7 @@ package logic;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import enums.Direction;
 import util.GameObject;
@@ -43,6 +44,55 @@ public class ObjectLogicManager {
     // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
     public void resetCooldown() {
         this.setCooldownStartTime(Instant.now());
+    }
+
+    // will go through each of its logic objects, check their game object health and remove if not positive
+    public void keepOnlyAlive() {
+        CopyOnWriteArrayList<ObjectLogic> objects = this.getObjects();
+        for (ObjectLogic object: objects) {
+            // if invalid health (0 or less), remove object logic from list
+            if (!object.isAlive()){
+                objects.remove(object);
+            }
+        }
+    }
+
+    public void damageObjects(GameObject damageSource, ObjectLogicManager objectLogicManager, CopyOnWriteArrayList<GameObject> objectsToDamage) {
+        // go through all game objects in list
+        for (GameObject objectToDamage: objectsToDamage) {
+            // get object to damage health (will be used to decrease bullet health)
+            int objectToDamageHealth = objectToDamage.getHealth();
+            // decrease object to be damaged by the bullet health and bullet by object to be damaged health
+            objectToDamage.decreaseHealth(damageSource.getHealth());
+            damageSource.decreaseHealth(objectToDamageHealth);
+            // check bullet health, if < 1 breaks out of loop
+            if (!damageSource.isAlive()) { break; }
+        }
+        // keep only all objects that are alive (health > 0), if dead will be removed from list
+        objectLogicManager.keepOnlyAlive();
+    }
+
+    // collision for all this logic manager objects colliding with all objects in another logic manager
+    public CopyOnWriteArraySet<GameObject> collide(ObjectLogicManager otherLogicManager) {
+        CopyOnWriteArrayList<GameObject> allCollidedObjects  = new CopyOnWriteArrayList<GameObject>();
+        // check all objects collided with other logic manager
+		for (ObjectLogic object : this.getObjects()) {
+            // check current object collided other objects
+            CopyOnWriteArrayList<GameObject> objectCollidedEnemies = object.collide(otherLogicManager);
+            // no collisions for object so skip loop for this damage source
+            if (objectCollidedEnemies.isEmpty()) { continue; }
+            // sort other objects by closest to current object
+            GameObject gameObject = object.getGameObject();
+            CopyOnWriteArrayList<GameObject> closestCollidedObjects = gameObject.sortByClosest(objectCollidedEnemies);
+            // damage objects
+            this.damageObjects(gameObject, otherLogicManager, closestCollidedObjects);
+            // add to list of all combined game objects
+            allCollidedObjects.addAll(closestCollidedObjects);
+        }
+        // keep only all objects in this logic manager that are alive (health > 0), if dead will be removed from list within method
+        this.keepOnlyAlive();
+        // return as a set (eliminating duplicates)
+        return new CopyOnWriteArraySet<GameObject>(allCollidedObjects);
     }
 
     // public CopyOnWriteArrayList<ObjectLogic> collide(ObjectLogicManager otherLogicManager) {
