@@ -10,6 +10,7 @@ import logic.BulletLogicManager;
 import logic.EnemyLogic;
 import logic.EnemyLogicManager;
 import logic.PlayerLogic;
+import logic.PlayerLogicManager;
 import logic.ObjectLogic;
 import util.Point3f;
 import util.Vector3f;
@@ -46,6 +47,7 @@ SOFTWARE.
 public class Model {
 	
 	 private  PlayerLogic player;
+	 private  PlayerLogicManager players;
 	 private  EnemyLogicManager enemies;
 	 private  BulletLogicManager bullets;
 	 private Controller controller = Controller.getInstance();
@@ -56,7 +58,7 @@ public class Model {
 	public Model() {
 		//setup game world 
 		// Player= new PlayerObject();
-		player = new PlayerLogic(new PlayerObject(), PlayerType.TWO);
+		players = new PlayerLogicManager(2);
 		//Enemies  starting with four 
 
 		enemies = new EnemyLogicManager();
@@ -96,17 +98,24 @@ public class Model {
 
 	// logic for players
 	private void playerLogic() {
+		// //check for movement and if you fired a bullet 
+		// player.move();
+		// // collision of player with enemies
+		// player.collideEnemy(enemies);
+		// // spawn bullet on player
+		// player.spawnBullet(bullets);
+
 		//check for movement and if you fired a bullet 
-		player.move();
+		players.movePlayers();
 		// collision of player with enemies
-		player.collideEnemy(enemies);
+		players.collideEnemy(enemies);
 		// spawn bullet on player
-		player.spawnBullet(bullets);
+		players.spawnBullet(bullets);
 	}
 
 	
-	public GameObject getPlayer() {
-		return player.getGameObject();
+	public CopyOnWriteArrayList<PlayerLogic> getPlayers() {
+		return players.getPlayers();
 	}
 
 	public CopyOnWriteArrayList<ObjectLogic> getEnemies() {

@@ -82,20 +82,16 @@ public class Viewer extends JPanel {
 		
 		super.paintComponent(g);
 		CurrentAnimationTime++; // runs animation time step 
-		
-		
-		//Draw player Game Object 
-		int x = (int) gameworld.getPlayer().getCentre().getX();
-		int y = (int) gameworld.getPlayer().getCentre().getY();
-		int width = (int) gameworld.getPlayer().getWidth();
-		int height = (int) gameworld.getPlayer().getHeight();
-		String texture = gameworld.getPlayer().getTexture();
-		
+
 		//Draw background 
 		drawBackground(g);
 		
-		//Draw player
-		drawPlayer(x, y, width, height, texture,g);
+		// Draw players
+		gameworld.getPlayers().forEach((temp) -> 
+		{ 
+			drawPlayer((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
+		}); 
+		
 		  
 		//Draw Bullets 
 		// change back 

@@ -1,27 +1,41 @@
 package objects;
 import display.TextureLoader;
+import enums.PlayerType;
 import util.Point3f;
 
 public class PlayerObject extends GameObject {
+    private final PlayerType playerType;
     // will have some data specific to player and inherit superclass methods
-    public PlayerObject() {  
+    public PlayerObject(PlayerType playerType) {  
         super();
+        this.playerType = playerType;
         this.setTexture();
 	}
-    public PlayerObject(String textureLocation, int width,int height,Point3f centre) { 
+    public PlayerObject(PlayerType playerType, String textureLocation, int width,int height,Point3f centre) { 
         super(textureLocation, width, height, centre);
+        this.playerType = playerType;
 	}
     // auto-build texture based on file path pre-specified field (the way i will use for base folder structure)
-    public PlayerObject(int width,int height,Point3f centre) { 
+    public PlayerObject(PlayerType playerType, int width,int height,Point3f centre) { 
         super(width, height, centre);
+        this.playerType = playerType;
         // set player texture
         this.setTexture();
 	}
-    // set text specifically for player
+
+    // a way to get player type
+    public PlayerType getPlayerType() { return this.playerType; }
+
+    // if no argument defaults to player one texture
     protected void setTexture() {
+        this.setTexture(playerType);
+    }
+    // set texture specifically for player
+    protected void setTexture(PlayerType playerType) {
         super.setTexture(String.format(
-            "%s/textures/player/player.png", 
-            TextureLoader.getAssetsPath()
+            "%s/textures/player/player_%s.png", 
+            TextureLoader.getAssetsPath(),
+            playerType.toString()
         ));
     }
 }
