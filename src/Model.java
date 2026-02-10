@@ -64,21 +64,20 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public void gamelogic() 
 	{
-		// Player Logic first 
-		playerLogic(); 
-		// Enemy Logic next
-		enemyLogic();
+		// interaction logic
+		gameLogic();
 		// Bullets move next 
 		bulletLogic();
-		// interactions between objects 
-		gameLogic(); 
-	   
+		// Enemy Logic next
+		enemyLogic();
+		// Player Logic first 
+		playerLogic(); 
 	}
 
 	private void gameLogic() {
 		// this is a way to increment across the array list data structure 
 
-		bullets.collideEnemy(enemies);
+
 		// System.out.println(bullets.getBullets().size());
 		
 		// see if they hit anything 
@@ -108,25 +107,8 @@ public class Model {
 		// TODO Auto-generated method stub
 		// move bullets 
 		bullets.moveBullets();
-		// System.out.println(bullets.getBullets().size());
-		
-		// // monitor number of bullets in list
-		// System.out.println(String.format("Num of bullets: %d", BulletList.size()));
-	  
-		for (GameObject temp : BulletList) 
-		{
-		    // move bullet down Y axis
-			temp.getCentre().ApplyVector(new Vector3f(0,1,0));
-			//see if they hit anything 
-			
-			// once bullet fully off-screen, remove
-			if (temp.getCentre().getY()<=-temp.getHeight())
-			{
-			 	BulletList.remove(temp);
-			} 
-
-		} 
-		
+		bullets.collideEnemy(enemies);
+		// System.out.println(bullets.getBullets().size());		
 	}
 
 	private void playerLogic() {
@@ -146,6 +128,8 @@ public class Model {
 		// } 
 		
 	}
+
+	
 
 	private void CreateBullet() {
 		// BulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(Player.getCentre().getX(),Player.getCentre().getY(),0.0f)));

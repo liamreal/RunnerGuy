@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.time.Duration;
+import java.time.Instant;
 
 import display.GameDisplay;
 import display.TextureLoader;
@@ -40,22 +42,32 @@ public class GameObject {
 	private String textureLocation; 
 	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
 	private int health=1;
+	private Instant spawnTime; // used to keep track of when object was spawned (to check if should be killed)
+	private double minLifeTime = 0.05; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets)
 
-	public GameObject() {}
-    public GameObject(String textureLocation,int width,int height,Point3f centre) { 
-    	 hasTextured=true;
-    	 this.textureLocation=textureLocation;
-    	 this.width=width;
-		 this.height=height;
-		 this.centre =centre;
+	public GameObject() {
+		this.setSpawnTime();
+	}
+    public GameObject(String textureLocation,int width,int height,Point3f centre) {
+		this.setSpawnTime();
+		hasTextured=true;
+		this.textureLocation=textureLocation;
+		this.width=width;
+		this.height=height;
+		this.centre =centre;
 	}
 	public GameObject(int width,int height, Point3f centre) { 
+		this.setSpawnTime();
 		hasTextured=false;
 		this.width=width;
 		this.height=height;
 		this.centre =centre;
 	}
-
+	// note down object spawn time
+	private void setSpawnTime() { this.spawnTime = Instant.now(); }
+	private Instant getSpawnTime() { return this.spawnTime; }
+	private double getMinLifeTime() { return this.minLifeTime; }
+	
 	public Point3f getCentre() { return centre; }
 	public int getHealth() { return this.health; }
 	public int getWidth() { return width; }
@@ -81,7 +93,9 @@ public class GameObject {
 		this.decreaseHealth(1);
     }
 	public boolean isAlive() {
-        return this.getHealth() > 0;
+		double lifeTime = DurationHandler.getDurationSeconds(this.getSpawnTime());
+		// check if health is valid OR if has lived for minimum amount of time has to live for
+        return (this.getHealth() > 0 || lifeTime < this.getMinLifeTime());
     }
 
 	// by default sort a list of objects relative to this object by distance

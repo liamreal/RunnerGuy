@@ -12,9 +12,7 @@ public class CooldownHandler {
     
     // find time (in seconds) since last cooldown application
     public static double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
-        Duration durationSinceLastCooldown = Duration.between(cooldownStartTime, Instant.now());
-        double secondsSinceLastCooldown = durationSinceLastCooldown.getSeconds() + durationSinceLastCooldown.getNano() / 1000000000.0;
-        return secondsSinceLastCooldown;
+        return DurationHandler.getDurationSeconds(cooldownStartTime);
     }
 
     public static boolean isOnCooldown(Instant lastCooldownStart, double cooldownLength) {
