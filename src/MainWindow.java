@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import util.UnitTests;
 import display.GameDisplay;
+import display.TextureLoader;
 import controllers.Controller;
 
 /*
@@ -47,7 +48,7 @@ SOFTWARE.
 
 
 public class MainWindow {
-	 private static  JFrame frame = new JFrame("Game");   // Change to the name of your game 
+	 private static  JFrame frame = new JFrame("Runner Guy");   // Change to the name of your game 
 	 private static   Model gameworld= new Model();
 	 private static   Viewer canvas = new  Viewer( gameworld);
 	 private KeyListener Controller =new Controller()  ; 
@@ -69,7 +70,7 @@ public class MainWindow {
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
 		          
 		       
-	        JButton startMenuButton = new JButton("Start Game");  // start button 
+	        JButton startMenuButton = new JButton("Begin");  // start button 
 	        startMenuButton.addActionListener(new ActionListener()
 	           { 
 				@Override
@@ -84,7 +85,10 @@ public class MainWindow {
 	        startMenuButton.setBounds(GameDisplay.getDisplayX()/3, GameDisplay.getDisplayY()/3, (GameDisplay.getDisplayX()/6)*2, (GameDisplay.getDisplayY()/6)*2); 
 	        
 	        //loading background image 
-	        File BackgroundToLoad = new File("res/startscreen.png");  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+	        File BackgroundToLoad = new File(String.format(
+				"%s/textures/start_menu/start_menu.png", 
+				TextureLoader.getAssetsPath()
+			));  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 			try {
 				 
 				 BufferedImage myPicture = ImageIO.read(BackgroundToLoad);
