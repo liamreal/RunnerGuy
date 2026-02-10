@@ -1,6 +1,7 @@
 package util;
 
 import logic.ObjectLogic;
+import objects.GameObject;
 
 public class Metrics {
     // find squared distance between 2 objects

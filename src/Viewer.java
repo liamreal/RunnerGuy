@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import util.GameObject;
 import display.GameDisplay;
+import objects.GameObject;
 
 
 /*

@@ -6,8 +6,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import enums.Direction;
-import util.GameObject;
 import logic.ObjectLogic;
+import objects.GameObject;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
 public class ObjectLogicManager {

@@ -1,7 +1,6 @@
 package objects;
 
 import display.TextureLoader;
-import util.GameObject;
 import util.Point3f;
 
 public class BulletObject extends GameObject {

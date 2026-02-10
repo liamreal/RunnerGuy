@@ -10,12 +10,12 @@ import logic.EnemyLogic;
 import logic.EnemyLogicManager;
 import logic.PlayerLogic;
 import logic.ObjectLogic;
-import util.GameObject;
 import util.Point3f;
 import util.Vector3f;
 import util.Score;
 import objects.BulletObject;
 import objects.EnemyObject;
+import objects.GameObject;
 import objects.PlayerObject;
 import controllers.Controller;
 /*

@@ -9,8 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import enums.EnemyType;
 import objects.BulletObject;
 import objects.EnemyObject;
+import objects.GameObject;
 import user.Config;
-import util.GameObject;
 import enums.Direction;
 import util.CooldownHandler;
 

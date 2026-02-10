@@ -1,7 +1,7 @@
 package logic;
 
 import display.GameDisplay;
-import util.GameObject;
+import objects.GameObject;
 import util.Point3f;
 
 public class OutOfBoundsLogic {

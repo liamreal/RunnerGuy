@@ -9,9 +9,9 @@ import display.GameDisplay;
 import enums.Direction;
 import user.Config;
 import util.CooldownHandler;
-import util.GameObject;
 import util.Point3f;
 import objects.EnemyObject;
+import objects.GameObject;
 import objects.PlayerObject;
 
 public class PlayerLogic extends ObjectLogic {

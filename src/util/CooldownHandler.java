@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import display.GameDisplay;
-import util.GameObject;
+import objects.GameObject;
 import util.Point3f;
 
 // helps calculate cooldown times

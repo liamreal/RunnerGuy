@@ -2,7 +2,6 @@ package objects;
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
-import util.GameObject;
 import util.Point3f;
 import java.util.concurrent.ThreadLocalRandom;
 

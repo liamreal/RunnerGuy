@@ -7,8 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import enums.EnemyType;
 import objects.EnemyObject;
+import objects.GameObject;
 import user.Config;
-import util.GameObject;
 import util.CooldownHandler;
 import enums.Direction;
 

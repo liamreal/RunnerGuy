@@ -1,4 +1,4 @@
-package util;
+package objects;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,6 +8,9 @@ import java.time.Instant;
 
 import display.GameDisplay;
 import display.TextureLoader;
+import util.DurationHandler;
+import util.Metrics;
+import util.Point3f;
 /*
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -110,6 +113,7 @@ public class GameObject {
 		return new CopyOnWriteArrayList<>(sortedList);
 	}
 
+	// base collision method for ALL collision
 	public boolean collide(GameObject other) {
 		// used to make hitbox smaller for closer interaction
 		float buffer = 4;
@@ -139,14 +143,14 @@ public class GameObject {
 		// System.out.println(String.format("THIS = x:%f, y:%f, w:%f, h:%f", thisX, thisY, width, height));
 		// System.out.println(String.format("THAT = x:%f, y:%f, w:%f, h:%f", otherX, otherY, otherWidth, otherHeight));
 
-		// use AABB collision check -- return if true (suggested in slides and seen online)
+		// use AABB collision check -- return if true (suggested in slides, seen online and also suggested by ChatGPT)
 		return 	thisX < otherX + otherWidth &&
 				thisX + width > otherX &&
 				thisY < otherY + otherHeight &&
 				thisY + height > otherY;
 	}
 
-	// GameObject to string also returns location on screen
+	// GameObject to string returns memory location but also location on screen
 	public String toString() {
 		return String.format("%s at (%f,%f)", super.toString(), centre.getX(), centre.getY());
 	}
