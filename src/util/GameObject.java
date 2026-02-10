@@ -42,14 +42,12 @@ public class GameObject {
 	private String textureLocation; 
 	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
 	private int health=1;
-	private Instant spawnTime; // used to keep track of when object was spawned (to check if should be killed)
+	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
 	private double minLifeTime = 0.05; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets)
 
 	public GameObject() {
-		this.setSpawnTime();
 	}
     public GameObject(String textureLocation,int width,int height,Point3f centre) {
-		this.setSpawnTime();
 		hasTextured=true;
 		this.textureLocation=textureLocation;
 		this.width=width;
@@ -57,14 +55,12 @@ public class GameObject {
 		this.centre =centre;
 	}
 	public GameObject(int width,int height, Point3f centre) { 
-		this.setSpawnTime();
 		hasTextured=false;
 		this.width=width;
 		this.height=height;
 		this.centre =centre;
 	}
-	// note down object spawn time
-	private void setSpawnTime() { this.spawnTime = Instant.now(); }
+	// note down object spawn time, these should NOT be used outside this class 
 	private Instant getSpawnTime() { return this.spawnTime; }
 	private double getMinLifeTime() { return this.minLifeTime; }
 	
@@ -92,6 +88,7 @@ public class GameObject {
     public void decreaseHealth() {
 		this.decreaseHealth(1);
     }
+	// check if game object is alive
 	public boolean isAlive() {
 		double lifeTime = DurationHandler.getDurationSeconds(this.getSpawnTime());
 		// check if health is valid OR if has lived for minimum amount of time has to live for
@@ -114,24 +111,39 @@ public class GameObject {
 	}
 
 	public boolean collide(GameObject other) {
+		// used to make hitbox smaller for closer interaction
+		float buffer = 4;
 		// this object
-		Point3f thisCentre = this.getCentre();
-		float thisX = thisCentre.getX();
-		float thisY = thisCentre.getY();
-		float thisWidth = this.getWidth();
-		float thisHeight = this.getHeight();
+		Point3f centre = this.getCentre();
+		float width = this.getWidth();
+		float widthBuffer = width/buffer;
+		width = width - widthBuffer;
+		float height = this.getHeight();
+		float heightBuffer = height/buffer;
+		height = height - heightBuffer;
+		float thisX = centre.getX() + widthBuffer;
+		float thisY = centre.getY() + heightBuffer;
 		// other object
 		Point3f otherCentre = other.getCentre();
-		float otherX = otherCentre.getX();
-		float otherY = otherCentre.getY();
 		float otherWidth = other.getWidth();
+		float otherWidthBuffer = width/buffer;
+		otherWidth = otherWidth - otherWidthBuffer;
 		float otherHeight = other.getHeight();
+		float otherHeightBuffer = height/buffer;
+		otherHeight = otherHeight - otherHeightBuffer;
+		float otherX = otherCentre.getX() + otherWidthBuffer;
+		float otherY = otherCentre.getY() + otherHeightBuffer;
+
+		// // look at coords, to see best understandable coords bring player to top left, they will be THIS
+		// System.out.println();
+		// System.out.println(String.format("THIS = x:%f, y:%f, w:%f, h:%f", thisX, thisY, width, height));
+		// System.out.println(String.format("THAT = x:%f, y:%f, w:%f, h:%f", otherX, otherY, otherWidth, otherHeight));
 
 		// use AABB collision check -- return if true (suggested in slides and seen online)
 		return 	thisX < otherX + otherWidth &&
-				thisX + thisWidth > otherX &&
+				thisX + width > otherX &&
 				thisY < otherY + otherHeight &&
-				thisY + thisHeight > otherY;
+				thisY + height > otherY;
 	}
 
 	// GameObject to string also returns location on screen
