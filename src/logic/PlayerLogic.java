@@ -3,15 +3,19 @@ package logic;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BooleanSupplier;
 
 import controllers.Controller;
 import display.GameDisplay;
 import enums.Direction;
+import enums.Interaction;
+import enums.PlayerType;
 import user.Config;
 import util.CooldownHandler;
 import util.Point3f;
 import objects.EnemyObject;
 import objects.GameObject;
+import java.util.HashMap;
 import objects.PlayerObject;
 
 public class PlayerLogic extends ObjectLogic {
@@ -21,17 +25,54 @@ public class PlayerLogic extends ObjectLogic {
     private double enemyHitCooldownLength = 1.0; // player will be invincible during this time
     private Instant bulletFireCooldownStartTime = Instant.now(); // for checking when player last fired bullet
     private double bulletFireCooldownLength = 0.5; // player will be unable to fire bullets during this time
+    private PlayerType playerType;
+    // using boolean supplier allows you to get player input via a lambda (suggest by ChatGPT)
+    private HashMap<Direction, BooleanSupplier> playerMoves;
+    private HashMap<Interaction, BooleanSupplier> playerInteractions;
+
     
 
-    // specify player speed
-    public PlayerLogic(PlayerObject playerObject, int moveSpeed) {
+    // specify player speed and type (player one or two)
+    public PlayerLogic(PlayerObject playerObject, PlayerType playerType, int moveSpeed) {
         super(playerObject, moveSpeed);
         this.setHealth(Config.playerHealth);
+        this.setPlayerType(playerType);
     }
-    public PlayerLogic(PlayerObject playerObject) {
+    public PlayerLogic(PlayerObject playerObject, PlayerType playerType) {
         // by default if no speed specified, player moves twice as fast as enemies, calls constructor above which calls super class
-        this(playerObject, Config.moveSpeed*2);
+        this(playerObject, playerType, Config.moveSpeed*2);
+    }
 
+    // set player type of current player object
+    private final void setPlayerType(PlayerType playerType) { 
+        this.playerType = playerType;
+        switch (this.playerType) {
+            // cases for player
+            case ONE:
+                playerMoves = new HashMap<>();
+                // storing BooleanSupplier as map values allows lambda functions to be called for player input (suggested by ChatGPT)
+                playerMoves.put(Direction.DOWN, playerController::isKeySPressed);
+                playerMoves.put(Direction.UP, playerController::isKeyWPressed);
+                playerMoves.put(Direction.LEFT, playerController::isKeyAPressed);
+                playerMoves.put(Direction.RIGHT, playerController::isKeyDPressed);
+                playerInteractions = new HashMap<>();
+                playerInteractions.put(Interaction.SHOOT, playerController::isKeySpacePressed);
+                break;
+            // case for second player
+            case TWO:
+                playerMoves = new HashMap<>();
+                playerMoves.put(Direction.DOWN, playerController::isKeyKPressed);
+                playerMoves.put(Direction.UP, playerController::isKeyIPressed);
+                playerMoves.put(Direction.LEFT, playerController::isKeyJPressed);
+                playerMoves.put(Direction.RIGHT, playerController::isKeyLPressed);
+                playerInteractions = new HashMap<>();
+                playerInteractions.put(Interaction.SHOOT, playerController::isKeyNPressed);
+                break;
+            default:
+                // not a valid direction in cases
+                String errorMessage = String.format("PlayerType %s not in %s", this.playerType, PlayerType.getAllPlayerTypes().toString());
+                throw new IllegalArgumentException(errorMessage);
+        }
     }
 
     public int getHealth() { return playerObject.getHealth(); }
@@ -85,7 +126,7 @@ public class PlayerLogic extends ObjectLogic {
     public GameObject spawnBullet(BulletLogicManager bulletLogicManager) {
         // check player pressing space
         GameObject playerObject = this.getGameObject();
-        boolean playerSpace = playerController.isKeySpacePressed();
+        boolean playerSpace = playerInteractions.get(Interaction.SHOOT).getAsBoolean();
         if (playerSpace) {
             // check last time player fired bullet
             Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
@@ -110,11 +151,11 @@ public class PlayerLogic extends ObjectLogic {
         // player dimensions
         int playerWidth = playerObject.getWidth();
         int playerHeight = playerObject.getHeight();
-        // possible player movement directions
-        boolean playerDown = playerController.isKeySPressed();
-        boolean playerUp = playerController.isKeyWPressed();
-        boolean playerLeft = playerController.isKeyAPressed();
-        boolean playerRight = playerController.isKeyDPressed();
+        // possible player movement directions obtained from boolean supplier hashmap, as booleans
+        boolean playerDown = playerMoves.get(Direction.DOWN).getAsBoolean();
+        boolean playerUp = playerMoves.get(Direction.UP).getAsBoolean();
+        boolean playerLeft = playerMoves.get(Direction.LEFT).getAsBoolean();
+        boolean playerRight = playerMoves.get(Direction.RIGHT).getAsBoolean();
 		  
 		if(playerDown){
 			// prevent further movement of player down (outside screen)

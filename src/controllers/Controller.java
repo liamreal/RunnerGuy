@@ -33,11 +33,18 @@ SOFTWARE.
 //Singeton pattern
 public class Controller implements KeyListener {
         
+		// player one
 	   private static boolean KeyAPressed= false;
 	   private static boolean KeySPressed= false;
 	   private static boolean KeyDPressed= false;
 	   private static boolean KeyWPressed= false;
 	   private static boolean KeySpacePressed= false;
+	   // player two
+	   private static boolean KeyJPressed= false;
+	   private static boolean KeyKPressed= false;
+	   private static boolean KeyLPressed= false;
+	   private static boolean KeyIPressed= false;
+	   private static boolean KeyNPressed= false;
 	   
 	   private static final Controller instance = new Controller();
 	   
@@ -63,7 +70,12 @@ public class Controller implements KeyListener {
 			case 's':setKeySPressed(true);break;
 			case 'w':setKeyWPressed(true);break;
 			case 'd':setKeyDPressed(true);break;
-			case ' ':setKeySpacePressed(true);break;   
+			case ' ':setKeySpacePressed(true);break;     
+			case 'j':setKeyJPressed(true);break;  
+			case 'k':setKeyKPressed(true);break;
+			case 'i':setKeyIPressed(true);break;
+			case 'l':setKeyLPressed(true);break;
+			case 'n':setKeyNPressed(true);break;  
 		    default:
 		    	//System.out.println("Controller test:  Unknown key pressed");
 		        break;
@@ -83,6 +95,11 @@ public class Controller implements KeyListener {
 			case 'w':setKeyWPressed(false);break;
 			case 'd':setKeyDPressed(false);break;
 			case ' ':setKeySpacePressed(false);break;   
+			case 'j':setKeyJPressed(false);break;  
+			case 'k':setKeyKPressed(false);break;
+			case 'i':setKeyIPressed(false);break;
+			case 'l':setKeyLPressed(false);break;
+			case 'n':setKeyNPressed(false);break;   
 		    default:
 		    	//System.out.println("Controller test:  Unknown key pressed");
 		        break;
@@ -140,7 +157,64 @@ public class Controller implements KeyListener {
 	public void setKeySpacePressed(boolean keySpacePressed) {
 		KeySpacePressed = keySpacePressed;
 	} 
+
 	
+
+
+
+
+
+
+	
+	public boolean isKeyJPressed() {
+		return KeyJPressed;
+	}
+
+
+	public void setKeyJPressed(boolean keyJPressed) {
+		KeyJPressed = keyJPressed;
+	}
+
+
+	public boolean isKeyKPressed() {
+		return KeyKPressed;
+	}
+
+
+	public void setKeyKPressed(boolean keyKPressed) {
+		KeyKPressed = keyKPressed;
+	}
+
+
+	public boolean isKeyLPressed() {
+		return KeyLPressed;
+	}
+
+
+	public void setKeyLPressed(boolean keyLPressed) {
+		KeyLPressed = keyLPressed;
+	}
+
+
+	public boolean isKeyIPressed() {
+		return KeyIPressed;
+	}
+
+
+	public void setKeyIPressed(boolean keyIPressed) {
+		KeyIPressed = keyIPressed;
+	}
+
+
+	public boolean isKeyNPressed() {
+		return KeyNPressed;
+	}
+
+
+	public void setKeyNPressed(boolean keyNPressed) {
+		KeyNPressed = keyNPressed;
+	} 
+
 	 
 }
 

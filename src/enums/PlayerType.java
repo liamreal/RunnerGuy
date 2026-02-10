@@ -1,5 +1,8 @@
 package enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum PlayerType {
     // different types of players (1 and 2 so far)
     ONE("one"),
@@ -12,6 +15,13 @@ public enum PlayerType {
     PlayerType(String type) {
         this.type = type;
     }
+    
+    // string of all player types
+    public static List<PlayerType> getAllPlayerTypes() {
+        return Arrays.asList(PlayerType.values());
+    }
+
+    // hashmap for player controls
 
     // get string representation (for texture path)
     public String toString() {

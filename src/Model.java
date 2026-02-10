@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;
+import enums.PlayerType;
 import logic.BulletLogicManager;
 import logic.EnemyLogic;
 import logic.EnemyLogicManager;
@@ -55,7 +56,7 @@ public class Model {
 	public Model() {
 		//setup game world 
 		// Player= new PlayerObject();
-		player = new PlayerLogic(new PlayerObject());
+		player = new PlayerLogic(new PlayerObject(), PlayerType.TWO);
 		//Enemies  starting with four 
 
 		enemies = new EnemyLogicManager();
