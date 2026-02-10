@@ -13,6 +13,7 @@ import logic.ObjectLogic;
 import util.GameObject;
 import util.Point3f;
 import util.Vector3f;
+import util.Score;
 import objects.BulletObject;
 import objects.EnemyObject;
 import objects.PlayerObject;
@@ -49,7 +50,7 @@ public class Model {
 	 private Controller controller = Controller.getInstance();
 	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
 	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
-	 private int Score=0; 
+	 private Score score = new Score(); 
 
 	public Model() {
 		//setup game world 
@@ -64,85 +65,49 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public void gamelogic() 
 	{
-		// interaction logic
-		gameLogic();
+		// if above certain score, switch to advanced enemies
+		if (score.getScore() > 10) {
+			enemies.setEnemyType(EnemyType.ADVANCED);
+		}
+
+		// Player Logic first 
+		playerLogic(); 
 		// Bullets move next 
 		bulletLogic();
 		// Enemy Logic next
 		enemyLogic();
-		// Player Logic first 
-		playerLogic(); 
-	}
-
-	private void gameLogic() {
-		// this is a way to increment across the array list data structure 
-
-
-		// System.out.println(bullets.getBullets().size());
-		
-		// see if they hit anything 
-		// using enhanced for-loop style as it makes it alot easier both code wise and reading wise too 
-		for (GameObject temp : EnemiesList) 
-		{
-			for (GameObject Bullet : BulletList) 
-			{
-				if ( Math.abs(temp.getCentre().getX()- Bullet.getCentre().getX())< temp.getWidth() 
-					&& Math.abs(temp.getCentre().getY()- Bullet.getCentre().getY()) < temp.getHeight())
-				{
-					EnemiesList.remove(temp);
-					BulletList.remove(Bullet);
-					Score++;
-				}  
-			}
-		}
-		
 	}
 
 	private void enemyLogic() {
+		// move all enemies
 		enemies.moveEnemies();
+		// attempt to spawn enemy (based on random chance)
 		enemies.spawnEnemyAttempt();
 	}
 
 	private void bulletLogic() {
-		// TODO Auto-generated method stub
 		// move bullets 
 		bullets.moveBullets();
-		bullets.collideEnemy(enemies);
-		// System.out.println(bullets.getBullets().size());		
+		// check bullets for collision with all enemies
+		score.incrementScore(bullets.collideEnemy(enemies)); 
+		// System.out.println(bullets.getBullets().size());	// bullet logic objects list	
 	}
 
+	// logic for players
 	private void playerLogic() {
-		
-		// smoother animation is possible if we make a target position  // done but may try to change things for students  
-		 
 		//check for movement and if you fired a bullet 
 		player.move();
+		// collision of player with enemies
 		player.collideEnemy(enemies);
+		// spawn bullet on player
 		player.spawnBullet(bullets);
-
-		
-		// if(Controller.getInstance().isKeySpacePressed())
-		// {
-		// 	CreateBullet();
-		// 	Controller.getInstance().setKeySpacePressed(false);
-		// } 
-		
 	}
 
 	
-
-	private void CreateBullet() {
-		// BulletList.add(new GameObject("res/Bullet.png",32,64,new Point3f(Player.getCentre().getX(),Player.getCentre().getY(),0.0f)));
-		BulletList.add(new BulletObject(player.getGameObject()));
-	}
-
 	public GameObject getPlayer() {
 		return player.getGameObject();
 	}
 
-	// public CopyOnWriteArrayList<GameObject> getEnemies() {
-	// 	return EnemiesList;
-	// }
 	public CopyOnWriteArrayList<ObjectLogic> getEnemies() {
 		return enemies.getEnemies();
 	}
@@ -152,7 +117,7 @@ public class Model {
 	}
 
 	public int getScore() { 
-		return Score;
+		return score.getScore();
 	}
  
 
