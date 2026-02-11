@@ -1,13 +1,10 @@
 package logic;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
-
 import enums.EnemyType;
 import objects.EnemyObject;
-import objects.GameObject;
 import user.Config;
 import util.CooldownHandler;
 import enums.Direction;

@@ -1,4 +1,5 @@
 package objects;
+
 import display.TextureLoader;
 import enums.PlayerType;
 import util.Point3f;

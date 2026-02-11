@@ -1,20 +1,10 @@
 package logic;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.ThreadLocalRandom;
-
-import enums.EnemyType;
 import enums.PlayerType;
-import objects.BulletObject;
-import objects.EnemyObject;
 import objects.GameObject;
 import objects.PlayerObject;
-import user.Config;
-import enums.Direction;
-import util.CooldownHandler;
 
 // same as other logic managers
 public class PlayerLogicManager extends ObjectLogicManager {

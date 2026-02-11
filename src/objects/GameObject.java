@@ -1,11 +1,10 @@
 package objects;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.time.Duration;
 import java.time.Instant;
-
 import display.GameDisplay;
 import display.TextureLoader;
 import util.DurationHandler;

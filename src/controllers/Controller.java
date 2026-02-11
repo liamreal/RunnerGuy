@@ -2,8 +2,6 @@ package controllers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.

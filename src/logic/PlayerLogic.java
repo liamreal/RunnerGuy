@@ -1,10 +1,8 @@
 package logic;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BooleanSupplier;
-
 import controllers.Controller;
 import display.GameDisplay;
 import enums.Direction;
@@ -13,7 +11,6 @@ import enums.PlayerType;
 import user.Config;
 import util.CooldownHandler;
 import util.Point3f;
-import objects.EnemyObject;
 import objects.GameObject;
 import java.util.HashMap;
 import objects.PlayerObject;

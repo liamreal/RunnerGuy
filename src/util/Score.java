@@ -1,7 +1,6 @@
 package util;
 
 import java.util.concurrent.CopyOnWriteArraySet;
-
 import objects.GameObject;
 
 public class Score {

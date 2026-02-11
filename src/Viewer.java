@@ -1,22 +1,12 @@
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.TexturePaint;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.Timer;
-
 import display.GameDisplay;
 import display.TextureLoader;
-import objects.GameObject;
 
 
 /*

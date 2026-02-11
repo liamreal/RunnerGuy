@@ -1,24 +1,16 @@
 package logic;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.ThreadLocalRandom;
-
-import enums.EnemyType;
 import objects.BulletObject;
-import objects.EnemyObject;
 import objects.GameObject;
-import user.Config;
 import enums.Direction;
-import util.CooldownHandler;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
 public class BulletLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> bullets = super.getObjects();
-    private int maxEnemiesCanHit = 1; // by default bullet can only hit one enemy (can add item to add piercing)
+    // private int maxEnemiesCanHit = 1; // by default bullet can only hit one enemy (can add item to add piercing)
 
     public BulletLogicManager() {
         super();

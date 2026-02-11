@@ -1,4 +1,5 @@
 package objects;
+
 import display.GameDisplay;
 import display.TextureLoader;
 import enums.EnemyType;

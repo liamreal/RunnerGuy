@@ -1,25 +1,11 @@
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import display.GameDisplay;
-import display.TextureLoader;
 import enums.EnemyType;
-import enums.PlayerType;
 import logic.BulletLogicManager;
-import logic.EnemyLogic;
 import logic.EnemyLogicManager;
 import logic.PlayerLogic;
 import logic.PlayerLogicManager;
 import logic.ObjectLogic;
-import util.Point3f;
-import util.Vector3f;
 import util.Score;
-import objects.BulletObject;
-import objects.EnemyObject;
-import objects.GameObject;
-import objects.PlayerObject;
-import controllers.Controller;
 /*
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -45,22 +31,14 @@ SOFTWARE.
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
 public class Model {
-	
-	 private  PlayerLogic player;
 	 private  PlayerLogicManager players;
 	 private  EnemyLogicManager enemies;
 	 private  BulletLogicManager bullets;
-	 private Controller controller = Controller.getInstance();
-	 private  CopyOnWriteArrayList<GameObject> EnemiesList  = new CopyOnWriteArrayList<GameObject>();
-	 private  CopyOnWriteArrayList<GameObject> BulletList  = new CopyOnWriteArrayList<GameObject>();
 	 private Score score = new Score(); 
 
 	public Model() {
-		//setup game world 
-		// Player= new PlayerObject();
+		//setup game world, specify number of players (can do through config)
 		players = new PlayerLogicManager(2);
-		//Enemies  starting with four 
-
 		enemies = new EnemyLogicManager();
 		bullets = new BulletLogicManager();
 	}
@@ -98,13 +76,6 @@ public class Model {
 
 	// logic for players
 	private void playerLogic() {
-		// //check for movement and if you fired a bullet 
-		// player.move();
-		// // collision of player with enemies
-		// player.collideEnemy(enemies);
-		// // spawn bullet on player
-		// player.spawnBullet(bullets);
-
 		//check for movement and if you fired a bullet 
 		players.movePlayers();
 		// collision of player with enemies

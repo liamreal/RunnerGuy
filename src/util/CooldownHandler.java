@@ -1,11 +1,6 @@
 package util;
 
-import java.time.Duration;
 import java.time.Instant;
-
-import display.GameDisplay;
-import objects.GameObject;
-import util.Point3f;
 
 // helps calculate cooldown times
 public class CooldownHandler {
