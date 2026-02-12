@@ -10,7 +10,7 @@ public class ExplosionLogic extends ObjectLogic {
     }
     public ExplosionLogic(GameObject explosionObject) {
         // by default bullet has triple speed of enemy (and 1.5x player)
-        this(explosionObject, 0);
+        this(explosionObject, 1);
 
     }
 }
