@@ -45,9 +45,12 @@ public class GameObject {
 	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
 	private int health=1;
 	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
-	private double minLifeTime = 0.05; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets)
+	private double minLifeTime = 0.1; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets)
 
 	public GameObject() {
+	}
+	public GameObject(Point3f centre) {
+		this.centre = centre;
 	}
     public GameObject(String textureLocation,int width,int height,Point3f centre) {
 		hasTextured=true;
@@ -62,9 +65,8 @@ public class GameObject {
 		this.height=height;
 		this.centre =centre;
 	}
-	// note down object spawn time, these should NOT be used outside this class 
+	// note down object spawn time, this should NOT be used outside this class 
 	private Instant getSpawnTime() { return this.spawnTime; }
-	private double getMinLifeTime() { return this.minLifeTime; }
 	
 	public Point3f getCentre() { return centre; }
 	public int getHealth() { return this.health; }
@@ -74,6 +76,7 @@ public class GameObject {
 		if(hasTextured) { return textureLocation; }
 		return blankTexture; 
 	}
+	public double getMinLifeTime() { return this.minLifeTime; }
 	public void setCentre(Point3f centre) { this.centre = centre; }
 	public void setHealth(int newHealth) { this.health = newHealth; }
 	// used to update texture within constructors for classes that extend this
@@ -81,6 +84,8 @@ public class GameObject {
 		hasTextured=true;
 		textureLocation = newTexture; 
 	}
+	public void setMinLifeTime(double newMinLifeTime) { this.minLifeTime = newMinLifeTime; }
+
 
 	// decrease health (by default by 1)
     public void decreaseHealth(int healthToDecreaseBy) {

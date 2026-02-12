@@ -3,8 +3,12 @@ package logic.bullet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import objects.BulletObject;
+import objects.ExplosionObject;
 import objects.GameObject;
 import enums.Direction;
+import logic.enemy.EnemyLogicManager;
+import logic.explosion.ExplosionLogic;
+import logic.explosion.ExplosionLogicManager;
 import logic.object.ObjectLogic;
 import logic.object.ObjectLogicManager;
 
@@ -41,6 +45,18 @@ public class BulletLogicManager extends ObjectLogicManager {
     // this one simply kills, can instead get all collided objects and spawn explosions at them, or summon new objects and make them go backwards
     public CopyOnWriteArraySet<GameObject> killEnemy(ObjectLogicManager enemyLogicManager) {
         return this.collideEnemy(enemyLogicManager);
+    }
+
+    // this explodes enemies
+    public CopyOnWriteArraySet<GameObject> explodeEnemy(ObjectLogicManager enemyLogicManager, ExplosionLogicManager explosionLogicManager) {
+        CopyOnWriteArrayList<GameObject> collidedEnemies = new CopyOnWriteArrayList<>(this.collideEnemy(enemyLogicManager));
+        CopyOnWriteArrayList<GameObject> spawnedExplosions = new CopyOnWriteArrayList<>();
+        // spawn explosion at each enemy
+        for (GameObject enemy : collidedEnemies) {
+            spawnedExplosions.add(explosionLogicManager.spawnExplosion(enemy));
+        }
+        // return as set
+        return new CopyOnWriteArraySet<>(spawnedExplosions);
     }
 
 

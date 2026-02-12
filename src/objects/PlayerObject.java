@@ -34,7 +34,7 @@ public class PlayerObject extends GameObject {
     // set texture specifically for player
     protected void setTexture(PlayerType playerType) {
         super.setTexture(String.format(
-            "%s/textures/player/player_%s.png", 
+            "%s/textures/players/player_%s.png", 
             TextureLoader.getAssetsPath(),
             playerType.toString()
         ));

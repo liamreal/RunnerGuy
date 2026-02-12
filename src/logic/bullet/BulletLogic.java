@@ -15,10 +15,4 @@ public class BulletLogic extends ObjectLogic {
         this(bulletObject, Config.moveSpeed*3);
 
     }
-
-    // move bullet up
-    public void move() {
-        super.move(Direction.UP);
-    }
-
 }

@@ -2,6 +2,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import enums.EnemyType;
 import logic.bullet.BulletLogicManager;
 import logic.enemy.EnemyLogicManager;
+import logic.explosion.ExplosionLogic;
+import logic.explosion.ExplosionLogicManager;
 import logic.object.ObjectLogic;
 import logic.player.PlayerLogic;
 import logic.player.PlayerLogicManager;
@@ -34,6 +36,7 @@ public class Model {
 	 private  PlayerLogicManager players;
 	 private  EnemyLogicManager enemies;
 	 private  BulletLogicManager bullets;
+	 private  ExplosionLogicManager explosions;
 	 private Score score = new Score(); 
 
 	public Model() {
@@ -41,6 +44,7 @@ public class Model {
 		players = new PlayerLogicManager(2);
 		enemies = new EnemyLogicManager();
 		bullets = new BulletLogicManager();
+		explosions = new ExplosionLogicManager();
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
@@ -57,6 +61,8 @@ public class Model {
 		bulletLogic();
 		// Enemy Logic next
 		enemyLogic();
+		// explosion
+		explosionLogic();
 	}
 
 	private void enemyLogic() {
@@ -70,7 +76,8 @@ public class Model {
 		// move bullets 
 		bullets.moveBullets();
 		// check bullets for collision with all enemies
-		score.incrementScore(bullets.collideEnemy(enemies)); 
+		// score.incrementScore(bullets.collideEnemy(enemies)); 
+		score.incrementScore(bullets.explodeEnemy(enemies, explosions)); 
 		// System.out.println(bullets.getBullets().size());	// bullet logic objects list	
 	}
 
@@ -84,6 +91,17 @@ public class Model {
 		players.spawnBullet(bullets);
 	}
 
+	// logic for explosions
+	private void explosionLogic() {
+		for (ObjectLogic e: explosions.getExplosions()) {
+			if (e.getGameObject().isAlive()){
+				System.out.println(e.getGameObject().isAlive());
+			}
+		}
+		explosions.keepOnlyAlive();
+		explosions.moveExplosions();
+	}
+
 	
 	public CopyOnWriteArrayList<PlayerLogic> getPlayers() {
 		return players.getPlayers();
@@ -95,6 +113,10 @@ public class Model {
 	
 	public CopyOnWriteArrayList<ObjectLogic> getBullets() {
 		return bullets.getBullets();
+	}
+	
+	public CopyOnWriteArrayList<ObjectLogic> getExplosions() {
+		return explosions.getExplosions();
 	}
 
 	public int getScore() { 
