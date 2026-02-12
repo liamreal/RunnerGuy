@@ -14,10 +14,11 @@ public class BulletLogicManager extends ObjectLogicManager {
 
     public BulletLogicManager() {
         super();
+        this.setDefaultMoveDirection(Direction.UP);
     }
     // by default move bullets up
     public void moveBullets() {
-        this.moveBullets(Direction.UP);
+        this.moveBullets(this.getDefaultMoveDirection());
     }
     // move every bullet in list
     public void moveBullets(Direction direction) {
@@ -39,6 +40,7 @@ public class BulletLogicManager extends ObjectLogicManager {
     public CopyOnWriteArraySet<GameObject> killEnemy(ObjectLogicManager enemyLogicManager) {
         return this.collideEnemy(enemyLogicManager);
     }
+
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getBullets() {

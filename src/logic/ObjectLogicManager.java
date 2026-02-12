@@ -13,6 +13,7 @@ public class ObjectLogicManager {
     private Instant cooldownStartTime = Instant.now(); // for checking elapsed seconds between last enemy and current enemy for example
     private double cooldownLength = 0.5; // shared cooldown length in seconds (can be overwritten in subclass)
     private int maxNumObjects = 6; // max number of objects code default, can auto-define a max if not overwritten in subclass constructor, e.g. how max enemies in EnemyLogicManager is
+    private Direction defaultMoveDirection; // default direction this object will move in, can set it
 
     public ObjectLogicManager() {}
 
@@ -34,7 +35,10 @@ public class ObjectLogicManager {
     }
     public Instant getCooldownStartTime() { return this.cooldownStartTime; }
     public double getCooldownLength() { return this.cooldownLength; }
-    public int getMaxNumObjects() { return maxNumObjects; }
+    public int getMaxNumObjects() { return this.maxNumObjects; }
+    public Direction getDefaultMoveDirection() { return this.defaultMoveDirection; }
+    public void setDefaultMoveDirection(Direction newDirection) { this.defaultMoveDirection = newDirection; }
+    // PRIVATE because need to only reset within manager
     private void setCooldownStartTime(Instant newTime) { this.cooldownStartTime = newTime; }
 
 
