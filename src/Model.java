@@ -1,10 +1,10 @@
 import java.util.concurrent.CopyOnWriteArrayList;
 import enums.EnemyType;
-import logic.BulletLogicManager;
-import logic.EnemyLogicManager;
-import logic.PlayerLogic;
-import logic.PlayerLogicManager;
-import logic.ObjectLogic;
+import logic.bullet.BulletLogicManager;
+import logic.enemy.EnemyLogicManager;
+import logic.object.ObjectLogic;
+import logic.player.PlayerLogic;
+import logic.player.PlayerLogicManager;
 import util.Score;
 /*
  * Created by Abraham Campbell on 15/01/2020.

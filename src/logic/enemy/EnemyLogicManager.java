@@ -1,9 +1,11 @@
-package logic;
+package logic.enemy;
 
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import enums.EnemyType;
+import logic.object.ObjectLogic;
+import logic.object.ObjectLogicManager;
 import objects.EnemyObject;
 import user.Config;
 import util.CooldownHandler;

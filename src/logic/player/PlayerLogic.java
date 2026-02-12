@@ -1,4 +1,4 @@
-package logic;
+package logic.player;
 
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -8,6 +8,9 @@ import display.GameDisplay;
 import enums.Direction;
 import enums.Interaction;
 import enums.PlayerType;
+import logic.bullet.BulletLogicManager;
+import logic.object.ObjectLogic;
+import logic.object.ObjectLogicManager;
 import user.Config;
 import util.CooldownHandler;
 import util.Point3f;

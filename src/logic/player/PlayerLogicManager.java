@@ -1,8 +1,11 @@
-package logic;
+package logic.player;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import enums.PlayerType;
+import logic.bullet.BulletLogicManager;
+import logic.enemy.EnemyLogicManager;
+import logic.object.ObjectLogicManager;
 import objects.GameObject;
 import objects.PlayerObject;
 

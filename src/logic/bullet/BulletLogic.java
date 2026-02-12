@@ -1,6 +1,7 @@
-package logic;
+package logic.bullet;
 
 import enums.Direction;
+import logic.object.ObjectLogic;
 import user.Config;
 import objects.BulletObject;
 

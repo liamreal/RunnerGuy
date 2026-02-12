@@ -1,6 +1,6 @@
 package util;
 
-import logic.ObjectLogic;
+import logic.object.ObjectLogic;
 import objects.GameObject;
 
 public class Metrics {

@@ -1,6 +1,7 @@
 package logic;
 
 import display.GameDisplay;
+import logic.object.ObjectLogic;
 import objects.GameObject;
 import util.Point3f;
 

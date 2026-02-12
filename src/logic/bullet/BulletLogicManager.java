@@ -1,10 +1,12 @@
-package logic;
+package logic.bullet;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import objects.BulletObject;
 import objects.GameObject;
 import enums.Direction;
+import logic.object.ObjectLogic;
+import logic.object.ObjectLogicManager;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
 public class BulletLogicManager extends ObjectLogicManager {

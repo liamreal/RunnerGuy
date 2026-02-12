@@ -1,6 +1,7 @@
-package logic;
+package logic.enemy;
 
 import enums.Direction;
+import logic.object.ObjectLogic;
 import user.Config;
 import objects.EnemyObject;
 

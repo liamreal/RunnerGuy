@@ -1,4 +1,4 @@
-package logic;
+package logic.object;
 import util.Vector3f;
 import util.Point3f;
 import java.util.concurrent.CopyOnWriteArrayList;
