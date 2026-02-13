@@ -32,16 +32,20 @@ public class PlayerLogicManager extends ObjectLogicManager {
                 throw new IllegalArgumentException(errorMessage);
         }
     }
+
+    // getters
+    public CopyOnWriteArrayList<PlayerLogic> getPlayers() { return this.players; }
+
     // move every player in list
     public void movePlayers() {
-        for (PlayerLogic player : this.players) {
+        for (PlayerLogic player : this.getPlayers()) {
             player.move();
         }
     }
 
     public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager enemyLogicManager) {
         CopyOnWriteArraySet<GameObject> enemiesCollided = new CopyOnWriteArraySet<>();
-        for (PlayerLogic player : this.players) {
+        for (PlayerLogic player : this.getPlayers()) {
             enemiesCollided.add(player.collideEnemy(enemyLogicManager));
         }
         // return all enemies collided by players
@@ -56,7 +60,7 @@ public class PlayerLogicManager extends ObjectLogicManager {
     public CopyOnWriteArrayList<GameObject> spawnBullet(BulletLogicManager bulletLogicManager) {
         CopyOnWriteArrayList<GameObject> bulletsSpawned = new CopyOnWriteArrayList<>();
         // let each player spawn bullet
-        for (PlayerLogic player : this.players) {
+        for (PlayerLogic player : this.getPlayers()) {
             GameObject newBullet = player.spawnBullet(bulletLogicManager);
             // adds bullet if not null (i.e. if one was spawned)
             if (newBullet != null) { bulletsSpawned.add(newBullet); }
@@ -64,9 +68,5 @@ public class PlayerLogicManager extends ObjectLogicManager {
         // returns empty list if none spawned
         return bulletsSpawned;
     }
-
-    // obtain list of objects being managed
-    public CopyOnWriteArrayList<PlayerLogic> getPlayers() {
-        return this.players;
-    }
 }
+

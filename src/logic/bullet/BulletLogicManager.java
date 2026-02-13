@@ -22,11 +22,11 @@ public class BulletLogicManager extends ObjectLogicManager {
         super();
         // set logic managers used by bullet
         this.explosionLogicManager = new ExplosionLogicManager();
-        this.setDefaultMoveDirection(Direction.UP);
+        super.setDefaultMoveDirection(Direction.UP);
     }
 
 
-    // get type of bullet
+    // get type of bullet (kill, explosion, etc.)
     public BulletType getBulletType() { return this.bulletType; }
     public ExplosionLogicManager getExplosionLogicManager() { return this.explosionLogicManager; } // get explosions list from bullet
     public CopyOnWriteArrayList<ObjectLogic> getExplosions() { return this.getExplosionLogicManager().getExplosions(); } // get explosion manager from bullet
@@ -35,7 +35,7 @@ public class BulletLogicManager extends ObjectLogicManager {
 
     // by default move bullets up
     public void moveBullets() {
-        this.moveBullets(this.getDefaultMoveDirection());
+        this.moveBullets(super.getDefaultMoveDirection());
     }
     // move every bullet in list
     public void moveBullets(Direction direction) {
