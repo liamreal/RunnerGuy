@@ -18,7 +18,7 @@ public class BulletLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> bullets = super.getObjects();
     private BulletType bulletType = BulletType.EXPLODE; // default type of bullet, by default explode
-    private ExplosionLogicManager explosionLogicManager = null; // will be used for explosn logic (to be set in game loop)
+    private ExplosionLogicManager explosionLogicManager = null; // will be used for explosion logic by bullet
     // private int maxEnemiesCanHit = 1; // by default bullet can only hit one enemy (can add item to add piercing)
 
     public BulletLogicManager() {
@@ -76,13 +76,14 @@ public class BulletLogicManager extends ObjectLogicManager {
 
     // this explodes enemies, returns explosion objects that were spawned where enemies were
     public CopyOnWriteArraySet<GameObject> explodeEnemy(ObjectLogicManager enemyLogicManager) {
+        ExplosionLogicManager explosionLogicManager = this.getExplosionLogicManager();
         // can also create explosions within object instead of using Model ExplosionLogicManager
-        if (this.explosionLogicManager == null) { throw new IllegalArgumentException("Cannot explode enemies if ExplosionLogicManager in BulletLogicManager is null!"); }
+        if (explosionLogicManager == null) { throw new IllegalArgumentException("Cannot explode enemies if ExplosionLogicManager in BulletLogicManager is null!"); }
         CopyOnWriteArrayList<GameObject> collidedEnemies = new CopyOnWriteArrayList<>(this.collide(enemyLogicManager));
         CopyOnWriteArrayList<GameObject> spawnedExplosions = new CopyOnWriteArrayList<>();
         // spawn explosion at each enemy
         for (GameObject enemy : collidedEnemies) {
-            spawnedExplosions.add(this.explosionLogicManager.spawnExplosion(enemy));
+            spawnedExplosions.add(explosionLogicManager.spawnExplosion(enemy));
         }
         // return as set
         return new CopyOnWriteArraySet<>(spawnedExplosions);
