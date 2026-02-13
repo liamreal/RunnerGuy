@@ -36,7 +36,6 @@ public class Model {
 	 private  PlayerLogicManager players;
 	 private  EnemyLogicManager enemies;
 	 private  BulletLogicManager bullets;
-	 private  ExplosionLogicManager explosions;
 	 private Score score = new Score(); 
 
 	public Model() {
@@ -44,7 +43,6 @@ public class Model {
 		players = new PlayerLogicManager(2);
 		enemies = new EnemyLogicManager();
 		bullets = new BulletLogicManager();
-		explosions = new ExplosionLogicManager();
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
@@ -61,8 +59,6 @@ public class Model {
 		bulletLogic();
 		// Enemy Logic next
 		enemyLogic();
-		// explosion
-		explosionLogic();
 	}
 
 	private void enemyLogic() {
@@ -77,7 +73,8 @@ public class Model {
 		bullets.moveBullets();
 		// check bullets for collision with all enemies
 		// score.incrementScore(bullets.collideEnemy(enemies)); 
-		score.incrementScore(bullets.explodeEnemy(enemies, explosions)); 
+		// score.incrementScore(bullets.killEnemy(enemies)); 
+		score.incrementScore(bullets.explodeEnemy(enemies)); 
 		// System.out.println(bullets.getBullets().size());	// bullet logic objects list	
 	}
 
@@ -91,16 +88,6 @@ public class Model {
 		players.spawnBullet(bullets);
 	}
 
-	// logic for explosions
-	private void explosionLogic() {
-		for (ObjectLogic e: explosions.getExplosions()) {
-			if (e.getGameObject().isAlive()){
-				System.out.println(e.getGameObject().isAlive());
-			}
-		}
-		explosions.keepOnlyAlive();
-		explosions.moveExplosions();
-	}
 
 	
 	public CopyOnWriteArrayList<PlayerLogic> getPlayers() {
@@ -116,7 +103,8 @@ public class Model {
 	}
 	
 	public CopyOnWriteArrayList<ObjectLogic> getExplosions() {
-		return explosions.getExplosions();
+		// get explosions from bullets
+		return bullets.getExplosions();
 	}
 
 	public int getScore() { 

@@ -71,7 +71,7 @@ public class ObjectLogicManager {
             if (!damageSource.isAlive()) { break; }
         }
         // keep only all objects that are alive (health > 0), if dead will be removed from list
-        objectLogicManager.keepOnlyAlive();
+        // objectLogicManager.keepOnlyAlive();
     }
 
     // collision for all this logic manager objects colliding with all objects in another logic manager
@@ -92,7 +92,7 @@ public class ObjectLogicManager {
             allCollidedObjects.addAll(closestCollidedObjects);
         }
         // keep only all objects in this logic manager that are alive (health > 0), if dead will be removed from list within method
-        this.keepOnlyAlive();
+        // this.keepOnlyAlive();
         // return as a set (eliminating duplicates)
         return new CopyOnWriteArraySet<GameObject>(allCollidedObjects);
     }
@@ -115,6 +115,7 @@ public class ObjectLogicManager {
                 objects.remove(object);
             }
         }
+        this.keepOnlyAlive(); // check if this itself works
     }
 
 }
