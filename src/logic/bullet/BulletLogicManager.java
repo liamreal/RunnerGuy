@@ -3,12 +3,9 @@ package logic.bullet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import objects.BulletObject;
-import objects.ExplosionObject;
 import objects.GameObject;
 import enums.BulletType;
 import enums.Direction;
-import logic.enemy.EnemyLogicManager;
-import logic.explosion.ExplosionLogic;
 import logic.explosion.ExplosionLogicManager;
 import logic.object.ObjectLogic;
 import logic.object.ObjectLogicManager;
@@ -29,11 +26,10 @@ public class BulletLogicManager extends ObjectLogicManager {
     }
 
 
-    // can change type of bullet
+    // get type of bullet
     public BulletType getBulletType() { return this.bulletType; }
-    // get explosions from bullets
-    public ExplosionLogicManager getExplosionLogicManager() { return this.explosionLogicManager; }
-    public CopyOnWriteArrayList<ObjectLogic> getExplosions() { return this.getExplosionLogicManager().getExplosions(); }
+    public ExplosionLogicManager getExplosionLogicManager() { return this.explosionLogicManager; } // get explosions list from bullet
+    public CopyOnWriteArrayList<ObjectLogic> getExplosions() { return this.getExplosionLogicManager().getExplosions(); } // get explosion manager from bullet
     public void setBulletType(BulletType newBulletType) { this.bulletType = newBulletType; }
 
 
