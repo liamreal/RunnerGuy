@@ -14,11 +14,11 @@ public class ExplosionLogicManager extends ObjectLogicManager {
 
     public ExplosionLogicManager() {
         super();
-        super.setDefaultMoveDirection(Direction.DOWN);
+        this.setDefaultMoveDirection(Direction.DOWN);
     }
     // by default move explosions in default direction set in constructor 
     public void moveExplosions() {
-        this.moveExplosions(super.getDefaultMoveDirection());
+        this.moveExplosions(this.getDefaultMoveDirection());
     }
     // move every explosion in list
     public void moveExplosions(Direction direction) {

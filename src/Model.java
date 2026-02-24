@@ -72,9 +72,9 @@ public class Model {
 		// move bullets 
 		bullets.moveBullets();
 		// check bullets for collision with all enemies
-		// score.incrementScore(bullets.collideEnemy(enemies)); 
+		score.incrementScore(bullets.collideEnemy(enemies)); 
 		// score.incrementScore(bullets.killEnemy(enemies)); 
-		score.incrementScore(bullets.explodeEnemy(enemies)); 
+		// score.incrementScore(bullets.explodeEnemy(enemies)); 
 		// System.out.println(bullets.getBullets().size());	// bullet logic objects list	
 	}
 

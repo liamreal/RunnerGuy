@@ -22,7 +22,7 @@ public class BulletLogicManager extends ObjectLogicManager {
         super();
         // set logic managers used by bullet
         this.explosionLogicManager = new ExplosionLogicManager();
-        super.setDefaultMoveDirection(Direction.UP);
+        this.setDefaultMoveDirection(Direction.UP);
     }
 
 
@@ -35,7 +35,7 @@ public class BulletLogicManager extends ObjectLogicManager {
 
     // by default move bullets up
     public void moveBullets() {
-        this.moveBullets(super.getDefaultMoveDirection());
+        this.moveBullets(this.getDefaultMoveDirection());
     }
     // move every bullet in list
     public void moveBullets(Direction direction) {
