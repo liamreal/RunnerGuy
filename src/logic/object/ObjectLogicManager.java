@@ -3,8 +3,11 @@ package logic.object;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import enums.CollisionType;
 import enums.Direction;
 import logic.OutOfBoundsLogic;
+import logic.explosion.ExplosionLogicManager;
 import objects.GameObject;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
@@ -15,12 +18,16 @@ public class ObjectLogicManager {
     private double cooldownLength = 0.5; // shared cooldown length in seconds (can be overwritten in subclass)
     private int maxNumObjects = 6; // max number of objects code default, can auto-define a max if not overwritten in subclass constructor, e.g. how max enemies in EnemyLogicManager is
     private Direction defaultMoveDirection; // default direction this object will move in, can set it
+    private CollisionType collisionType = CollisionType.KILL; // default type of collision, by default killed (unless overwritten in constructor)
+
+
 
     public ObjectLogicManager() {}
 
     
     public void setMaxNumObjects(int newMaxNumObjects) { this.maxNumObjects = newMaxNumObjects; }
 
+    // -- getters --
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getObjects() {
         return objects;
@@ -38,7 +45,10 @@ public class ObjectLogicManager {
     public double getCooldownLength() { return this.cooldownLength; }
     public int getMaxNumObjects() { return this.maxNumObjects; }
     public Direction getDefaultMoveDirection() { return this.defaultMoveDirection; }
+    public CollisionType getCollisionType() { return this.collisionType; }
+    // -- setters --
     public void setDefaultMoveDirection(Direction newDirection) { this.defaultMoveDirection = newDirection; }
+    public void setCollisionType(CollisionType newCollisionType) { this.collisionType = newCollisionType; }
     // PRIVATE because need to only reset within manager
     private void setCooldownStartTime(Instant newTime) { this.cooldownStartTime = newTime; }
 
@@ -56,6 +66,49 @@ public class ObjectLogicManager {
             if (!object.isAlive()){
                 objects.remove(object);
             }
+        }
+    }
+
+    // this one simply kills, can instead get all collided objects and spawn explosions at them, or summon new objects and make them go backwards
+    public CopyOnWriteArraySet<GameObject> killObject(ObjectLogicManager otherLogicManager) {
+        return this.collide(otherLogicManager);
+    }
+
+    // this explodes enemies, returns explosion objects that were spawned where now dead objects were
+    public CopyOnWriteArraySet<GameObject> explodeObject(ObjectLogicManager otherLogicManager, ExplosionLogicManager explosionLogicManager) {
+        // can also create explosions within object instead of using Model ExplosionLogicManager
+        if (explosionLogicManager == null) { throw new IllegalArgumentException(String.format("Cannot explode enemies if ExplosionLogicManager in %s is null!", this.toString())); }
+        CopyOnWriteArrayList<GameObject> collidedObjects = new CopyOnWriteArrayList<>(this.collide(otherLogicManager));
+        CopyOnWriteArrayList<GameObject> resultObjects = new CopyOnWriteArrayList<>();
+        // spawn explosion at each enemy
+        for (GameObject object : collidedObjects) {
+            // do not spawn an explosion on alive object
+            if (!object.isAlive()) { resultObjects.add(explosionLogicManager.spawnExplosion(object)); }
+            // if is alive instead just re-add object (this prevents bug with score not being incremented if explosion not spawned, 
+            // instead of having to spawn explosion we just add collided object to list and it is counted in score)
+            else { resultObjects.add(object); }
+        }
+        // return as set
+        return new CopyOnWriteArraySet<>(resultObjects);
+    }
+
+    // collision interactions with enemies
+    public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager otherLogicManager, ExplosionLogicManager explosionLogicManager) {
+        // cases for bullet-enemy collisions
+        switch (this.getCollisionType()){
+            case KILL:
+                return this.killObject(otherLogicManager);
+            case EXPLODE:
+                if (explosionLogicManager == null) {
+                    // explosion logic manager cannot be null
+                    String errorMessage = String.format("ExplosionLogicManager in %s cannot be null!!!", this.toString());
+                    throw new IllegalArgumentException(errorMessage);
+                }
+                return this.explodeObject(otherLogicManager, explosionLogicManager);
+            default:
+                // not a valid bullet type in cases
+                String errorMessage = String.format("CollisionType %s not in %s", this.getCollisionType(), CollisionType.getAllCollisionTypes().toString());
+                throw new IllegalArgumentException(errorMessage);
         }
     }
 
@@ -79,17 +132,20 @@ public class ObjectLogicManager {
         CopyOnWriteArrayList<GameObject> allCollidedObjects  = new CopyOnWriteArrayList<GameObject>();
         // check all objects collided with other logic manager
 		for (ObjectLogic object : this.getObjects()) {
-            // check current object collided other objects
-            CopyOnWriteArrayList<GameObject> objectCollidedEnemies = object.collide(otherLogicManager);
-            // no collisions for object so skip loop for this damage source
-            if (objectCollidedEnemies.isEmpty()) { continue; }
-            // sort other objects by closest to current object
-            GameObject gameObject = object.getGameObject();
-            CopyOnWriteArrayList<GameObject> closestCollidedObjects = gameObject.sortByClosest(objectCollidedEnemies);
-            // damage objects
-            this.damageObjects(gameObject, otherLogicManager, closestCollidedObjects);
-            // add to list of all combined game objects
-            allCollidedObjects.addAll(closestCollidedObjects);
+            // only add game objects to list if they have lived minimum amount of time to be collided with
+            if (object.hasLivedMinLifeTime()) {
+                // check current object collided other objects
+                CopyOnWriteArrayList<GameObject> objectCollidedEnemies = object.collide(otherLogicManager);
+                // no collisions for object so skip loop for this damage source
+                if (objectCollidedEnemies.isEmpty()) { continue; }
+                // sort other objects by closest to current object
+                GameObject gameObject = object.getGameObject();
+                CopyOnWriteArrayList<GameObject> closestCollidedObjects = gameObject.sortByClosest(objectCollidedEnemies);
+                // damage objects
+                this.damageObjects(gameObject, otherLogicManager, closestCollidedObjects);
+                // add to list of all combined game objects
+                allCollidedObjects.addAll(closestCollidedObjects);
+            }
         }
         // keep only all objects in this logic manager that are alive (health > 0), if dead will be removed from list within method
         // this.keepOnlyAlive();

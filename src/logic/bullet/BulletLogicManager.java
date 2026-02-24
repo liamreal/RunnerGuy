@@ -4,7 +4,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import objects.BulletObject;
 import objects.GameObject;
-import enums.BulletType;
+import enums.CollisionType;
 import enums.Direction;
 import logic.explosion.ExplosionLogicManager;
 import logic.object.ObjectLogic;
@@ -14,23 +14,23 @@ import logic.object.ObjectLogicManager;
 public class BulletLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> bullets = super.getObjects();
-    private BulletType bulletType = BulletType.EXPLODE; // default type of bullet, by default explode
-    private ExplosionLogicManager explosionLogicManager = null; // will be used for explosion logic by bullet
+    private ExplosionLogicManager explosionLogicManager = null;
     // private int maxEnemiesCanHit = 1; // by default bullet can only hit one enemy (can add item to add piercing)
 
     public BulletLogicManager() {
         super();
         // set logic managers used by bullet
         this.explosionLogicManager = new ExplosionLogicManager();
+        this.setBulletType(CollisionType.EXPLODE);
         this.setDefaultMoveDirection(Direction.UP);
     }
 
 
     // get type of bullet (kill, explosion, etc.)
-    public BulletType getBulletType() { return this.bulletType; }
-    public ExplosionLogicManager getExplosionLogicManager() { return this.explosionLogicManager; } // get explosions list from bullet
+    public CollisionType getBulletType() { return super.getCollisionType(); }
+    public ExplosionLogicManager getExplosionLogicManager() { return this.explosionLogicManager; } // get explosion manager from bullet
     public CopyOnWriteArrayList<ObjectLogic> getExplosions() { return this.getExplosionLogicManager().getExplosions(); } // get explosion manager from bullet
-    public void setBulletType(BulletType newBulletType) { this.bulletType = newBulletType; }
+    public void setBulletType(CollisionType newBulletType) { super.setCollisionType(newBulletType); }
 
 
     // by default move bullets up
@@ -51,40 +51,14 @@ public class BulletLogicManager extends ObjectLogicManager {
         return newBullet.getGameObject();
     }
 
+    // call this class method with explosion logic manager
     public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager enemyLogicManager) {
-        // cases for bullet-enemy collisions
-        switch (this.bulletType){
-            case KILL:
-                return this.killEnemy(enemyLogicManager);
-            case EXPLODE:
-                return this.explodeEnemy(enemyLogicManager);
-            default:
-                // not a valid bullet type in cases
-                String errorMessage = String.format("BulletType %s not in %s", this.bulletType, BulletType.getAllBulletTypes().toString());
-                throw new IllegalArgumentException(errorMessage);
-        }
+        return this.collideEnemy(enemyLogicManager, this.getExplosionLogicManager());
     }
-
-    // this one simply kills, can instead get all collided objects and spawn explosions at them, or summon new objects and make them go backwards
-    public CopyOnWriteArraySet<GameObject> killEnemy(ObjectLogicManager enemyLogicManager) {
-        return this.collide(enemyLogicManager);
+    // call superclass method
+    public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager enemyLogicManager, ExplosionLogicManager explosionLogicManager) {
+        return super.collideEnemy(enemyLogicManager, explosionLogicManager);
     }
-
-    // this explodes enemies, returns explosion objects that were spawned where enemies were
-    public CopyOnWriteArraySet<GameObject> explodeEnemy(ObjectLogicManager enemyLogicManager) {
-        ExplosionLogicManager explosionLogicManager = this.getExplosionLogicManager();
-        // can also create explosions within object instead of using Model ExplosionLogicManager
-        if (explosionLogicManager == null) { throw new IllegalArgumentException("Cannot explode enemies if ExplosionLogicManager in BulletLogicManager is null!"); }
-        CopyOnWriteArrayList<GameObject> collidedEnemies = new CopyOnWriteArrayList<>(this.collide(enemyLogicManager));
-        CopyOnWriteArrayList<GameObject> spawnedExplosions = new CopyOnWriteArrayList<>();
-        // spawn explosion at each enemy
-        for (GameObject enemy : collidedEnemies) {
-            spawnedExplosions.add(explosionLogicManager.spawnExplosion(enemy));
-        }
-        // return as set
-        return new CopyOnWriteArraySet<>(spawnedExplosions);
-    }
-
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getBullets() {

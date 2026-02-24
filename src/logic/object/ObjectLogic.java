@@ -1,5 +1,6 @@
 package logic.object;
 import util.Vector3f;
+import util.DurationHandler;
 import util.Point3f;
 import java.util.concurrent.CopyOnWriteArrayList;
 import enums.Direction;
@@ -33,6 +34,9 @@ public class ObjectLogic {
     public void setMoveSpeed(int newMoveSpeed) {
         this.moveSpeed = newMoveSpeed;
     }
+	public boolean hasLivedMinLifeTime() {
+		return this.getGameObject().hasLivedMinLifeTime();
+	}
     public boolean isAlive() {
         return this.getGameObject().isAlive();
     }

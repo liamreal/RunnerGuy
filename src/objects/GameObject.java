@@ -45,7 +45,7 @@ public class GameObject {
 	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
 	private int health=1;
 	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
-	private double minLifeTime = 0.2; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets)
+	private double minLifeTime = 0.2; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets that spawn directly at an enemy)
 
 	public GameObject() {
 	}
@@ -95,11 +95,15 @@ public class GameObject {
     public void decreaseHealth() {
 		this.decreaseHealth(1);
     }
+	// check if object has lived its minimum lifetime 
+	public boolean hasLivedMinLifeTime() {
+		double lifeTime = DurationHandler.getDurationSeconds(this.getSpawnTime());
+		return lifeTime >= this.getMinLifeTime();
+	}
 	// check if game object is alive
 	public boolean isAlive() {
-		double lifeTime = DurationHandler.getDurationSeconds(this.getSpawnTime());
 		// check if health is valid OR if has lived for minimum amount of time has to live for
-        return (this.getHealth() > 0 || lifeTime < this.getMinLifeTime());
+        return (this.getHealth() > 0 || !this.hasLivedMinLifeTime());
     }
 
 	// by default sort a list of objects relative to this object by distance
