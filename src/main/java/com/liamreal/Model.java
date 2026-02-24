@@ -49,8 +49,9 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean gamelogic() 
 	{	
-		if (score.getScore() > 20 || players.getPlayers().size() == 0) { 
-			score.resetScore();
+		// to pass a level, can have score threshold to pass, for example at least 20 per level (modulus ensures score saved across levels)
+		if ((score.getScore() > 0 && score.getScore() % 20 == 0) || players.getPlayers().size() == 0) { 
+			score.incrementScore(1); // + 1 for level passed (MUST increment score otherwise frozen since next level starts at this same score and immediately returns true)
 			return true; 
 		}
 
@@ -119,9 +120,6 @@ public class Model {
 		return score.getScore();
 	}
 
-	public void resetScore() { 
-		score.resetScore();
-	}
  
 
 }
