@@ -19,7 +19,7 @@ public class ObjectLogicManager {
     private int maxNumObjects = 6; // max number of objects code default, can auto-define a max if not overwritten in subclass constructor, e.g. how max enemies in EnemyLogicManager is
     private Direction defaultMoveDirection; // default direction this object will move in, can set it
     private CollisionType collisionType = CollisionType.KILL; // default type of collision, by default killed (unless overwritten in constructor)
-
+    private int defaultObjectHealth = 1;
 
 
     public ObjectLogicManager() {}
@@ -46,9 +46,11 @@ public class ObjectLogicManager {
     public int getMaxNumObjects() { return this.maxNumObjects; }
     public Direction getDefaultMoveDirection() { return this.defaultMoveDirection; }
     public CollisionType getCollisionType() { return this.collisionType; }
+    public int getDefaultObjectHealth() { return this.defaultObjectHealth; }
     // -- setters --
     public void setDefaultMoveDirection(Direction newDirection) { this.defaultMoveDirection = newDirection; }
     public void setCollisionType(CollisionType newCollisionType) { this.collisionType = newCollisionType; }
+    public void setDefaultObjectHealth(int newHealth) { this.defaultObjectHealth = newHealth; }
     // PRIVATE because need to only reset within manager
     private void setCooldownStartTime(Instant newTime) { this.cooldownStartTime = newTime; }
 

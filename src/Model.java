@@ -49,8 +49,8 @@ public class Model {
 	public void gamelogic() 
 	{
 		// if above certain score, switch to advanced enemies
-		if (score.getScore() > 10) {
-			enemies.setEnemyType(EnemyType.ADVANCED);
+		if (score.getScore() > 0) {
+			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
 		}
 
 		// Player Logic first 

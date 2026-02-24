@@ -14,7 +14,6 @@ public class EnemyObject extends GameObject {
         this.setRandomCentre();
         // set enemy texture
         this.setTexture(enemyType);
-        this.setHealth(2);
 	}
     public EnemyObject(String textureLocation, int width, int height, Point3f centre) { 
         super(textureLocation, width, height, centre);
@@ -28,7 +27,7 @@ public class EnemyObject extends GameObject {
         // set enemy texture
         this.setTexture(enemyType);
 	}
-    
+
     // set text specifically for enemy
     protected void setTexture(EnemyType enemyType) {
         String enemy = enemyType.toString();

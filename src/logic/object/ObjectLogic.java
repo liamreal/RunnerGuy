@@ -34,6 +34,9 @@ public class ObjectLogic {
     public void setMoveSpeed(int newMoveSpeed) {
         this.moveSpeed = newMoveSpeed;
     }
+    public void setHealth(int newHealth) {
+        getGameObject().setHealth(newHealth);
+    }
 	public boolean hasLivedMinLifeTime() {
 		return this.getGameObject().hasLivedMinLifeTime();
 	}

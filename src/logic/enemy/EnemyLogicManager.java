@@ -9,6 +9,7 @@ import logic.object.ObjectLogicManager;
 import objects.EnemyObject;
 import user.Config;
 import util.CooldownHandler;
+import enums.CollisionType;
 import enums.Direction;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
@@ -16,6 +17,7 @@ public class EnemyLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> enemies = super.getObjects();
     private EnemyType enemyType = EnemyType.BASIC;
+    private int defaultEnemyHealth = super.getDefaultObjectHealth();
     private double enemySpawnFrequencySeconds = super.getCooldownLength();
 
     public EnemyLogicManager() {
@@ -32,7 +34,25 @@ public class EnemyLogicManager extends ObjectLogicManager {
     // getters and setters
     public EnemyType getEnemyType() { return this.enemyType; }
     public int getMaxNumEnemies() { return super.getMaxNumObjects(); }
+    public int getDefaultEnemyHealth() { return this.defaultEnemyHealth; }
     public void setEnemyType(EnemyType newEnemyType) { this.enemyType = newEnemyType;}
+    public void setDefaultEnemyHealth(int newEnemyHealth) { this.defaultEnemyHealth = newEnemyHealth; }
+    public void setEnemyDifficulty(EnemyType newEnemyType) { 
+        switch (newEnemyType) {
+            case BASIC:
+                this.setEnemyType(EnemyType.BASIC);
+                this.setDefaultEnemyHealth(1);
+                break;
+            case ADVANCED:
+                this.setEnemyType(EnemyType.ADVANCED);
+                this.setDefaultEnemyHealth(2);
+                break;
+            default:
+                // not a valid enemy type in cases
+                String errorMessage = String.format("EnemyType %s not in %s", newEnemyType, EnemyType.getAllEnemyTypes().toString());
+                throw new IllegalArgumentException(errorMessage);
+        }
+    }
     public void setMaxNumEnemies(int newMaxNumEnemies) { super.setMaxNumObjects(newMaxNumEnemies); }
 
 
@@ -62,7 +82,9 @@ public class EnemyLogicManager extends ObjectLogicManager {
             // if hit correct chance to spawn enemy and less than max number of enemies
             if (randomSpawnChance == 1 && this.enemies.size() < this.getMaxNumEnemies()) {
                 // add enemy of specified type
-                this.enemies.add(new EnemyLogic(new EnemyObject(this.getEnemyType())));
+                EnemyLogic newEnemy = new EnemyLogic(new EnemyObject(this.getEnemyType()));
+                newEnemy.setHealth(this.getDefaultEnemyHealth());
+                this.enemies.add(newEnemy);
                 return true;
             }
         }
