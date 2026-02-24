@@ -4,8 +4,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.liamreal.enums.EnemyType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
-import com.liamreal.logic.explosion.ExplosionLogic;
-import com.liamreal.logic.explosion.ExplosionLogicManager;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.player.PlayerLogic;
 import com.liamreal.logic.player.PlayerLogicManager;
