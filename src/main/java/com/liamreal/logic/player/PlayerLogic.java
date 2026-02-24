@@ -20,6 +20,7 @@ import com.liamreal.objects.PlayerObject;
 
 public class PlayerLogic extends ObjectLogic {
     private Controller playerController = Controller.getInstance();
+    private Config config = Config.getInstance();
     private GameObject playerObject = super.getGameObject();
     private Instant enemyHitCooldownStartTime = Instant.now(); // for checking when player hit last enemy
     private double enemyHitCooldownLength = 1.0; // player will be invincible during this time
@@ -35,12 +36,12 @@ public class PlayerLogic extends ObjectLogic {
     // specify player speed and type (player one or two)
     public PlayerLogic(PlayerObject playerObject, int moveSpeed) {
         super(playerObject, moveSpeed);
-        this.setHealth(Config.playerHealth);
+        this.setHealth(config.getPlayerHealth());
         this.setPlayerType(playerObject.getPlayerType());
     }
     public PlayerLogic(PlayerObject playerObject) {
         // by default if no speed specified, player moves twice as fast as enemies, calls constructor above which calls super class
-        this(playerObject, Config.moveSpeed*2);
+        this(playerObject, Config.getInstance().getPlayerMoveSpeed());
     }
 
     // set player type of current player object

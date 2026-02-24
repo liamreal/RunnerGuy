@@ -18,7 +18,7 @@ public class ObjectLogic {
     }
     // otherwise grab move speed from config and call above constructor
     public ObjectLogic(GameObject gameObject) {
-        this(gameObject, Config.moveSpeed);
+        this(gameObject, Config.getInstance().getGeneralMoveSpeed());
     }
 
     public GameObject getGameObject() {

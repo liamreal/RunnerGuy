@@ -11,7 +11,7 @@ public class BulletLogic extends ObjectLogic {
     }
     public BulletLogic(BulletObject bulletObject) {
         // by default bullet has triple speed of enemy (and 1.5x player)
-        this(bulletObject, Config.moveSpeed*3);
+        this(bulletObject, Config.getInstance().getBulletMoveSpeed());
 
     }
 }

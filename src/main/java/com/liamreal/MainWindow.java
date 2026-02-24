@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import com.liamreal.util.UnitTests;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.display.TextureLoader;
+import com.liamreal.user.Config;
 import com.liamreal.controllers.Controller;
 
 /*
@@ -102,38 +103,42 @@ public class MainWindow {
 
 	public static void main(String[] args) {
 		MainWindow hello = new MainWindow();  //sets up environment 
-		while(true)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
-		{ 
-			//swing has timer class to help us time this but I'm writing my own, you can of course use the timer, but I want to set FPS and display it 
-			
-			int TimeBetweenFrames =  1000 / TargetFPS;
-			long FrameCheck = System.currentTimeMillis() + (long) TimeBetweenFrames; 
-			
-			//wait till next time step 
-		 while (FrameCheck > System.currentTimeMillis()){} 
-			
-			
-			if(startGame)
-				 {
-				 gameloop();
-				 }
-			
-			//UNIT test to see if framerate matches 
-		 UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS); 
-			  
+
+		for (String level: Config.getInstance().getLevels()) {
+			boolean levelComplete = false;
+			while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
+			{ 
+				//swing has timer class to help us time this but I'm writing my own, you can of course use the timer, but I want to set FPS and display it 
+				
+				int TimeBetweenFrames =  1000 / TargetFPS;
+				long FrameCheck = System.currentTimeMillis() + (long) TimeBetweenFrames; 
+					
+					//wait till next time step 
+				while (FrameCheck > System.currentTimeMillis()){} 
+					
+					
+					if(startGame)
+						{
+							levelComplete = gameloop();
+						}
+					
+					//UNIT test to see if framerate matches 
+				UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS); 
+				
+			}
 		}
 		
 		
 	} 
 	//Basic Model-View-Controller pattern 
-	private static void gameloop() { 
+	private static boolean gameloop() { 
 		// GAMELOOP  
 		
 		// controller input  will happen on its own thread 
 		// So no need to call it explicitly 
 		
 		// model update   
-		gameworld.gamelogic();
+		boolean isLevelComplete = gameworld.gamelogic();
 		// view update 
 		
 		  canvas.updateview(); 
@@ -141,6 +146,8 @@ public class MainWindow {
 		// Both these calls could be setup as  a thread but we want to simplify the game logic for you.  
 		//score update  
 		 frame.setTitle("Score =  "+ gameworld.getScore()); 
+
+		return isLevelComplete;
 		
 		 
 	}

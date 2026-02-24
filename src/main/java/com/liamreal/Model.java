@@ -7,6 +7,7 @@ import com.liamreal.logic.enemy.EnemyLogicManager;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.player.PlayerLogic;
 import com.liamreal.logic.player.PlayerLogicManager;
+import com.liamreal.user.Config;
 import com.liamreal.util.Score;
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -46,10 +47,15 @@ public class Model {
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
-	public void gamelogic() 
-	{
+	public boolean gamelogic() 
+	{	
+		if (score.getScore() > 20 || players.getPlayers().size() == 0) { 
+			score.resetScore();
+			return true; 
+		}
+
 		// if above certain score, switch to advanced enemies
-		if (score.getScore() > 0) {
+		if (score.getScore() > 10) {
 			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
 		}
 
@@ -59,6 +65,8 @@ public class Model {
 		bulletLogic();
 		// Enemy Logic next
 		enemyLogic();
+
+		return false;
 	}
 
 	private void enemyLogic() {
@@ -109,6 +117,10 @@ public class Model {
 
 	public int getScore() { 
 		return score.getScore();
+	}
+
+	public void resetScore() { 
+		score.resetScore();
 	}
  
 

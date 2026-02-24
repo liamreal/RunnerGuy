@@ -1,0 +1,8 @@
+{
+    "generalMoveSpeed": 1,
+    "bulletMoveSpeed": 3,
+    "playerMoveSpeed": 2,
+    "playerHealth": 3,
+    "maxNumEnemies": 20,
+    "levels": ["default", "space"]
+}

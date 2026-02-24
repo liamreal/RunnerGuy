@@ -24,7 +24,7 @@ public class EnemyLogicManager extends ObjectLogicManager {
         // by default enemies move down
         this.setDefaultMoveDirection(Direction.DOWN);
         // set max num enemies based on config
-        this.setMaxNumEnemies(Config.maxNumEnemies);
+        this.setMaxNumEnemies(Config.getInstance().getMaxNumEnemies());
         // // start with 2 basic enemies
         // enemies.add(new EnemyLogic(new EnemyObject(enemyType)));
         // enemies.add(new EnemyLogic(new EnemyObject(enemyType)));

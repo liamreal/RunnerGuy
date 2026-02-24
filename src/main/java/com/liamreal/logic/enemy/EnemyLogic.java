@@ -12,7 +12,7 @@ public class EnemyLogic extends ObjectLogic {
     }
     public EnemyLogic(EnemyObject enemyObject) {
         // by default enemy has config speed
-        this(enemyObject, Config.moveSpeed);
+        this(enemyObject, Config.getInstance().getGeneralMoveSpeed());
 
     }
 
