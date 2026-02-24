@@ -6,7 +6,7 @@ this is RunnerGuy, a game whose goal is to be about a guy who runs
 
 ## To run:
 
->mvn clean compile exec:run
+>mvn clean compile exec:java
 
 This will run MainWindow.java as the main class
 
