@@ -35,6 +35,7 @@ public class PlayerLogicManager extends ObjectLogicManager {
 
     // getters
     public CopyOnWriteArrayList<PlayerLogic> getPlayers() { return this.players; }
+    
 
     // move every player in list
     public void movePlayers() {

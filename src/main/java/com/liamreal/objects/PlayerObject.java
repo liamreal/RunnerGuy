@@ -27,6 +27,9 @@ public class PlayerObject extends GameObject {
     // a way to get player type
     public PlayerType getPlayerType() { return this.playerType; }
 
+    // update texture
+    public void updateTexture() { this.setTexture(); }
+
     // if no argument defaults to player one texture
     protected void setTexture() {
         this.setTexture(playerType);

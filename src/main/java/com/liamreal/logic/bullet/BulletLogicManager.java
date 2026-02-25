@@ -32,6 +32,12 @@ public class BulletLogicManager extends ObjectLogicManager {
     public CopyOnWriteArrayList<ObjectLogic> getExplosions() { return this.getExplosionLogicManager().getExplosions(); } // get explosion manager from bullet
     public void setBulletType(CollisionType newBulletType) { super.setCollisionType(newBulletType); }
 
+    // update all textures for bullets and explosions
+    public void updateTexture() {
+        super.updateTexture();
+        explosionLogicManager.updateTexture();
+    }
+    
 
     // by default move bullets up
     public void moveBullets() {

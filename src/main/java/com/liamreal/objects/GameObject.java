@@ -34,7 +34,7 @@ SOFTWARE.
    
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
-public class GameObject {
+public abstract class GameObject {
 	// by default spawn in middle of screen
 	private Point3f centre= GameDisplay.getDisplayCentre();			// by default place object in centre of screen (roughly - places top left corner in centre)
 	// by default objects have pixel size of 50
@@ -79,6 +79,10 @@ public class GameObject {
 	public double getMinLifeTime() { return this.minLifeTime; }
 	public void setCentre(Point3f centre) { this.centre = centre; }
 	public void setHealth(int newHealth) { this.health = newHealth; }
+
+	// motivation behind making class abstract, needed a way to say "this method needs to be defined, but only defined in subclasses"
+	abstract public void updateTexture();
+
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {
 		hasTextured=true;

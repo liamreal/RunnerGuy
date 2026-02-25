@@ -19,6 +19,9 @@ public class BulletObject extends GameObject {
         return bulletCentre;
     }
 
+    // update texture
+    public void updateTexture() { this.setTexture(); }
+
     // set text specifically for player
     protected void setTexture() {
         super.setTexture(String.format(

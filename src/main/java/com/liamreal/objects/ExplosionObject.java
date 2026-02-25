@@ -11,6 +11,9 @@ public class ExplosionObject extends GameObject {
         this.setHealth(0); // explosions have no health, will die after minimum lifetime
         this.setTexture();
 	}
+
+    // update texture
+    public void updateTexture() { this.setTexture(); }
     
     // set texture specifically for explosion
     protected void setTexture() {

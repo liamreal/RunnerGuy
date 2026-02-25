@@ -105,6 +105,7 @@ public class MainWindow {
 		MainWindow hello = new MainWindow();  //sets up environment 
 
 		for (String level: Config.getInstance().getLevels()) {
+			TextureLoader.setGameType(level);
 			boolean levelComplete = false;
 			while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
 			{ 

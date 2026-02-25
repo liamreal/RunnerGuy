@@ -81,6 +81,8 @@ public class Viewer extends JPanel {
 		// Draw players
 		gameworld.getPlayers().forEach((temp) -> 
 		{ 
+			// System.out.println(TextureLoader.getAssetsPath());
+			// System.out.println(temp.getGameObject().getTexture());
 			drawPlayer((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
 		}); 
 		
@@ -157,6 +159,7 @@ public class Viewer extends JPanel {
 	
 
 	private void drawPlayer(int x, int y, int width, int height, String texture,Graphics g) { 
+		// System.out.println(texture);
 		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 		try {
 			Image myImage = ImageIO.read(TextureToLoad);
