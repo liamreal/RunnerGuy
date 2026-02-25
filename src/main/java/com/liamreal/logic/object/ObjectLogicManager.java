@@ -57,8 +57,9 @@ public class ObjectLogicManager {
 
     // update all textures for all gameobjects this logic manager collection of logics interacts with
     public void updateTexture() {
-        for (ObjectLogic objectLogic : this.getObjects()) {
-            objectLogic.getGameObject().updateTexture();
+        for (GameObject object : this.getGameObjects()) {
+            System.out.println(object.getClass());
+            object.updateTexture();
         }
     }
 
