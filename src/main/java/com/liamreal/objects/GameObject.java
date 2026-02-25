@@ -85,6 +85,7 @@ public abstract class GameObject {
 
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {
+		if (newTexture.equals(this.getTexture())) { return; }
 		hasTextured=true;
 		textureLocation = newTexture; 
 	}

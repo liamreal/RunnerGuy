@@ -11,7 +11,7 @@ import com.liamreal.logic.explosion.ExplosionLogicManager;
 import com.liamreal.objects.GameObject;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
-public abstract class ObjectLogicManager {
+public class ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> objects  = new CopyOnWriteArrayList<ObjectLogic>();
     private Instant cooldownStartTime = Instant.now(); // for checking elapsed seconds between last enemy and current enemy for example
@@ -57,8 +57,8 @@ public abstract class ObjectLogicManager {
 
     // update all textures for all gameobjects this logic manager collection of logics interacts with
     public void updateTexture() {
-        for (GameObject object : this.getGameObjects()) {
-            object.updateTexture();
+        for (ObjectLogic objectLogic : this.getObjects()) {
+            objectLogic.getGameObject().updateTexture();
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import com.liamreal.enums.PlayerType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
+import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.object.ObjectLogicManager;
 import com.liamreal.objects.GameObject;
 import com.liamreal.objects.PlayerObject;
@@ -30,6 +31,14 @@ public class PlayerLogicManager extends ObjectLogicManager {
                 // not a valid number of players in cases
                 String errorMessage = String.format("Invalid number of players %d, total players are %s --- %d max players!!!", numPlayers, PlayerType.getAllPlayerTypes().toString(), PlayerType.getAllPlayerTypes().size());
                 throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
+    
+    // update all player textures, for some reason this cannot be inside superclass or does not update player or recognise it within???
+    public void updateTexture() {
+        for (ObjectLogic objectLogic : this.getPlayers()) {
+            objectLogic.getGameObject().updateTexture();
         }
     }
 

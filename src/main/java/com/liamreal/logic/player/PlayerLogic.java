@@ -21,7 +21,7 @@ import com.liamreal.objects.PlayerObject;
 public class PlayerLogic extends ObjectLogic {
     private Controller playerController = Controller.getInstance();
     private Config config = Config.getInstance();
-    private GameObject playerObject = super.getGameObject();
+    private GameObject playerObject = this.getGameObject();
     private Instant enemyHitCooldownStartTime = Instant.now(); // for checking when player hit last enemy
     private double enemyHitCooldownLength = 1.0; // player will be invincible during this time
     private Instant bulletFireCooldownStartTime = Instant.now(); // for checking when player last fired bullet
