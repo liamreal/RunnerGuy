@@ -13,7 +13,7 @@ import com.liamreal.objects.PlayerObject;
 // same as other logic managers
 public class PlayerLogicManager extends ObjectLogicManager {
     // players list (starts empty)
-	private CopyOnWriteArrayList<PlayerLogic> players = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<ObjectLogic> players = super.getObjects();
 
     // constructor requires number of players
     public PlayerLogicManager(int numPlayers) {
@@ -34,28 +34,22 @@ public class PlayerLogicManager extends ObjectLogicManager {
         }
     }
 
-    
-    // update all player textures, for some reason this cannot be inside superclass or does not update player or recognise it within???
-    public void updateTexture() {
-        for (ObjectLogic objectLogic : this.getPlayers()) {
-            objectLogic.getGameObject().updateTexture();
-        }
-    }
 
     // getters
-    public CopyOnWriteArrayList<PlayerLogic> getPlayers() { return this.players; }
+    public CopyOnWriteArrayList<ObjectLogic> getPlayers() { return this.players; }
     
 
     // move every player in list
     public void movePlayers() {
-        for (PlayerLogic player : this.getPlayers()) {
+        for (ObjectLogic player : this.getPlayers()) {
             player.move();
         }
+        this.keepOnlyAlive(); // check if is removing players from list
     }
 
     public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager enemyLogicManager) {
         CopyOnWriteArraySet<GameObject> enemiesCollided = new CopyOnWriteArraySet<>();
-        for (PlayerLogic player : this.getPlayers()) {
+        for (ObjectLogic player : this.getPlayers()) {
             enemiesCollided.add(player.collideEnemy(enemyLogicManager));
         }
         // return all enemies collided by players
@@ -70,7 +64,7 @@ public class PlayerLogicManager extends ObjectLogicManager {
     public CopyOnWriteArrayList<GameObject> spawnBullet(BulletLogicManager bulletLogicManager) {
         CopyOnWriteArrayList<GameObject> bulletsSpawned = new CopyOnWriteArrayList<>();
         // let each player spawn bullet
-        for (PlayerLogic player : this.getPlayers()) {
+        for (ObjectLogic player : this.getPlayers()) {
             GameObject newBullet = player.spawnBullet(bulletLogicManager);
             // adds bullet if not null (i.e. if one was spawned)
             if (newBullet != null) { bulletsSpawned.add(newBullet); }

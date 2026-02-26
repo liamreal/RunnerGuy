@@ -107,7 +107,7 @@ public class Model {
 
 
 	
-	public CopyOnWriteArrayList<PlayerLogic> getPlayers() {
+	public CopyOnWriteArrayList<ObjectLogic> getPlayers() {
 		return players.getPlayers();
 	}
 

@@ -1,8 +1,13 @@
 package com.liamreal.logic.object;
 import com.liamreal.util.Vector3f;
+import com.liamreal.util.CooldownHandler;
 import com.liamreal.util.Point3f;
+
+import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.liamreal.enums.Direction;
+import com.liamreal.enums.Interaction;
+import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.objects.GameObject;
 import com.liamreal.user.Config;
 
@@ -41,6 +46,11 @@ public class ObjectLogic {
 	}
     public boolean isAlive() {
         return this.getGameObject().isAlive();
+    }
+
+
+    public GameObject collideEnemy(ObjectLogicManager otherObjectLogicManager) { 
+        return this.getClosestGameObject(this.collide(otherObjectLogicManager)); 
     }
     
     // various generic collision checks
@@ -108,6 +118,15 @@ public class ObjectLogic {
         return closestObjects.get(0); // otherwise get first object (closest)
     }
 
+    // spawn bullet at this object
+    public GameObject spawnBullet(BulletLogicManager bulletLogicManager) {    
+        // spawn bullet based on player who pressing space
+        return bulletLogicManager.spawnBullet(this.getGameObject());
+    }
+
+    public void move() {
+        this.move(Direction.DOWN);
+    }
 
     // otherwise can specify direction based on enum, returns Direction, used to check then if out of bounds
     public Direction move(Direction direction) {

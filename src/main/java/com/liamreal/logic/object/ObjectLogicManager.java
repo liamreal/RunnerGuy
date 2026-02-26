@@ -36,7 +36,7 @@ public class ObjectLogicManager {
     public CopyOnWriteArrayList<GameObject> getGameObjects() {
         // list that will hold our objects we will obtain from ObjectLogicManager
         CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<>();
-        for (ObjectLogic objectLogic : this.objects) {
+        for (ObjectLogic objectLogic : this.getObjects()) {
             gameObjects.add(objectLogic.getGameObject());
         }
         return gameObjects;
@@ -58,10 +58,12 @@ public class ObjectLogicManager {
     // update all textures for all gameobjects this logic manager collection of logics interacts with
     public void updateTexture() {
         for (GameObject object : this.getGameObjects()) {
-            System.out.println(object.getClass());
+            System.out.println(object.toString()); // used for debugging which objects are being gotten to update texture
             object.updateTexture();
         }
     }
+
+    
 
 
     // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
@@ -71,10 +73,9 @@ public class ObjectLogicManager {
 
     // will go through each of its logic objects, check their game object health and remove if not positive
     public void keepOnlyAlive() {
-        CopyOnWriteArrayList<ObjectLogic> objects = this.getObjects();
-        for (ObjectLogic object: objects) {
+        for (ObjectLogic object: this.getObjects()) {
             // if invalid health (0 or less), remove object logic from list
-            if (!object.isAlive()){
+            if (!object.isAlive()) {
                 objects.remove(object);
             }
         }
@@ -102,6 +103,10 @@ public class ObjectLogicManager {
         // return as set
         return new CopyOnWriteArraySet<>(resultObjects);
     }
+
+    // public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager otherLogicManager) {
+    //     return this.collideEnemy(otherLogicManager, null);
+    // }
 
     // collision interactions with enemies
     public CopyOnWriteArraySet<GameObject> collideEnemy(ObjectLogicManager otherLogicManager, ExplosionLogicManager explosionLogicManager) {
@@ -164,14 +169,6 @@ public class ObjectLogicManager {
         return new CopyOnWriteArraySet<GameObject>(allCollidedObjects);
     }
 
-    // public CopyOnWriteArrayList<ObjectLogic> collide(ObjectLogicManager otherLogicManager) {
-    //     CopyOnWriteArrayList<ObjectLogic> collidedObjects  = new CopyOnWriteArrayList<ObjectLogic>();
-    //     // check all
-	// 	for (ObjectLogic object : this.objects) {
-
-    //     }
-    // }
-
     // move every object in list
     public void moveObjects(Direction direction) {
 		for (ObjectLogic object : this.objects) {
@@ -182,7 +179,7 @@ public class ObjectLogicManager {
                 objects.remove(object);
             }
         }
-        this.keepOnlyAlive(); // check if this itself works
+        this.keepOnlyAlive(); // check if this itself works when moving objects
     }
 
 }
