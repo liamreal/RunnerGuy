@@ -1,14 +1,10 @@
 package com.liamreal.logic.item;
 
-import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-import com.liamreal.enums.EnemyType;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.object.ObjectLogicManager;
 import com.liamreal.objects.ItemObject;
 import com.liamreal.user.Config;
-import com.liamreal.util.CooldownHandler;
 import com.liamreal.enums.Direction;
 
 // generic method to manage different logics (will manage for example item logic thru a subclass)
@@ -16,7 +12,6 @@ public class ItemLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> enemies = super.getObjects();
     private int defaultItemHealth = super.getDefaultObjectHealth();
-    private double itemSpawnFrequencySeconds = super.getCooldownLength();
 
     public ItemLogicManager() {
         super();

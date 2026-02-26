@@ -9,9 +9,7 @@ import com.liamreal.enums.CollisionType;
 import com.liamreal.enums.Direction;
 import com.liamreal.logic.OutOfBoundsLogic;
 import com.liamreal.logic.explosion.ExplosionLogicManager;
-import com.liamreal.logic.item.ItemLogic;
 import com.liamreal.objects.GameObject;
-import com.liamreal.objects.ItemObject;
 import com.liamreal.util.CooldownHandler;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)

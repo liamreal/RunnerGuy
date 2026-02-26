@@ -1,16 +1,11 @@
 package com.liamreal.logic.enemy;
 
-import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 import com.liamreal.enums.EnemyType;
-import com.liamreal.logic.item.ItemLogic;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.object.ObjectLogicManager;
 import com.liamreal.objects.EnemyObject;
-import com.liamreal.objects.ItemObject;
 import com.liamreal.user.Config;
-import com.liamreal.util.CooldownHandler;
 import com.liamreal.enums.Direction;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
@@ -19,7 +14,6 @@ public class EnemyLogicManager extends ObjectLogicManager {
 	private CopyOnWriteArrayList<ObjectLogic> enemies = super.getObjects();
     private EnemyType enemyType = EnemyType.BASIC;
     private int defaultEnemyHealth = super.getDefaultObjectHealth();
-    private double enemySpawnFrequencySeconds = super.getCooldownLength();
 
     public EnemyLogicManager() {
         super();
