@@ -3,7 +3,6 @@ package com.liamreal.user;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 // default values picked from and used in classes, if do not wish to use these are able to overwrite in respective subclass
@@ -15,13 +14,13 @@ public class Config {
     private int playerMoveSpeed = 2;
     private int playerHealth = 3;
     private int maxNumEnemies = 20;
+    private int maxNumItems = 1;
     private List<String> levels;
     public static final String filePath = "config.json";
 
-
     private Config() {}
 
-    // singleton pattern for config
+    // singleton pattern for config since only need one
     public static Config getInstance() {
         // if instance not yet created
         if (INSTANCE == null) {
@@ -45,8 +44,7 @@ public class Config {
     public int getPlayerMoveSpeed() { return this.playerMoveSpeed; }
     public int getPlayerHealth() { return this.playerHealth; }
     public int getMaxNumEnemies() { return this.maxNumEnemies; }
+    public int getMaxNumItems() { return this.maxNumItems; }
     public List<String> getLevels() { return this.levels; }
-
-
 
 }
