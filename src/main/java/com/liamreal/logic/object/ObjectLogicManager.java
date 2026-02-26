@@ -58,13 +58,10 @@ public class ObjectLogicManager {
     // update all textures for all gameobjects this logic manager collection of logics interacts with
     public void updateTexture() {
         for (GameObject object : this.getGameObjects()) {
-            System.out.println(object.toString()); // used for debugging which objects are being gotten to update texture
+            // System.out.println(object.toString()); // used for debugging which objects are having texture updated
             object.updateTexture();
         }
     }
-
-    
-
 
     // reset start time of cooldown (used for enemy spawns and later bullet spawns too)
     public void resetCooldown() {

@@ -1,15 +1,11 @@
 package com.liamreal;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import com.liamreal.display.TextureLoader;
 import com.liamreal.enums.EnemyType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
 import com.liamreal.logic.object.ObjectLogic;
-import com.liamreal.logic.player.PlayerLogic;
 import com.liamreal.logic.player.PlayerLogicManager;
-import com.liamreal.user.Config;
 import com.liamreal.util.Score;
 /*
  * Created by Abraham Campbell on 15/01/2020.

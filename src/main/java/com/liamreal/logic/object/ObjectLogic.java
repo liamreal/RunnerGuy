@@ -1,12 +1,8 @@
 package com.liamreal.logic.object;
 import com.liamreal.util.Vector3f;
-import com.liamreal.util.CooldownHandler;
 import com.liamreal.util.Point3f;
-
-import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.liamreal.enums.Direction;
-import com.liamreal.enums.Interaction;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.objects.GameObject;
 import com.liamreal.user.Config;

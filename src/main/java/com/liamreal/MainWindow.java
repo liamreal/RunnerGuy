@@ -84,7 +84,7 @@ public class MainWindow {
 	        
 	        //loading background image 
 	        File BackgroundToLoad = new File(String.format(
-				"%s/textures/start_menu/start_menu.png", 
+				"assets/start_menu.png", 
 				TextureLoader.getAssetsPath()
 			));  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 			try {
