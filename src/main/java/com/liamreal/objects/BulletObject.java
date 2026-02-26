@@ -6,7 +6,7 @@ import com.liamreal.util.Point3f;
 public class BulletObject extends GameObject {
     // will have some data specific to bullet and inherit superclass methods
     public BulletObject(GameObject playerObject) {  
-        super(32, 64, findBulletCentre(playerObject));
+        super(32, 32, findBulletCentre(playerObject));
         this.setTexture();
 	}
 

@@ -154,8 +154,8 @@ public class Viewer extends JPanel {
 		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 		try {
 			Image myImage = ImageIO.read(TextureToLoad); 
-			//64 by 128 
-			 g.drawImage(myImage, x,y, x+width, y+height, 0 , 0, 63, 127, null); 
+			// 32 by 32
+			 g.drawImage(myImage, x,y, x+width, y+height, 0 , 0, 31, 31, null); 
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

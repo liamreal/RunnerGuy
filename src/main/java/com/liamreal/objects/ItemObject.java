@@ -10,7 +10,7 @@ public class ItemObject extends GameObject {
     private ItemType itemType;
     // will have some data specific to item
     public ItemObject() {
-        super(32, 64); // randomises centre
+        super(32, 32); // randomises centre
         this.itemType = this.setRandomItemType(); // set item type for this item randomly on creation
         this.setMinLifeTime(0.2);
         this.setHealth(1); // items die after being collided with by a player
