@@ -81,6 +81,9 @@ public class PlayerLogic extends ObjectLogic {
     private Instant getEnemyHitCooldownStartTime() { return this.enemyHitCooldownStartTime; }
     private Instant getBulletFireCooldownStartTime() { return this.bulletFireCooldownStartTime; }
     private Instant getItemUseCooldownStartTime() { return this.itemUseCooldownStartTime; }
+    private double getEnemyHitCooldownLength() { return this.enemyHitCooldownLength; }
+    private double getBulletFireCooldownLength() { return this.bulletFireCooldownLength; }
+    private double getItemUseCooldownLength() { return this.itemUseCooldownLength; }
     public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
     private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
     private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }
@@ -119,7 +122,7 @@ public class PlayerLogic extends ObjectLogic {
         if (collidedItemObject != null) {
             // check last time player hit enemy
             Instant lastItemUseTime = this.getItemUseCooldownStartTime();
-            if (!CooldownHandler.isOnCooldown(lastItemUseTime, this.enemyHitCooldownLength)) {
+            if (!CooldownHandler.isOnCooldown(lastItemUseTime, this.getItemUseCooldownLength())) {
                 this.resetEnemyHitCooldown();
                 // kill item by setting health to 0
                 collidedItemObject.setHealth(0);
@@ -137,7 +140,7 @@ public class PlayerLogic extends ObjectLogic {
         if (collidedEnemyObject != null) {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
-            if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.enemyHitCooldownLength)) {
+            if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.getEnemyHitCooldownLength())) {
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
                 playerObject.decreaseHealth(collidedEnemyObject.getHealth());
@@ -156,7 +159,7 @@ public class PlayerLogic extends ObjectLogic {
         if (playerSpace) {
             // check last time player fired bullet
             Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
-            if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.bulletFireCooldownLength)) {
+            if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.getBulletFireCooldownLength())) {
                 // spawn bullet based on player who pressing space
                 GameObject bulletSpawned = bulletLogicManager.spawnBullet(playerObject);
                 this.resetBulletFireCooldown();
