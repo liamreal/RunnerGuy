@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.time.Instant;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.display.TextureLoader;
@@ -125,6 +126,16 @@ public abstract class GameObject {
 		// return sorted list as a CopyOnWriteArrayList
 		return new CopyOnWriteArrayList<>(sortedList);
 	}
+
+	// set random centre on x axis at top of screen
+    protected void setRandomCentre() {
+        // enemies will spawn randomly on x-axis off screen up
+        int objectWidth = this.getWidth();
+        int minX = objectWidth;
+        int maxX = GameDisplay.getDisplayX() - objectWidth;
+        int randomX = ThreadLocalRandom.current().nextInt(minX, maxX);
+        this.setCentre(new Point3f(randomX, -this.getHeight(), 0));
+    }
 
 	// base collision method for ALL collision
 	public boolean collide(GameObject other) {

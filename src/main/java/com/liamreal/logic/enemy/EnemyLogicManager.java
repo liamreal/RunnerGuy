@@ -4,9 +4,11 @@ import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import com.liamreal.enums.EnemyType;
+import com.liamreal.logic.item.ItemLogic;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.object.ObjectLogicManager;
 import com.liamreal.objects.EnemyObject;
+import com.liamreal.objects.ItemObject;
 import com.liamreal.user.Config;
 import com.liamreal.util.CooldownHandler;
 import com.liamreal.enums.Direction;
@@ -68,31 +70,11 @@ public class EnemyLogicManager extends ObjectLogicManager {
     }
 
 
-
-
-    // spawns an enemy by adding a new EnemyLogic to list
     public boolean spawnEnemyAttempt() {
-        // get time since last enemy and calculate how much time passed
-        Instant lastEnemySpawnTime = super.getCooldownStartTime();
-        // if time since last enemy has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
-        if (!CooldownHandler.isOnCooldown(lastEnemySpawnTime, this.enemySpawnFrequencySeconds)) {
-            // reset the start time
-            super.resetCooldown();
-            // 50% chance to spawn 1 enemy every 1/maxNumEnemies of a second e.g. if 4 enemies every 1/4 of a second, 
-            // it picks whether to spawn or not from range of [0,2) <--- EXCLUDES 2!!!
-            int randomSpawnChance = ThreadLocalRandom.current().nextInt(0, 2);
-            // if hit correct chance to spawn enemy and less than max number of enemies
-            if (randomSpawnChance == 1 && this.enemies.size() < this.getMaxNumEnemies()) {
-                // add enemy of specified type
-                EnemyLogic newEnemy = new EnemyLogic(new EnemyObject(this.getEnemyType()));
-                newEnemy.setHealth(this.getDefaultEnemyHealth());
-                this.enemies.add(newEnemy);
-                return true;
-            }
-        }
-        // enemy was not spawned or failed to spawn (based on random chance)
-        return false;
+        EnemyLogic newEnemy = new EnemyLogic(new EnemyObject(this.getEnemyType()));
+        return super.spawnObjectAttempt(newEnemy);
     }
+
 
     // obtain list of objects being managed
     public CopyOnWriteArrayList<ObjectLogic> getEnemies() {

@@ -3,12 +3,16 @@ package com.liamreal.logic.object;
 import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.liamreal.enums.CollisionType;
 import com.liamreal.enums.Direction;
 import com.liamreal.logic.OutOfBoundsLogic;
 import com.liamreal.logic.explosion.ExplosionLogicManager;
+import com.liamreal.logic.item.ItemLogic;
 import com.liamreal.objects.GameObject;
+import com.liamreal.objects.ItemObject;
+import com.liamreal.util.CooldownHandler;
 
 // generic method to manage different logics (will manage for example enemy logic thru a subclass)
 public class ObjectLogicManager {
@@ -138,6 +142,32 @@ public class ObjectLogicManager {
         }
         // keep only all objects that are alive (health > 0), if dead will be removed from list
         // objectLogicManager.keepOnlyAlive();
+    }
+
+    
+
+    // spawns an object by adding a new ObjectLogic to list (if eligible to spawn)
+    public boolean spawnObjectAttempt(ObjectLogic newObject) {
+        // get time since last object and calculate how much time passed
+        Instant lastItemSpawnTime = this.getCooldownStartTime();
+        // if time since last object has surpassed frequency time, eligible to spawn (may not spawn based on chance tho)
+        if (!CooldownHandler.isOnCooldown(lastItemSpawnTime, this.getCooldownLength())) {
+            // reset the start time
+            this.resetCooldown();
+            // 50% chance to spawn 1 object every 1/maxNumObjects of a second e.g. if 4 objects (e.g. enemies) every 1/4 of a second, 
+            // it picks whether to spawn or not from range of [0,2) <--- EXCLUDES 2!!!
+            int randomSpawnChance = ThreadLocalRandom.current().nextInt(0, 2);
+            CopyOnWriteArrayList<ObjectLogic> objects = this.getObjects();
+            // if hit correct chance to spawn item and less than max number of objects
+            if (randomSpawnChance == 1 && objects.size() < this.getMaxNumObjects()) {
+                // add object trying to spawn
+                newObject.setHealth(this.getDefaultObjectHealth());
+                objects.add(newObject);
+                return true;
+            }
+        }
+        // object was not spawned or failed to spawn (based on random chance)
+        return false;
     }
 
     // collision for all this logic manager objects colliding with all objects in another logic manager

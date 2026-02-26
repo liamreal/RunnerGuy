@@ -1,10 +1,8 @@
 package com.liamreal.objects;
 
-import com.liamreal.display.GameDisplay;
 import com.liamreal.display.TextureLoader;
 import com.liamreal.enums.EnemyType;
 import com.liamreal.util.Point3f;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class EnemyObject extends GameObject {
@@ -12,7 +10,7 @@ public class EnemyObject extends GameObject {
     // will have some data specific to player and inherit superclass methods
     public EnemyObject(EnemyType enemyType) {  
         super();
-        this.setRandomCentre();
+        super.setRandomCentre();
         // set enemy type
         this.setEnemyType(enemyType);
 	}
@@ -51,14 +49,6 @@ public class EnemyObject extends GameObject {
             enemy,
             enemy
         ));
-    }
-    protected void setRandomCentre() {
-        // enemies will spawn randomly on x-axis off screen up
-        int enemyWidth = this.getWidth();
-        int minX = enemyWidth;
-        int maxX = GameDisplay.getDisplayX() - enemyWidth;
-        int randomX = ThreadLocalRandom.current().nextInt(minX, maxX);
-        super.setCentre(new Point3f(randomX, -this.getHeight(), 0));
     }
 
     
