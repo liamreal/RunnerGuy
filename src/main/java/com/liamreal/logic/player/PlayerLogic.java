@@ -26,6 +26,8 @@ public class PlayerLogic extends ObjectLogic {
     private double enemyHitCooldownLength = 1.0; // player will be invincible during this time
     private Instant bulletFireCooldownStartTime = Instant.now(); // for checking when player last fired bullet
     private double bulletFireCooldownLength = 0.5; // player will be unable to fire bullets during this time
+    private Instant itemUseCooldownStartTime = Instant.now(); // for checking when player use last item
+    private double itemUseCooldownLength = 5.0; // player will have this item effect until over or picks up another item
     private PlayerType playerType;
     // using boolean supplier allows you to get player input via a lambda (suggest by ChatGPT)
     private HashMap<Direction, BooleanSupplier> playerMoves;
@@ -78,9 +80,11 @@ public class PlayerLogic extends ObjectLogic {
     public int getHealth() { return playerObject.getHealth(); }
     private Instant getEnemyHitCooldownStartTime() { return this.enemyHitCooldownStartTime; }
     private Instant getBulletFireCooldownStartTime() { return this.bulletFireCooldownStartTime; }
+    private Instant getItemUseCooldownStartTime() { return this.itemUseCooldownStartTime; }
     public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
     private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
     private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }
+    private void setItemUseCooldownStartTime(Instant newStartTime) { this.itemUseCooldownStartTime = newStartTime; }
 
     // // find time (in seconds) since last cooldown application
     // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
@@ -102,11 +106,33 @@ public class PlayerLogic extends ObjectLogic {
     public void resetBulletFireCooldown() {
         this.setBulletFireCooldownStartTime(Instant.now());
     }
+    // reset start time of last time player used item
+    public void resetItemUseCooldown() {
+        this.setItemUseCooldownStartTime(Instant.now());
+    }
+
+    // various item collision checks
+    public GameObject collideItem(ObjectLogicManager itemLogicManager) {
+        CopyOnWriteArrayList<GameObject> collidedItems = super.collide(itemLogicManager);
+        // if multiple collisions, pick item object that was closest
+        GameObject collidedItemObject = super.getClosestGameObject(collidedItems);
+        if (collidedItemObject != null) {
+            // check last time player hit enemy
+            Instant lastItemUseTime = this.getItemUseCooldownStartTime();
+            if (!CooldownHandler.isOnCooldown(lastItemUseTime, this.enemyHitCooldownLength)) {
+                this.resetEnemyHitCooldown();
+                // kill item by setting health to 0
+                collidedItemObject.setHealth(0);
+            }
+        }
+        // return collided object (or null if collide method returns nothing)
+        return collidedItemObject;
+    }
 
     // various enemy collision checks
     public GameObject collideEnemy(ObjectLogicManager enemyLogicManager) {
         CopyOnWriteArrayList<GameObject> collidedEnemies = super.collide(enemyLogicManager);
-        // if multiple collisions, pick enemy object that had highest health
+        // if multiple collisions, pick enemy object that was closest
         GameObject collidedEnemyObject = super.getClosestGameObject(collidedEnemies);
         if (collidedEnemyObject != null) {
             // check last time player hit enemy

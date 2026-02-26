@@ -45,7 +45,14 @@ public class ObjectLogic {
     }
 
 
+    // potential names for collision logics
     public GameObject collideEnemy(ObjectLogicManager otherObjectLogicManager) { 
+        return this.collideClosestObject(otherObjectLogicManager);
+    }
+    public GameObject collideItem(ObjectLogicManager otherObjectLogicManager) { 
+        return this.collideClosestObject(otherObjectLogicManager); 
+    }
+    public GameObject collideClosestObject(ObjectLogicManager otherObjectLogicManager) {
         return this.getClosestGameObject(this.collide(otherObjectLogicManager)); 
     }
     

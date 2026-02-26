@@ -56,6 +56,15 @@ public class PlayerLogicManager extends ObjectLogicManager {
         return enemiesCollided;
     }
 
+    public CopyOnWriteArraySet<GameObject> collideItem(ObjectLogicManager itemLogicManager) {
+        CopyOnWriteArraySet<GameObject> itemsCollided = new CopyOnWriteArraySet<>();
+        for (ObjectLogic player : this.getPlayers()) {
+            itemsCollided.add(player.collideItem(itemLogicManager));
+        }
+        // return all enemies collided by players
+        return itemsCollided;
+    }
+
     // this one simply kills, can instead get all collided objects and spawn explosions at them, or summon new objects and make them go backwards
     public CopyOnWriteArraySet<GameObject> killEnemy(EnemyLogicManager enemyLogicManager) {
         return this.collideEnemy(enemyLogicManager);
