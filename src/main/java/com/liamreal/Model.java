@@ -64,8 +64,8 @@ public class Model {
 		}
 
 		// if above certain score, switch to advanced enemies
-		if (score.getScore() > 10) {
-			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
+		if (score.getScore() > 2) {
+			enemies.setEnemyType(EnemyType.ADVANCED);
 		}
 
 		// Player Logic first 

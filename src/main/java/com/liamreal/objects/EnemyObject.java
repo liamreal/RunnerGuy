@@ -31,7 +31,20 @@ public class EnemyObject extends GameObject {
 
     public EnemyType getEnemyType() { return this.enemyType; }
     public void setEnemyType(EnemyType newEnemyType) { 
-        this.enemyType = newEnemyType; 
+        switch (newEnemyType) {
+            case BASIC:
+                this.setEnemyType(EnemyType.BASIC);
+                this.setHealth(1);
+                break;
+            case ADVANCED:
+                this.setEnemyType(EnemyType.ADVANCED);
+                this.setHealth(2);
+                break;
+            default:
+                // not a valid enemy type in cases
+                String errorMessage = String.format("EnemyType %s not in %s", newEnemyType, EnemyType.getAllEnemyTypes().toString());
+                throw new IllegalArgumentException(errorMessage);
+        } 
         this.setTexture(enemyType);
     }
 

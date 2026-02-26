@@ -30,9 +30,8 @@ public class EnemyLogicManager extends ObjectLogicManager {
     public EnemyType getEnemyType() { return this.enemyType; }
     public int getMaxNumEnemies() { return super.getMaxNumObjects(); }
     public int getDefaultEnemyHealth() { return this.defaultEnemyHealth; }
-    public void setEnemyType(EnemyType newEnemyType) { this.enemyType = newEnemyType;}
     public void setDefaultEnemyHealth(int newEnemyHealth) { this.defaultEnemyHealth = newEnemyHealth; }
-    public void setEnemyDifficulty(EnemyType newEnemyType) { 
+    public void setEnemyType(EnemyType newEnemyType) { 
         switch (newEnemyType) {
             case BASIC:
                 this.setEnemyType(EnemyType.BASIC);
