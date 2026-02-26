@@ -4,6 +4,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.liamreal.enums.EnemyType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
+import com.liamreal.logic.item.ItemLogicManager;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.player.PlayerLogicManager;
 import com.liamreal.util.Score;
@@ -35,6 +36,7 @@ public class Model {
 	 private  PlayerLogicManager players;
 	 private  EnemyLogicManager enemies;
 	 private  BulletLogicManager bullets;
+	 private  ItemLogicManager items;
 	 private Score score = new Score(); 
 
 	public Model() {
@@ -42,6 +44,7 @@ public class Model {
 		players = new PlayerLogicManager(2);
 		enemies = new EnemyLogicManager();
 		bullets = new BulletLogicManager();
+		items = new ItemLogicManager();
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
@@ -52,6 +55,7 @@ public class Model {
 		players.updateTexture();
 		enemies.updateTexture();
 		bullets.updateTexture();
+		items.updateTexture();
 
 		// to pass a level, can have score threshold to pass, for example at least 20 per level (modulus ensures score saved across levels)
 		if ((score.getScore() > 0 && score.getScore() % 5 == 0) || players.getPlayers().size() == 0) { 
@@ -70,6 +74,8 @@ public class Model {
 		bulletLogic();
 		// Enemy Logic next
 		enemyLogic();
+		// Item Logic next
+		itemLogic();
 
 		return false;
 	}
@@ -79,6 +85,13 @@ public class Model {
 		enemies.moveEnemies();
 		// attempt to spawn enemy (based on random chance)
 		enemies.spawnEnemyAttempt();
+	}
+
+	private void itemLogic() {
+		// move all items
+		items.moveItems();
+		// attempt to spawn item (based on random chance)
+		items.spawnItemAttempt();
 	}
 
 	private void bulletLogic() {
@@ -118,6 +131,10 @@ public class Model {
 	public CopyOnWriteArrayList<ObjectLogic> getExplosions() {
 		// get explosions from bullets
 		return bullets.getExplosions();
+	}
+
+	public CopyOnWriteArrayList<ObjectLogic> getItems() {
+		return items.getItems();
 	}
 
 	public int getScore() { 

@@ -53,6 +53,13 @@ public abstract class GameObject {
 	public GameObject(Point3f centre) {
 		this.centre = centre;
 	}
+	// when only specifying object width and height, centre is random (based on screen limits, as of now randomly just at top of screen)
+	public GameObject(int width,int height) { 
+		hasTextured=false;
+		this.width=width;
+		this.height=height;
+		this.setRandomCentre();
+	}
     public GameObject(String textureLocation,int width,int height,Point3f centre) {
 		hasTextured=true;
 		this.textureLocation=textureLocation;

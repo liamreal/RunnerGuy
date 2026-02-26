@@ -10,8 +10,7 @@ public class ItemObject extends GameObject {
     private ItemType itemType;
     // will have some data specific to item
     public ItemObject() {
-        super();
-        super.setRandomCentre();
+        super(32, 64); // randomises centre
         this.itemType = this.setRandomItemType(); // set item type for this item randomly on creation
         this.setMinLifeTime(0.2);
         this.setHealth(1); // items die after being collided with by a player
@@ -34,10 +33,12 @@ public class ItemObject extends GameObject {
     
     // set texture specifically for item
     protected void setTexture() {
+        ItemType itemType = this.getItemType();
         super.setTexture(String.format(
-            "%s/textures/items/%s.png", 
+            "%s/textures/items/%s/%s.png", 
             TextureLoader.getAssetsPath(),
-            this.getItemType()
+            itemType,
+            itemType
         ));
     }
     

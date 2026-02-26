@@ -98,6 +98,11 @@ public class Viewer extends JPanel {
 		{ 
 			drawEnemies((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
 		}); 
+
+		gameworld.getItems().forEach((temp) -> 
+		{ 
+			drawBullet((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
+		}); 
 		
 		//Draw Enemies   
 		gameworld.getEnemies().forEach((temp) -> 
