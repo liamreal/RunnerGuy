@@ -8,6 +8,7 @@ import com.liamreal.display.GameDisplay;
 import com.liamreal.enums.Direction;
 import com.liamreal.enums.Interaction;
 import com.liamreal.enums.PlayerType;
+import com.liamreal.enums.ItemType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.object.ObjectLogicManager;
@@ -29,6 +30,7 @@ public class PlayerLogic extends ObjectLogic {
     private Instant itemUseCooldownStartTime = Instant.now(); // for checking when player use last item
     private double itemUseCooldownLength = 5.0; // player will have this item effect until over or picks up another item
     private PlayerType playerType;
+    private ItemType itemType = null;
     // using boolean supplier allows you to get player input via a lambda (suggest by ChatGPT)
     private HashMap<Direction, BooleanSupplier> playerMoves;
     private HashMap<Interaction, BooleanSupplier> playerInteractions;
@@ -84,10 +86,12 @@ public class PlayerLogic extends ObjectLogic {
     private double getEnemyHitCooldownLength() { return this.enemyHitCooldownLength; }
     private double getBulletFireCooldownLength() { return this.bulletFireCooldownLength; }
     private double getItemUseCooldownLength() { return this.itemUseCooldownLength; }
+    private ItemType getItemType() { return this.itemType; }
     public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
     private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
     private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }
     private void setItemUseCooldownStartTime(Instant newStartTime) { this.itemUseCooldownStartTime = newStartTime; }
+    private void setItemType(ItemType newItemType) { this.itemType = newItemType; }
 
     // // find time (in seconds) since last cooldown application
     // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
@@ -114,19 +118,49 @@ public class PlayerLogic extends ObjectLogic {
         this.setItemUseCooldownStartTime(Instant.now());
     }
 
+
+    // check item
+    public void updateItem() {
+        Instant lastItemUseTime = this.getItemUseCooldownStartTime();
+        // // for debugging that is updating item for player specifically (and NOT superclass method)
+        // System.out.println(lastItemUseTime);
+        // System.out.println(this.getItemUseCooldownLength());
+        if (!CooldownHandler.isOnCooldown(lastItemUseTime, this.getItemUseCooldownLength())) {
+            this.setItemType(null); // remove item if past cooldown
+        }
+    }
+
+    // restore health item
+    private void useHealthItem() {
+        this.setHealth(this.getHealth() + 1);
+        this.setItemType(null); // reset item type to null
+    }
+
+    // for items which have one time use and are not on continuous cooldown (such as a health restore item)
+    private void itemDirectUse() {
+        switch (this.getItemType()) {
+            // if health item, restore health 
+            case HEALTH:
+                this.useHealthItem();
+                break;
+            // otherwise not a direct use item (such as a bullet) or null
+            default:
+                break;
+        }
+    }
+
     // various item collision checks
     public GameObject collideItem(ObjectLogicManager itemLogicManager) {
         CopyOnWriteArrayList<GameObject> collidedItems = super.collide(itemLogicManager);
         // if multiple collisions, pick item object that was closest
         GameObject collidedItemObject = super.getClosestGameObject(collidedItems);
         if (collidedItemObject != null) {
-            // check last time player hit enemy
-            Instant lastItemUseTime = this.getItemUseCooldownStartTime();
-            if (!CooldownHandler.isOnCooldown(lastItemUseTime, this.getItemUseCooldownLength())) {
-                this.resetEnemyHitCooldown();
-                // kill item by setting health to 0
-                collidedItemObject.setHealth(0);
-            }
+            // set new item type
+            this.setItemType(collidedItemObject.getItemType()); // get item type of GameObject
+            this.resetItemUseCooldown();
+            // kill item by setting health to 0
+            collidedItemObject.setHealth(0);
+            this.itemDirectUse();
         }
         // return collided object (or null if collide method returns nothing)
         return collidedItemObject;
@@ -157,14 +191,17 @@ public class PlayerLogic extends ObjectLogic {
         GameObject playerObject = this.getGameObject();
         boolean playerSpace = playerInteractions.get(Interaction.SHOOT).getAsBoolean();
         if (playerSpace) {
-            // check last time player fired bullet
-            Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
-            if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.getBulletFireCooldownLength())) {
-                // spawn bullet based on player who pressing space
-                GameObject bulletSpawned = bulletLogicManager.spawnBullet(playerObject);
-                this.resetBulletFireCooldown();
-                // bullet fired success result
-                return bulletSpawned;
+            // only allow to fire if they have item to shoot bullets
+            if (this.getItemType() == ItemType.BULLET) {
+                // check last time player fired bullet
+                Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
+                if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.getBulletFireCooldownLength())) {
+                    // spawn bullet based on player who pressing space
+                    GameObject bulletSpawned = bulletLogicManager.spawnBullet(playerObject);
+                    this.resetBulletFireCooldown();
+                    // bullet fired success result
+                    return bulletSpawned;
+                }
             }
         }
         // no bullet spawned

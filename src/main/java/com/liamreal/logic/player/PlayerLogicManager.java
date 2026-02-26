@@ -39,6 +39,13 @@ public class PlayerLogicManager extends ObjectLogicManager {
     public CopyOnWriteArrayList<ObjectLogic> getPlayers() { return this.players; }
     
 
+    // update items for each player
+    public void updateItems() {
+        for (ObjectLogic player : this.getPlayers()) {
+            player.updateItem();
+        }
+    }
+
     // move every player in list
     public void movePlayers() {
         for (ObjectLogic player : this.getPlayers()) {

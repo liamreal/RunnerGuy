@@ -112,6 +112,8 @@ public class Model {
 		players.collideEnemy(enemies);
 		// collision of player with items
 		players.collideItem(items);
+		// update items to see if all used up (in case of bullets being a power-up of sorts that lasts some time)
+		players.updateItems();
 		// spawn bullet on player
 		players.spawnBullet(bullets);
 	}

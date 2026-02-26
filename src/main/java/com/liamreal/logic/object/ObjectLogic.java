@@ -55,6 +55,9 @@ public class ObjectLogic {
     public GameObject collideClosestObject(ObjectLogicManager otherObjectLogicManager) {
         return this.getClosestGameObject(this.collide(otherObjectLogicManager)); 
     }
+
+    // generic item update does nothing (needs to be overwritten by any subclasses, for now just player)
+    public void updateItem() { return; }
     
     // various generic collision checks
     public GameObject collide(GameObject otherObject) {
