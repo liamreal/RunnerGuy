@@ -48,7 +48,7 @@ public abstract class GameObject {
 	private String blankTexture= String.format("%s/textures/blank.png", AssetLoader.getAssetsPath());
 	private int health=1;
 	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
-	private double minLifeTime = 0.2; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets that spawn directly at an enemy)
+	private double minLifeTime = 0.1; // by default a spawned entity must live minimum amount of time in seconds (to prevent invisible bullets that spawn directly at an enemy)
 
 	public GameObject() {
 	}
