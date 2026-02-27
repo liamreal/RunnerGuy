@@ -7,8 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.display.GameDisplay;
-import com.liamreal.display.TextureLoader;
 
 
 /*
@@ -136,7 +137,7 @@ public class Viewer extends JPanel {
 	{
 		File TextureToLoad = new File(String.format(
             "%s/textures/background/background.png", 
-            TextureLoader.getAssetsPath()
+            AssetLoader.getAssetsPath()
         ));
 		//should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 		try {

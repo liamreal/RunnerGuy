@@ -1,6 +1,6 @@
 package com.liamreal.objects;
 
-import com.liamreal.display.TextureLoader;
+import com.liamreal.assets.AssetLoader;
 
 public class ExplosionObject extends GameObject {
     // will have some data specific to player and inherit superclass methods
@@ -19,7 +19,7 @@ public class ExplosionObject extends GameObject {
     protected void setTexture() {
         super.setTexture(String.format(
             "%s/textures/explosions/explosion.png", 
-            TextureLoader.getAssetsPath()
+            AssetLoader.getAssetsPath()
         ));
     }
 }

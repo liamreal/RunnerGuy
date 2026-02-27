@@ -1,6 +1,6 @@
 package com.liamreal.objects;
 
-import com.liamreal.display.TextureLoader;
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.enums.PlayerType;
 import com.liamreal.util.Point3f;
 
@@ -40,7 +40,7 @@ public class PlayerObject extends GameObject {
     protected void setTexture(PlayerType playerType) {
         super.setTexture(String.format(
             "%s/textures/players/player_%s.png", 
-            TextureLoader.getAssetsPath(),
+            AssetLoader.getAssetsPath(),
             playerType.toString()
         ));
     }

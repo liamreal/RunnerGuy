@@ -1,6 +1,6 @@
 package com.liamreal.objects;
 
-import com.liamreal.display.TextureLoader;
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.util.Point3f;
 
 public class BulletObject extends GameObject {
@@ -26,7 +26,7 @@ public class BulletObject extends GameObject {
     protected void setTexture() {
         super.setTexture(String.format(
             "%s/textures/projectiles/bullet.png", 
-            TextureLoader.getAssetsPath()
+            AssetLoader.getAssetsPath()
         ));
     }
 

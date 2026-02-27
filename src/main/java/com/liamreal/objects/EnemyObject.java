@@ -1,6 +1,6 @@
 package com.liamreal.objects;
 
-import com.liamreal.display.TextureLoader;
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.enums.EnemyType;
 import com.liamreal.util.Point3f;
 
@@ -59,7 +59,7 @@ public class EnemyObject extends GameObject {
         String enemy = enemyType.toString();
         super.setTexture(String.format(
             "%s/textures/enemies/%s/%s.png", 
-            TextureLoader.getAssetsPath(),
+            AssetLoader.getAssetsPath(),
             enemy,
             enemy
         ));

@@ -14,8 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import com.liamreal.util.UnitTests;
 import com.liamreal.display.GameDisplay;
-import com.liamreal.display.TextureLoader;
 import com.liamreal.user.Config;
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.controllers.Controller;
 
 /*
@@ -85,7 +85,7 @@ public class MainWindow {
 	        //loading background image 
 	        File BackgroundToLoad = new File(String.format(
 				"assets/start_menu.png", 
-				TextureLoader.getAssetsPath()
+				AssetLoader.getAssetsPath()
 			));  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 			try {
 				 
@@ -105,7 +105,7 @@ public class MainWindow {
 		MainWindow hello = new MainWindow();  //sets up environment 
 
 		for (String level: Config.getInstance().getLevels()) {
-			TextureLoader.setGameType(level);
+			AssetLoader.setGameType(level);
 			boolean levelComplete = false;
 			while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
 			{ 

@@ -3,7 +3,7 @@ package com.liamreal.objects;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.liamreal.display.TextureLoader;
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.enums.ItemType;
 
 public class ItemObject extends GameObject {
@@ -36,7 +36,7 @@ public class ItemObject extends GameObject {
         ItemType itemType = this.getItemType();
         super.setTexture(String.format(
             "%s/textures/items/%s/%s.png", 
-            TextureLoader.getAssetsPath(),
+            AssetLoader.getAssetsPath(),
             itemType,
             itemType
         ));

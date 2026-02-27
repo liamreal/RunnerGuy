@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.time.Instant;
+
+import com.liamreal.assets.AssetLoader;
 import com.liamreal.display.GameDisplay;
-import com.liamreal.display.TextureLoader;
 import com.liamreal.util.DurationHandler;
 import com.liamreal.util.Metrics;
 import com.liamreal.util.Point3f;
@@ -44,7 +45,7 @@ public abstract class GameObject {
 	private int height=50;
 	private boolean hasTextured=false;
 	private String textureLocation; 
-	private String blankTexture= String.format("%s/textures/blank.png", TextureLoader.getAssetsPath());
+	private String blankTexture= String.format("%s/textures/blank.png", AssetLoader.getAssetsPath());
 	private int health=1;
 	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
 	private double minLifeTime = 0.2; // by default a spawned entity must live minimum amount of time (to prevent invisible bullets that spawn directly at an enemy)
