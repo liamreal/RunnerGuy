@@ -75,6 +75,8 @@ public class ObjectLogicManager {
         for (ObjectLogic object: this.getObjects()) {
             // if invalid health (0 or less), remove object logic from list
             if (!object.isAlive()) {
+                    // SoundPlayer.playSound()
+
                 objects.remove(object);
             }
         }

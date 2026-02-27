@@ -155,6 +155,8 @@ public class PlayerLogic extends ObjectLogic {
         // if multiple collisions, pick item object that was closest
         GameObject collidedItemObject = super.getClosestGameObject(collidedItems);
         if (collidedItemObject != null) {
+            // SoundPlayer.playSound()
+
             // set new item type
             this.setItemType(collidedItemObject.getItemType()); // get item type of GameObject
             this.resetItemUseCooldown();
@@ -175,6 +177,8 @@ public class PlayerLogic extends ObjectLogic {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
             if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.getEnemyHitCooldownLength())) {
+                // SoundPlayer.playSound()
+
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
                 playerObject.decreaseHealth(collidedEnemyObject.getHealth());
@@ -196,6 +200,8 @@ public class PlayerLogic extends ObjectLogic {
                 // check last time player fired bullet
                 Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
                 if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.getBulletFireCooldownLength())) {
+                    // SoundPlayer.playSound()
+
                     // spawn bullet based on player who pressing space
                     GameObject bulletSpawned = bulletLogicManager.spawnBullet(playerObject);
                     this.resetBulletFireCooldown();

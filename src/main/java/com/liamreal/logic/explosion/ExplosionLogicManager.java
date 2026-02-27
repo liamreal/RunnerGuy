@@ -31,6 +31,8 @@ public class ExplosionLogicManager extends ObjectLogicManager {
     public GameObject spawnExplosion(GameObject gameObject) {
         ExplosionLogic newExplosion = new ExplosionLogic(new ExplosionObject(gameObject));
         explosions.add(newExplosion);
+        // SoundPlayer.playSound()
+
         return newExplosion.getGameObject();
     }
 
