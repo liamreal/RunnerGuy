@@ -186,7 +186,7 @@ public abstract class GameObject {
 
 	// GameObject to string returns memory location but also location on screen
 	public String toString() {
-		return String.format("%s at (%f,%f)", super.toString(), centre.getX(), centre.getY());
+		return String.format("%s at (%f,%f)", super.toString(), this.getCentre().getX(), this.getCentre().getY());
 	}
   
 }

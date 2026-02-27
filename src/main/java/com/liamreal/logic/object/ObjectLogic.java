@@ -162,4 +162,9 @@ public class ObjectLogic {
         }
     }
 
+    // to string of ObjectLogic
+    public String toString() {
+		return String.format("%s(%s)", super.toString(), this.getGameObject().toString());
+    }
+
 }

@@ -197,6 +197,9 @@ public class ObjectLogicManager {
     // move every object in list
     public void moveObjects(Direction direction) {
 		for (ObjectLogic object : this.objects) {
+            // // to debug objects being moved and their health
+            // System.out.println("\n" + object.toString());
+            // System.out.println(object.getHealth());
             // move object in given direction
             object.move(direction);
             // if object goes out of bound (screen size + object size)

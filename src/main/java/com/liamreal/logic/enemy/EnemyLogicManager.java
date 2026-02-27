@@ -13,7 +13,6 @@ public class EnemyLogicManager extends ObjectLogicManager {
     // objects list (in subclasses will have a getter which is respective to item managing)
 	private CopyOnWriteArrayList<ObjectLogic> enemies = super.getObjects();
     private EnemyType enemyType = EnemyType.BASIC;
-    private int defaultEnemyHealth = super.getDefaultObjectHealth();
 
     public EnemyLogicManager() {
         super();
@@ -27,11 +26,13 @@ public class EnemyLogicManager extends ObjectLogicManager {
     }
 
     // getters and setters
-    public EnemyType getEnemyType() { return this.enemyType; }
+    protected EnemyType getEnemyType() { return this.enemyType; }
+    protected EnemyType getEnemyDifficulty() { return this.getEnemyType(); }
     public int getMaxNumEnemies() { return super.getMaxNumObjects(); }
-    public int getDefaultEnemyHealth() { return this.defaultEnemyHealth; }
-    public void setDefaultEnemyHealth(int newEnemyHealth) { this.defaultEnemyHealth = newEnemyHealth; }
-    public void setEnemyType(EnemyType newEnemyType) { 
+    public int getDefaultEnemyHealth() { return super.getDefaultObjectHealth(); }
+    public void setDefaultEnemyHealth(int newEnemyHealth) { super.setDefaultObjectHealth(newEnemyHealth); }
+    protected void setEnemyType(EnemyType newEnemyType) { this.enemyType = newEnemyType; }
+    public void setEnemyDifficulty(EnemyType newEnemyType) { 
         switch (newEnemyType) {
             case BASIC:
                 this.setEnemyType(EnemyType.BASIC);
@@ -45,7 +46,7 @@ public class EnemyLogicManager extends ObjectLogicManager {
                 // not a valid enemy type in cases
                 String errorMessage = String.format("EnemyType %s not in %s", newEnemyType, EnemyType.getAllEnemyTypes().toString());
                 throw new IllegalArgumentException(errorMessage);
-        }
+        } 
     }
     public void setMaxNumEnemies(int newMaxNumEnemies) { 
         super.setMaxNumObjects(newMaxNumEnemies);

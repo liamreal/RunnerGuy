@@ -12,7 +12,7 @@ public class EnemyObject extends GameObject {
         super();
         super.setRandomCentre();
         // set enemy type
-        this.setEnemyType(enemyType);
+        this.setEnemyDifficulty(enemyType);
 	}
     // superclass constructors we dont want to use for child class throw error for
     public EnemyObject(String textureLocation, int width, int height, Point3f centre) { 
@@ -26,11 +26,11 @@ public class EnemyObject extends GameObject {
     public EnemyObject(int width,int height, Point3f centre, EnemyType enemyType) { 
         super(width, height, centre);
         // set enemy texture
-        this.setEnemyType(enemyType);
+        this.setEnemyDifficulty(enemyType);
 	}
 
     public EnemyType getEnemyType() { return this.enemyType; }
-    public void setEnemyType(EnemyType newEnemyType) { 
+    public void setEnemyDifficulty(EnemyType newEnemyType) { 
         switch (newEnemyType) {
             case BASIC:
                 this.setEnemyType(EnemyType.BASIC);
@@ -52,6 +52,7 @@ public class EnemyObject extends GameObject {
     public void updateTexture() { this.setTexture(); }
 
     protected void setTexture() { this.setTexture(this.getEnemyType()); }
+    protected void setEnemyType(EnemyType newEnemyType) { this.enemyType = newEnemyType; }
 
     // set text specifically for enemy
     protected void setTexture(EnemyType enemyType) {
