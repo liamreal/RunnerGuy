@@ -12,10 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.sound.sampled.*;
 import com.liamreal.util.UnitTests;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.user.Config;
 import com.liamreal.assets.AssetLoader;
+import com.liamreal.assets.SoundPlayer;
 import com.liamreal.controllers.Controller;
 
 /*
@@ -107,13 +109,19 @@ public class MainWindow {
 		for (String level: Config.getInstance().getLevels()) {
 			AssetLoader.setGameType(level);
 			boolean levelComplete = false;
+			Clip musicClip = SoundPlayer.loopSound(String.format(
+				"%s/sounds/background/background.wav",
+				AssetLoader.getAssetsPath()
+			));
 			while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
 			{ 
 				//swing has timer class to help us time this but I'm writing my own, you can of course use the timer, but I want to set FPS and display it 
 				
 				int TimeBetweenFrames =  1000 / TargetFPS;
 				long FrameCheck = System.currentTimeMillis() + (long) TimeBetweenFrames; 
-					
+
+				
+				
 					//wait till next time step 
 				while (FrameCheck > System.currentTimeMillis()){} 
 					
@@ -124,9 +132,10 @@ public class MainWindow {
 						}
 					
 					//UNIT test to see if framerate matches 
-				UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS); 
-				
+				UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS);
 			}
+			// stop looping sound
+			SoundPlayer.stopSound(musicClip);
 		}
 		
 		
