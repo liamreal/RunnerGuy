@@ -157,10 +157,8 @@ public class PlayerLogic extends ObjectLogic {
         // if multiple collisions, pick item object that was closest
         GameObject collidedItemObject = super.getClosestGameObject(collidedItems);
         if (collidedItemObject != null) {
-            // SoundPlayer.playSound()
-
-            // set new item type
             this.setItemType(collidedItemObject.getItemType()); // get item type of GameObject
+            collidedItemObject.playUseSound();
             this.resetItemUseCooldown();
             // kill item by setting health to 0
             collidedItemObject.setHealth(0);

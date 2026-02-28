@@ -52,7 +52,9 @@ public class BulletLogicManager extends ObjectLogicManager {
 
     // spawn bullet at player
     public GameObject spawnBullet(GameObject playerObject) {
-        BulletLogic newBullet = new BulletLogic(new BulletObject(playerObject));
+        BulletObject newBulletObject = new BulletObject(playerObject);
+        newBulletObject.playFireSound(); // play fire sound of bullet now that is spawned
+        BulletLogic newBullet = new BulletLogic(newBulletObject);
         bullets.add(newBullet);
         return newBullet.getGameObject();
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.liamreal.assets.AssetLoader;
+import com.liamreal.assets.SoundPlayer;
 import com.liamreal.enums.ItemType;
 
 public class ItemObject extends GameObject {
@@ -15,6 +16,11 @@ public class ItemObject extends GameObject {
         this.setMinLifeTime(0.2);
         this.setHealth(1); // items die after being collided with by a player
         this.setTexture();
+        this.setUseSound(String.format(
+            "%s/sounds/items/%s/use.wav",
+            AssetLoader.getAssetsPath(),
+            this.getItemType()
+        ));
 	}
 
     // get item type
@@ -29,6 +35,11 @@ public class ItemObject extends GameObject {
         int randomItemIndex = ThreadLocalRandom.current().nextInt(0, itemTypes.size());
         itemType = itemTypes.get(randomItemIndex); // get random item from list and set as this item type
         return itemType;
+    }
+    
+    // play item use sound
+    public void playUseSound() {
+        SoundPlayer.playSound(this.getUseSound());
     }
     
     // set texture specifically for item

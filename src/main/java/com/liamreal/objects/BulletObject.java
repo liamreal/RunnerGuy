@@ -1,6 +1,7 @@
 package com.liamreal.objects;
 
 import com.liamreal.assets.AssetLoader;
+import com.liamreal.assets.SoundPlayer;
 import com.liamreal.util.Point3f;
 
 public class BulletObject extends GameObject {
@@ -8,6 +9,10 @@ public class BulletObject extends GameObject {
     public BulletObject(GameObject playerObject) {  
         super(32, 32, findBulletCentre(playerObject));
         this.setTexture();
+        this.setFireSound(String.format(
+            "%s/sounds/projectiles/fire.wav",
+            AssetLoader.getAssetsPath()
+        ));
 	}
 
     // helper method to calculate player centre so can call superclass constructor
@@ -21,6 +26,11 @@ public class BulletObject extends GameObject {
 
     // update texture
     public void updateTexture() { this.setTexture(); }
+
+
+    public void playFireSound() {
+        SoundPlayer.playSound(this.getFireSound());
+    }
 
     // set text specifically for player
     protected void setTexture() {
