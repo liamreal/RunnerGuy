@@ -109,6 +109,7 @@ public class MainWindow {
 		for (String level: Config.getInstance().getLevels()) {
 			AssetLoader.setGameType(level);
 			boolean levelComplete = false;
+			// loop background music clip
 			Clip musicClip = SoundPlayer.loopSound(String.format(
 				"%s/sounds/background/background.wav",
 				AssetLoader.getAssetsPath()
@@ -134,7 +135,7 @@ public class MainWindow {
 					//UNIT test to see if framerate matches 
 				UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS);
 			}
-			// stop looping sound
+			// stop looping music after level is done
 			SoundPlayer.stopSound(musicClip);
 		}
 		

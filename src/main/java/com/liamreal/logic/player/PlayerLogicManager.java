@@ -45,6 +45,15 @@ public class PlayerLogicManager extends ObjectLogicManager {
             player.updateItem();
         }
     }
+    // check if any of players reached portal (i.e. end of level)
+    public boolean isLevelComplete() {
+        for (ObjectLogic player : this.getPlayers()) {
+            if (player.isLevelComplete()) { return true; }
+        }
+        return false;
+    }
+
+
 
     // move every player in list
     public void movePlayers() {

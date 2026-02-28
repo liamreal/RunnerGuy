@@ -58,6 +58,8 @@ public class ObjectLogic {
 
     // generic item update does nothing (needs to be overwritten by any subclasses, for now just player)
     public void updateItem() { return; }
+    // generic is level complete returns false (needs to be overwritten by any subclasses, for now just player)
+    public boolean isLevelComplete() { return false; }
     
     // various generic collision checks
     public GameObject collide(GameObject otherObject) {

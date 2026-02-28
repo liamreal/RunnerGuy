@@ -6,6 +6,7 @@ import com.liamreal.logic.object.ObjectLogicManager;
 import com.liamreal.objects.ItemObject;
 import com.liamreal.user.Config;
 import com.liamreal.enums.Direction;
+import com.liamreal.enums.ItemType;
 
 // generic method to manage different logics (will manage for example item logic thru a subclass)
 public class ItemLogicManager extends ObjectLogicManager {
@@ -47,6 +48,10 @@ public class ItemLogicManager extends ObjectLogicManager {
 
     public boolean spawnItemAttempt() {
         ItemLogic newItem = new ItemLogic(new ItemObject());
+        return super.spawnObjectAttempt(newItem);
+    }
+    public boolean spawnPortalItemAttempt() {
+        ItemLogic newItem = new ItemLogic(new ItemObject(ItemType.PORTAL));
         return super.spawnObjectAttempt(newItem);
     }
 

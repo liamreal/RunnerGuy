@@ -49,22 +49,14 @@ public class Model {
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean gamelogic() 
-	{	
+	{
 		// System.out.println(TextureLoader.getAssetsPath());
 		// players.getPlayers().get(0).getGameObject().setTexture("assets/space/textures/players/player_two.png"); // WORKS!!!
-		players.updateTexture();
-		enemies.updateTexture();
-		bullets.updateTexture();
-		items.updateTexture();
 
-		// to pass a level, can have score threshold to pass, for example at least 20 per level (modulus ensures score saved across levels)
-		if ((score.getScore() > 0 && score.getScore() % 5 == 0) || players.getPlayers().size() == 0) { 
-			score.incrementScore(1); // + 1 for level passed (MUST increment score otherwise frozen since next level starts at this same score and immediately returns true)
-			return true; 
-		}
 
-		// if above certain score, switch to advanced enemies
-		if (score.getScore() > 2) {
+
+		// if above certain threshold, switch to advanced enemies
+		if (score.getScore()%10 > 5) {
 			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
 		}
 
@@ -77,10 +69,13 @@ public class Model {
 		// Item Logic next
 		itemLogic();
 
-		return false;
+		// check if player
+		return players.isLevelComplete() || players.isAllDead();
 	}
 
 	private void enemyLogic() {
+		// update texture
+		enemies.updateTexture();
 		// move all enemies
 		enemies.moveEnemies();
 		// attempt to spawn enemy (based on random chance)
@@ -88,13 +83,22 @@ public class Model {
 	}
 
 	private void itemLogic() {
+		// update texture
+		items.updateTexture();
 		// move all items
 		items.moveItems();
+		// only spawn portal once threshold (should be changed to time later)
+		if (score.getScore() > 0 && score.getScore()%20 > 10) {
+			// attempt to spawn portal item (to go to next level)
+			items.spawnPortalItemAttempt();
+		}
 		// attempt to spawn item (based on random chance)
 		items.spawnItemAttempt();
 	}
 
 	private void bulletLogic() {
+		// update texture
+		bullets.updateTexture();
 		// move bullets 
 		bullets.moveBullets();
 		// check bullets for collision with all enemies
@@ -106,6 +110,8 @@ public class Model {
 
 	// logic for players
 	private void playerLogic() {
+		// update texture
+		players.updateTexture();
 		//check for movement and if you fired a bullet 
 		players.movePlayers();
 		// collision of player with enemies

@@ -197,6 +197,16 @@ public class ObjectLogicManager {
         return new CopyOnWriteArraySet<GameObject>(allCollidedObjects);
     }
 
+    
+    // check if all objects dead
+    public boolean isAllDead() {
+        for (ObjectLogic objectLogic: this.getObjects()) {
+            // if any alive, return false
+            if (objectLogic.isAlive()) { return false; }
+        }
+        return true;
+    }
+
     // move every object in list
     public void moveObjects(Direction direction) {
 		for (ObjectLogic object : this.objects) {

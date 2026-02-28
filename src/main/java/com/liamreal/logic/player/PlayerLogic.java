@@ -137,6 +137,16 @@ public class PlayerLogic extends ObjectLogic {
         this.setHealth(this.getHealth() + 1);
         this.setItemType(null); // reset item type to null
     }
+    // check if player has reached portal (i.e. end of level)
+    public boolean isLevelComplete() {
+        if (this.getItemType() == null) { return false; }
+        switch (this.getItemType()) {
+            case PORTAL:
+                return true;
+            default:
+                return false;
+        }
+    }
 
     // for items which have one time use and are not on continuous cooldown (such as a health restore item)
     private void itemDirectUse() {
@@ -206,8 +216,6 @@ public class PlayerLogic extends ObjectLogic {
                 // check last time player fired bullet
                 Instant lastBulletFireTime = this.getBulletFireCooldownStartTime();
                 if (!CooldownHandler.isOnCooldown(lastBulletFireTime, this.getBulletFireCooldownLength())) {
-                    // SoundPlayer.playSound()
-
                     // spawn bullet based on player who pressing space
                     GameObject bulletSpawned = bulletLogicManager.spawnBullet(playerObject);
                     this.resetBulletFireCooldown();
