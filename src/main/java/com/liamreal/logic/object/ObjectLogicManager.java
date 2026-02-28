@@ -5,6 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.liamreal.assets.AssetLoader;
+import com.liamreal.assets.SoundPlayer;
 import com.liamreal.enums.CollisionType;
 import com.liamreal.enums.Direction;
 import com.liamreal.logic.OutOfBoundsLogic;
@@ -137,6 +139,8 @@ public class ObjectLogicManager {
             // decrease object to be damaged by the bullet health and bullet by object to be damaged health
             objectToDamage.decreaseHealth(damageSource.getHealth());
             damageSource.decreaseHealth(objectToDamageHealth);
+            // object was hurt so play sound to hurt
+            objectToDamage.playHurtSound();
             // check bullet health, if < 1 breaks out of loop
             if (!damageSource.isAlive()) { break; }
         }

@@ -1,6 +1,7 @@
 package com.liamreal.objects;
 
 import com.liamreal.assets.AssetLoader;
+import com.liamreal.assets.SoundPlayer;
 import com.liamreal.enums.EnemyType;
 import com.liamreal.util.Point3f;
 
@@ -44,8 +45,17 @@ public class EnemyObject extends GameObject {
                 // not a valid enemy type in cases
                 String errorMessage = String.format("EnemyType %s not in %s", newEnemyType, EnemyType.getAllEnemyTypes().toString());
                 throw new IllegalArgumentException(errorMessage);
-        } 
+        }
+        this.setHurtSound(String.format(
+            "%s/sounds/enemies/%s/hurt.wav",
+            AssetLoader.getAssetsPath(),
+            this.getEnemyType()
+        ));
         this.setTexture(enemyType);
+    }
+
+    public void playHurtSound() {
+        SoundPlayer.playSound(this.getHurtSound());
     }
 
     // update texture

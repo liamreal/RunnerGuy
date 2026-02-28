@@ -49,6 +49,7 @@ public abstract class GameObject {
 	private int health=1;
 	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
 	private double minLifeTime = 0.1; // by default a spawned entity must live minimum amount of time in seconds (to prevent invisible bullets that spawn directly at an enemy)
+	private String hurtSound; // by default no hurt sound
 
 	public GameObject() {
 	}
@@ -87,14 +88,21 @@ public abstract class GameObject {
 		return blankTexture; 
 	}
 	public double getMinLifeTime() { return this.minLifeTime; }
+	public String getHurtSound() { return this.hurtSound; }
+
+	
 	public void setCentre(Point3f centre) { this.centre = centre; }
 	public void setHealth(int newHealth) { this.health = newHealth; }
+	public void setHurtSound(String newHurtSound) { this.hurtSound = newHurtSound; }
 
 	// motivation behind making class abstract, needed a way to say "this method needs to be defined, but only defined in subclasses"
 	abstract public void updateTexture();
 	// by default GameObject has no item/enemy type (which gives an effect)
 	public ItemType getItemType() { return null; };
 	public EnemyType getEnemyType() { return null; };
+
+	// by default playHurt does nothing (must be overwriten by subclass)
+	public void playHurtSound() { return; };
 
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {

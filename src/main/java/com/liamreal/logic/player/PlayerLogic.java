@@ -180,7 +180,7 @@ public class PlayerLogic extends ObjectLogic {
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
             if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.getEnemyHitCooldownLength())) {
                 SoundPlayer.playSound(String.format(
-                    "%s/sounds/enemies/%s/enemy_hit.wav",
+                    "%s/sounds/enemies/%s/hurt.wav",
                         AssetLoader.getAssetsPath(),
                         collidedEnemyObject.getEnemyType().toString()
                     )
