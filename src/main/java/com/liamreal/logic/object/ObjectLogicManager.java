@@ -4,9 +4,6 @@ import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ThreadLocalRandom;
-
-import com.liamreal.assets.AssetLoader;
-import com.liamreal.assets.SoundPlayer;
 import com.liamreal.enums.CollisionType;
 import com.liamreal.enums.Direction;
 import com.liamreal.logic.OutOfBoundsLogic;
