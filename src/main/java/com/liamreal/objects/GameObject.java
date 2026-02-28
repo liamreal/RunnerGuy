@@ -12,6 +12,7 @@ import com.liamreal.util.DurationHandler;
 import com.liamreal.util.Metrics;
 import com.liamreal.util.Point3f;
 import com.liamreal.enums.ItemType;
+import com.liamreal.enums.EnemyType;
 /*
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -91,8 +92,9 @@ public abstract class GameObject {
 
 	// motivation behind making class abstract, needed a way to say "this method needs to be defined, but only defined in subclasses"
 	abstract public void updateTexture();
-	// by default GameObject has no item type (which gives an effect)
+	// by default GameObject has no item/enemy type (which gives an effect)
 	public ItemType getItemType() { return null; };
+	public EnemyType getEnemyType() { return null; };
 
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {

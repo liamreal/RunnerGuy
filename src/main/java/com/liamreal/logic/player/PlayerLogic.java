@@ -18,6 +18,8 @@ import com.liamreal.util.Point3f;
 import com.liamreal.objects.GameObject;
 import java.util.HashMap;
 import com.liamreal.objects.PlayerObject;
+import com.liamreal.assets.AssetLoader;
+import com.liamreal.assets.SoundPlayer;
 
 public class PlayerLogic extends ObjectLogic {
     private Controller playerController = Controller.getInstance();
@@ -177,7 +179,12 @@ public class PlayerLogic extends ObjectLogic {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
             if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.getEnemyHitCooldownLength())) {
-                // SoundPlayer.playSound()
+                SoundPlayer.playSound(String.format(
+                    "%s/sounds/enemies/%s/enemy_hit.wav",
+                        AssetLoader.getAssetsPath(),
+                        collidedEnemyObject.getEnemyType().toString()
+                    )
+                );
 
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
