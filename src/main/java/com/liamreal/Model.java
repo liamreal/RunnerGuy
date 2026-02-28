@@ -87,6 +87,7 @@ public class Model {
 		items.updateTexture();
 		// move all items
 		items.moveItems();
+		// !!! THIS IS WRONG BECAUSE IT DOESNT ACCOUNT FOR COOLDOWN IN ITEM WHICH IS WHY ONLY PORTALS SPAWN LATER !!!
 		// only spawn portal once threshold (should be changed to time later)
 		if (score.getScore() > 0 && score.getScore()%20 > 10) {
 			// attempt to spawn portal item (to go to next level)
