@@ -179,13 +179,14 @@ public class PlayerLogic extends ObjectLogic {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
             if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.getEnemyHitCooldownLength())) {
+                // player hurt by specific enemy
                 SoundPlayer.playSound(String.format(
-                    "%s/sounds/enemies/%s/hurt.wav",
+                    "%s/sounds/players/enemies/%s/hurt.wav",
                         AssetLoader.getAssetsPath(),
                         collidedEnemyObject.getEnemyType().toString()
                     )
                 );
-
+                // enemy cooldown (player invincible for another short period as a hit cooldown)
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
                 playerObject.decreaseHealth(collidedEnemyObject.getHealth());
