@@ -1,6 +1,8 @@
 package com.liamreal;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.liamreal.enums.EnemyType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
@@ -90,11 +92,14 @@ public class Model {
 		// !!! THIS IS WRONG BECAUSE IT DOESNT ACCOUNT FOR COOLDOWN IN ITEM WHICH IS WHY ONLY PORTALS SPAWN LATER !!!
 		// only spawn portal once threshold (should be changed to time later)
 		if (score.getScore() > 0 && score.getScore()%20 > 10) {
-			// attempt to spawn portal item (to go to next level)
-			items.spawnPortalItemAttempt();
+			// 1/4 chance of portal to next level every 10 score
+        	int portalChance = ThreadLocalRandom.current().nextInt(0, 4);
+			if (portalChance == 0) { items.spawnPortalItemAttempt(); } // attempt to spawn portal item (to go to next level)
+			else { items.spawnItemAttempt(); } // spawn regular item if not chance
+		} else {
+			// attempt to spawn item (based on random chance)
+			items.spawnItemAttempt();
 		}
-		// attempt to spawn item (based on random chance)
-		items.spawnItemAttempt();
 	}
 
 	private void bulletLogic() {
