@@ -46,16 +46,30 @@ public class EnemyObject extends GameObject {
                 String errorMessage = String.format("EnemyType %s not in %s", newEnemyType, EnemyType.getAllEnemyTypes().toString());
                 throw new IllegalArgumentException(errorMessage);
         }
+        // set sounds
+        this.setSounds();
+        this.setTexture(enemyType);
+    }
+
+    // set necessary sounds
+    protected void setSounds() {
         this.setHurtSound(String.format(
             "%s/sounds/enemies/%s/hurt.wav",
             AssetLoader.getAssetsPath(),
             this.getEnemyType()
         ));
-        this.setTexture(enemyType);
+        this.setDeathSound(String.format(
+            "%s/sounds/enemies/%s/death.wav",
+            AssetLoader.getAssetsPath(),
+            this.getEnemyType()
+        ));
     }
 
     public void playHurtSound() {
         SoundPlayer.playSound(this.getHurtSound());
+    }
+    public void playDeathSound() {
+        SoundPlayer.playSound(this.getDeathSound());
     }
 
     // update texture

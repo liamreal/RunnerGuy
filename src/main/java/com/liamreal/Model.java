@@ -55,6 +55,8 @@ public class Model {
 		// System.out.println(TextureLoader.getAssetsPath());
 		// players.getPlayers().get(0).getGameObject().setTexture("assets/space/textures/players/player_two.png"); // WORKS!!!
 
+		// return true if players complete level (i.e. go thru portal) or all die	
+		if (players.isLevelComplete() || players.isAllDead()) { return true; }
 
 
 		// if above certain threshold, switch to advanced enemies
@@ -71,8 +73,8 @@ public class Model {
 		// Item Logic next
 		itemLogic();
 
-		// check if player
-		return players.isLevelComplete() || players.isAllDead();
+		// return false if game not yet complete
+		return false;
 	}
 
 	private void enemyLogic() {
@@ -89,7 +91,6 @@ public class Model {
 		items.updateTexture();
 		// move all items
 		items.moveItems();
-		// !!! THIS IS WRONG BECAUSE IT DOESNT ACCOUNT FOR COOLDOWN IN ITEM WHICH IS WHY ONLY PORTALS SPAWN LATER !!!
 		// only spawn portal once threshold (should be changed to time later)
 		if (score.getScore() > 0 && score.getScore()%20 > 10) {
 			// 1/4 chance of portal to next level every 10 score

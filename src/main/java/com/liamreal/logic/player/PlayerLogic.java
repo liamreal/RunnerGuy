@@ -168,14 +168,36 @@ public class PlayerLogic extends ObjectLogic {
         GameObject collidedItemObject = super.getClosestGameObject(collidedItems);
         if (collidedItemObject != null) {
             this.setItemType(collidedItemObject.getItemType()); // get item type of GameObject
-            collidedItemObject.playUseSound();
             this.resetItemUseCooldown();
             // kill item by setting health to 0
             collidedItemObject.setHealth(0);
             this.itemDirectUse();
+            collidedItemObject.playUseSound();
         }
         // return collided object (or null if collide method returns nothing)
         return collidedItemObject;
+    }
+
+    // play different sound depending on enemy collided with and player health
+    public void collideEnemySound(GameObject collidedEnemyObject) {
+        // if player just hurt or dead from enemy
+        if (this.getHealth() > 0) {
+            // player only hurt by specific enemy, still alive after
+            SoundPlayer.playSound(String.format(
+                "%s/sounds/players/enemies/%s/hurt.wav",
+                    AssetLoader.getAssetsPath(),
+                    collidedEnemyObject.getEnemyType().toString()
+                )
+            );
+        } else {
+            // player dead from specific enemy
+            SoundPlayer.playSound(String.format(
+                "%s/sounds/players/enemies/%s/death.wav",
+                    AssetLoader.getAssetsPath(),
+                    collidedEnemyObject.getEnemyType().toString()
+                )
+            );
+        }
     }
 
     // various enemy collision checks
@@ -187,17 +209,12 @@ public class PlayerLogic extends ObjectLogic {
             // check last time player hit enemy
             Instant lastEnemyHitTime = this.getEnemyHitCooldownStartTime();
             if (!CooldownHandler.isOnCooldown(lastEnemyHitTime, this.getEnemyHitCooldownLength())) {
-                // player hurt by specific enemy
-                SoundPlayer.playSound(String.format(
-                    "%s/sounds/players/enemies/%s/hurt.wav",
-                        AssetLoader.getAssetsPath(),
-                        collidedEnemyObject.getEnemyType().toString()
-                    )
-                );
                 // enemy cooldown (player invincible for another short period as a hit cooldown)
                 this.resetEnemyHitCooldown();
                 // decrease player health by object health
                 playerObject.decreaseHealth(collidedEnemyObject.getHealth());
+                // sound for player enemy collision
+                this.collideEnemySound(collidedEnemyObject);
                 // // test for collision, moves collided enemy to specific coords
                 // collidedEnemyObject.setCentre(new Point3f(GameDisplay.getDisplayX()/2,GameDisplay.getDisplayY()/2,0));
             }

@@ -50,6 +50,7 @@ public abstract class GameObject {
 	private final Instant spawnTime = Instant.now(); // used to keep track of when object was spawned (to check if should be killed)
 	private double minLifeTime = 0.1; // by default a spawned entity must live minimum amount of time in seconds (to prevent invisible bullets that spawn directly at an enemy)
 	private String hurtSound; // by default no hurt sound (for enemies this should be the sound when hit by bullet)
+	private String deathSound; // by default no death sound (for enemies this should be the sound when they are now at 0 or less health -- dead)
 	private String useSound; // by default no use sound (for items this should be the sound when picked up)
 	private String fireSound; // by default no fire sound (for bullets should be the sound when fired)
 
@@ -91,6 +92,7 @@ public abstract class GameObject {
 	}
 	public double getMinLifeTime() { return this.minLifeTime; }
 	public String getHurtSound() { return this.hurtSound; }
+	public String getDeathSound() { return this.deathSound; }
 	public String getUseSound() { return this.useSound; }
 	public String getFireSound() { return this.fireSound; }
 
@@ -98,19 +100,22 @@ public abstract class GameObject {
 	public void setCentre(Point3f centre) { this.centre = centre; }
 	public void setHealth(int newHealth) { this.health = newHealth; }
 	public void setHurtSound(String newSound) { this.hurtSound = newSound; }
+	public void setDeathSound(String newSound) { this.deathSound = newSound; }
 	public void setUseSound(String newSound) { this.useSound = newSound; }
 	public void setFireSound(String newSound) { this.fireSound = newSound; }
 
 	// motivation behind making class abstract, needed a way to say "this method needs to be defined, but only defined in subclasses"
 	abstract public void updateTexture();
 	// by default GameObject has no item/enemy type (which gives an effect)
-	public ItemType getItemType() { return null; };
-	public EnemyType getEnemyType() { return null; };
+	public ItemType getItemType() { return null; }
+	public EnemyType getEnemyType() { return null; }
 
 	// by default objects have no sound (must be overwritten by subclass)
-	public void playHurtSound() { return; };
-	public void playUseSound() { return; };
-	public void playFireSound() { return; };
+	protected void setSounds() { return; }
+	public void playHurtSound() { return; }
+	public void playDeathSound() { return; }
+	public void playUseSound() { return; }
+	public void playFireSound() { return; }
 
 	// used to update texture within constructors for classes that extend this
 	public void setTexture(String newTexture) {

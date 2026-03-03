@@ -30,6 +30,11 @@ public class SoundPlayer {
 
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
+            
+            // reduced volume for looping clips
+            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volume.setValue(-10.0f);
+
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             return clip;
 

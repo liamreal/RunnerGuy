@@ -152,7 +152,7 @@ public class MainWindow {
 		boolean isLevelComplete = gameworld.gamelogic();
 		// view update 
 		
-		  canvas.updateview(); 
+		canvas.updateview(); 
 		
 		// Both these calls could be setup as  a thread but we want to simplify the game logic for you.  
 		//score update  

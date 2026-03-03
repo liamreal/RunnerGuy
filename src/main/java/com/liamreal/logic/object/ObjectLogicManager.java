@@ -136,13 +136,12 @@ public class ObjectLogicManager {
             // decrease object to be damaged by the bullet health and bullet by object to be damaged health
             objectToDamage.decreaseHealth(damageSource.getHealth());
             damageSource.decreaseHealth(objectToDamageHealth);
-            // object was hurt so play sound to hurt
-            objectToDamage.playHurtSound();
+            // if object has 0 or less health play death sound, otherwise play hurt sound
+            if (objectToDamage.getHealth() < 1) { objectToDamage.playDeathSound(); }
+            else { objectToDamage.playHurtSound(); }
             // check bullet health, if < 1 breaks out of loop
             if (!damageSource.isAlive()) { break; }
         }
-        // keep only all objects that are alive (health > 0), if dead will be removed from list
-        // objectLogicManager.keepOnlyAlive();
     }
 
     
