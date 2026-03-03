@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -47,6 +49,7 @@ SOFTWARE.
  */ 
 public class Viewer extends JPanel {
 	private long CurrentAnimationTime= 0; 
+	private boolean isGameOver = false;
 	
 	Model gameworld; 
 	Config config = Config.getInstance();
@@ -77,6 +80,9 @@ public class Viewer extends JPanel {
 		// TODO Auto-generated method stub
 		
 	}
+
+	// set game to be over
+	public void setGameOver(boolean isGameOver) { this.isGameOver = isGameOver; }
 	
 	@Override
 	public Dimension getPreferredSize() {
@@ -90,6 +96,8 @@ public class Viewer extends JPanel {
 
 		//Draw background 
 		drawBackground(g);
+		
+
 		
 		// Draw players
 		gameworld.getPlayers().forEach((temp) -> 
@@ -125,6 +133,9 @@ public class Viewer extends JPanel {
 			// System.out.println(temp.getGameObject().getCentre().getY());
 			// System.out.println(temp.getGameObject().getTexture());
 	    }); 
+
+		// draw game over if updated to be game over
+		if (isGameOver) { this.drawGameOver(g); }
 	}
 	
 	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
@@ -169,7 +180,6 @@ public class Viewer extends JPanel {
 			Image myImage = ImageIO.read(TextureToLoad); 
 			// 32 by 32
 			 g.drawImage(myImage, x,y, x+width, y+height, 0 , 0, 31, 31, null); 
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -220,6 +230,14 @@ public class Viewer extends JPanel {
 		// Bullets from https://opengameart.org/forumtopic/tatermands-art 
 		// background image from https://www.needpix.com/photo/download/677346/space-stars-nebula-background-galaxy-universe-free-pictures-free-photos-free-images
 		
+	}
+	private void drawGameOver(Graphics g) {
+		// draw player health above player using draw string method
+		String gameOver = "GAME OVER";
+		// draw health (for now fixed black colour)
+		g.setFont(new Font("Arial", Font.BOLD, 16));
+		g.setColor(Color.RED);
+		g.drawString(gameOver, (GameDisplay.getDisplayX()/2)-16, (GameDisplay.getDisplayY()/2)-16);
 	}
 		 
 	 

@@ -72,7 +72,7 @@ public class PlayerLogic extends ObjectLogic {
                 playerMoves.put(Direction.LEFT, playerController::isKeyJPressed);
                 playerMoves.put(Direction.RIGHT, playerController::isKeyLPressed);
                 playerInteractions = new HashMap<>();
-                playerInteractions.put(Interaction.SHOOT, playerController::isKeyNPressed);
+                playerInteractions.put(Interaction.SHOOT, playerController::isKeyPeriodPressed);
                 break;
             default:
                 // not a valid direction in cases

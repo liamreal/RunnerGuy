@@ -2,6 +2,7 @@ package com.liamreal.controllers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.KeyboardFocusManager;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -42,11 +43,15 @@ public class Controller implements KeyListener {
 	   private static boolean KeyKPressed= false;
 	   private static boolean KeyLPressed= false;
 	   private static boolean KeyIPressed= false;
-	   private static boolean KeyNPressed= false;
+	   private static boolean KeyPeriodPressed= false;
 	   
 	   private static final Controller instance = new Controller();
 	   
 	 public Controller() { 
+    	KeyboardFocusManager.getCurrentKeyboardFocusManager()
+        .addKeyEventDispatcher(e -> {
+            return false;
+        });
 	}
 	 
 	 public static Controller getInstance(){
@@ -62,48 +67,41 @@ public class Controller implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{ 
-		switch (e.getKeyChar()) 
-		{
-			case 'a':setKeyAPressed(true);break;  
-			case 's':setKeySPressed(true);break;
-			case 'w':setKeyWPressed(true);break;
-			case 'd':setKeyDPressed(true);break;
-			case ' ':setKeySpacePressed(true);break;     
-			case 'j':setKeyJPressed(true);break;  
-			case 'k':setKeyKPressed(true);break;
-			case 'i':setKeyIPressed(true);break;
-			case 'l':setKeyLPressed(true);break;
-			case 'n':setKeyNPressed(true);break;  
-		    default:
-		    	//System.out.println("Controller test:  Unknown key pressed");
-		        break;
-		}  
-		
-	 // You can implement to keep moving while pressing the key here . 
-		
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_A: setKeyAPressed(true); break;
+			case KeyEvent.VK_S: setKeySPressed(true); break;
+			case KeyEvent.VK_W: setKeyWPressed(true); break;
+			case KeyEvent.VK_D: setKeyDPressed(true); break;
+
+			case KeyEvent.VK_J: setKeyJPressed(true); break;
+			case KeyEvent.VK_K: setKeyKPressed(true); break;
+			case KeyEvent.VK_I: setKeyIPressed(true); break;
+			case KeyEvent.VK_L: setKeyLPressed(true); break;
+
+			
+			case KeyEvent.VK_SPACE: setKeySpacePressed(true); break;
+			case KeyEvent.VK_PERIOD: setKeyPeriodPressed(true); break;
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{ 
-		switch (e.getKeyChar()) 
-		{
-			case 'a':setKeyAPressed(false);break;  
-			case 's':setKeySPressed(false);break;
-			case 'w':setKeyWPressed(false);break;
-			case 'd':setKeyDPressed(false);break;
-			case ' ':setKeySpacePressed(false);break;   
-			case 'j':setKeyJPressed(false);break;  
-			case 'k':setKeyKPressed(false);break;
-			case 'i':setKeyIPressed(false);break;
-			case 'l':setKeyLPressed(false);break;
-			case 'n':setKeyNPressed(false);break;   
-		    default:
-		    	//System.out.println("Controller test:  Unknown key pressed");
-		        break;
-		}  
-		 //upper case 
-	
+		switch (e.getKeyCode()) {
+			case KeyEvent.VK_A: setKeyAPressed(false); break;
+			case KeyEvent.VK_S: setKeySPressed(false); break;
+			case KeyEvent.VK_W: setKeyWPressed(false); break;
+			case KeyEvent.VK_D: setKeyDPressed(false); break;
+
+			case KeyEvent.VK_J: setKeyJPressed(false); break;
+			case KeyEvent.VK_K: setKeyKPressed(false); break;
+			case KeyEvent.VK_I: setKeyIPressed(false); break;
+			case KeyEvent.VK_L: setKeyLPressed(false); break;
+
+			
+			case KeyEvent.VK_SPACE: setKeySpacePressed(false); break;
+			case KeyEvent.VK_PERIOD: setKeyPeriodPressed(false); break;
+		}
 	}
 
 
@@ -204,13 +202,13 @@ public class Controller implements KeyListener {
 	}
 
 
-	public boolean isKeyNPressed() {
-		return KeyNPressed;
+	public boolean isKeyPeriodPressed() {
+		return KeyPeriodPressed;
 	}
 
 
-	public void setKeyNPressed(boolean keyNPressed) {
-		KeyNPressed = keyNPressed;
+	public void setKeyPeriodPressed(boolean keyPeriodPressed) {
+		KeyPeriodPressed = keyPeriodPressed;
 	} 
 
 	 

@@ -48,13 +48,13 @@ SOFTWARE.
 
 
 public class MainWindow {
-	 private static  JFrame frame = new JFrame("Runner Guy");   // Change to the name of your game 
-	 private static   Model gameworld= new Model();
-	 private static   Viewer canvas = new  Viewer( gameworld);
-	 private KeyListener Controller =new Controller()  ; 
-	 private static   int TargetFPS = 100;
-	 private static boolean startGame= false; 
-	 private   JLabel BackgroundImageForStartMenu;
+	private static  JFrame frame = new JFrame("Runner Guy");   // Change to the name of your game 
+	private static   Model gameworld= new Model();
+	private static   Viewer canvas = new  Viewer( gameworld);
+	private Controller controller = Controller.getInstance();
+	private static   int TargetFPS = 100;
+	private static boolean startGame= false; 
+	private   JLabel BackgroundImageForStartMenu;
 	  
 	public MainWindow() {
 	        frame.setSize(GameDisplay.getDisplayX(), GameDisplay.getDisplayY());  // you can customise this later and adapt it to change on size.
@@ -78,7 +78,7 @@ public class MainWindow {
 					startMenuButton.setVisible(false);
 					BackgroundImageForStartMenu.setVisible(false); 
 					canvas.setVisible(true); 
-					canvas.addKeyListener(Controller);    //adding the controller to the Canvas  
+					canvas.addKeyListener(controller);    //adding the controller to the Canvas  
 	            canvas.requestFocusInWindow();   // making sure that the Canvas is in focus so keyboard input will be taking in .
 					startGame=true;
 				}});  
@@ -140,8 +140,9 @@ public class MainWindow {
 			// stop looping music after level is done
 			SoundPlayer.stopSound(musicClip);
 		}
-		
-		
+		// repaint for game over text
+		canvas.setGameOver(true);
+		canvas.repaint();
 	} 
 	//Basic Model-View-Controller pattern 
 	private static boolean gameloop() { 
@@ -149,6 +150,7 @@ public class MainWindow {
 		
 		// controller input  will happen on its own thread 
 		// So no need to call it explicitly 
+		
 		
 		// model update   
 		boolean isLevelComplete = gameworld.gamelogic();
