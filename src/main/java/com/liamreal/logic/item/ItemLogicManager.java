@@ -33,7 +33,13 @@ public class ItemLogicManager extends ObjectLogicManager {
         super.setMaxNumObjects(newMaxNumItems);
     }
 
-
+    // remove all portal items (for when transitioning levels)
+    public void removePortals() {
+        CopyOnWriteArrayList<ObjectLogic> items = this.getItems();
+        for (ObjectLogic item: items) {
+            if (item.getItemType() == ItemType.PORTAL) { items.remove(item); }
+        }
+    }
 
     // by default move enemies down
     public void moveItems() {

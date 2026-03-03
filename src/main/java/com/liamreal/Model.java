@@ -1,9 +1,11 @@
 package com.liamreal;
 
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.liamreal.enums.EnemyType;
+import com.liamreal.enums.ItemType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
 import com.liamreal.logic.item.ItemLogicManager;
@@ -59,13 +61,25 @@ public class Model {
 		if (players.isLevelComplete() || players.isAllDead()) { 
 			// clear player items (also clears portal item so does not instantly end game again in next level)
 			players.resetItems();
+			items.removePortals();
+			score.resetScore(); // reset score (because for now levels use localised score system to change level)
 			return true;
 		}
 
 
-		// if above certain threshold, switch to advanced enemies
-		if (score.getScore()%10 > 5) {
+		// if above highest threshold, switch to advanced enemies only
+		if (score.getScore()%20 > 15) {
 			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
+		} 
+		// if above low threshold, randomise enemy type
+		else if (score.getScore()%20 > 5) {
+			List<EnemyType> enemyTypes = EnemyType.getAllEnemyTypes();
+        	int randomEnemyType = ThreadLocalRandom.current().nextInt(0, enemyTypes.size());
+			enemies.setEnemyDifficulty(enemyTypes.get(randomEnemyType));
+		} 
+		// otherwise only basic enemies
+		else {
+			enemies.setEnemyDifficulty(EnemyType.BASIC);
 		}
 
 		// Player Logic first 
@@ -95,8 +109,8 @@ public class Model {
 		items.updateTexture();
 		// move all items
 		items.moveItems();
-		// only spawn portal once threshold (should be changed to time later)
-		if (score.getScore() > 0 && score.getScore()%20 > 10) {
+		// only spawn portal once threshold reached (should be changed to time later)
+		if (score.getScore() > 0 && score.getScore() > 20) {
 			// 1/4 chance of portal to next level every 10 score
         	int portalChance = ThreadLocalRandom.current().nextInt(0, 4);
 			if (portalChance == 0) { items.spawnPortalItemAttempt(); } // attempt to spawn portal item (to go to next level)
