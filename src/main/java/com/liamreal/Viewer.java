@@ -8,11 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import com.liamreal.assets.AssetLoader;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.enums.ItemType;
