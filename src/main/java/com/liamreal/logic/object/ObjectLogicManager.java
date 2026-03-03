@@ -128,6 +128,7 @@ public class ObjectLogicManager {
         }
     }
 
+
     public void damageObjects(GameObject damageSource, ObjectLogicManager objectLogicManager, CopyOnWriteArrayList<GameObject> objectsToDamage) {
         // go through all game objects in list
         for (GameObject objectToDamage: objectsToDamage) {
@@ -145,6 +146,12 @@ public class ObjectLogicManager {
     }
 
     
+    // reset items for players (set all to null -- includes portals to prevent auto going to next level when not supposed to)
+    public void resetItems() {
+        for (ObjectLogic player : this.getObjects()) {
+            player.setItemType(null);
+        }
+    }
 
     // spawns an object by adding a new ObjectLogic to list (if eligible to spawn)
     public boolean spawnObjectAttempt(ObjectLogic newObject) {

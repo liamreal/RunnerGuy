@@ -93,7 +93,7 @@ public class PlayerLogic extends ObjectLogic {
     private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
     private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }
     private void setItemUseCooldownStartTime(Instant newStartTime) { this.itemUseCooldownStartTime = newStartTime; }
-    private void setItemType(ItemType newItemType) { this.itemType = newItemType; }
+    public void setItemType(ItemType newItemType) { this.itemType = newItemType; }
 
     // // find time (in seconds) since last cooldown application
     // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     

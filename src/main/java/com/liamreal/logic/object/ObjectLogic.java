@@ -40,6 +40,7 @@ public class ObjectLogic {
     public void setHealth(int newHealth) {
         getGameObject().setHealth(newHealth);
     }
+    public void setItemType(ItemType itemType) { return; }
 	public boolean hasLivedMinLifeTime() {
 		return this.getGameObject().hasLivedMinLifeTime();
 	}

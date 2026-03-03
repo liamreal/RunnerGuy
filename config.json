@@ -5,5 +5,5 @@
     "playerHealth": 3,
     "maxNumEnemies": 20,
     "maxNumItems": 4,
-    "levels": ["default", "default", "space"]
+    "levels": ["default", "default"]
 }

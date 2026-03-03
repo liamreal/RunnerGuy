@@ -56,7 +56,11 @@ public class Model {
 		// players.getPlayers().get(0).getGameObject().setTexture("assets/space/textures/players/player_two.png"); // WORKS!!!
 
 		// return true if players complete level (i.e. go thru portal) or all die	
-		if (players.isLevelComplete() || players.isAllDead()) { return true; }
+		if (players.isLevelComplete() || players.isAllDead()) { 
+			// clear player items (also clears portal item so does not instantly end game again in next level)
+			players.resetItems();
+			return true;
+		}
 
 
 		// if above certain threshold, switch to advanced enemies
