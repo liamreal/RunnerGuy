@@ -164,7 +164,7 @@ public abstract class GameObject {
     protected void setRandomCentre() {
         // enemies will spawn randomly on x-axis off screen up
         int objectWidth = this.getWidth();
-        int minX = objectWidth;
+        int minX = 0;
         int maxX = GameDisplay.getDisplayX() - objectWidth;
         int randomX = ThreadLocalRandom.current().nextInt(minX, maxX);
         this.setCentre(new Point3f(randomX, -this.getHeight(), 0));

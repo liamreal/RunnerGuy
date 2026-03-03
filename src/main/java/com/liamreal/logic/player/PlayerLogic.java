@@ -180,7 +180,7 @@ public class PlayerLogic extends ObjectLogic {
 
     // play different sound depending on enemy collided with and player health
     public void collideEnemySound(GameObject collidedEnemyObject) {
-        // if player just hurt or dead from enemy
+        // if player just hurt from enemy
         if (this.getHealth() > 0) {
             // player only hurt by specific enemy, still alive after
             SoundPlayer.playSound(String.format(
