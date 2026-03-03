@@ -3,6 +3,8 @@ package com.liamreal;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.LayoutManager;
+import java.awt.Font;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -10,6 +12,7 @@ import javax.swing.JPanel;
 
 import com.liamreal.assets.AssetLoader;
 import com.liamreal.display.GameDisplay;
+import com.liamreal.objects.GameObject;
 
 
 /*
@@ -84,7 +87,7 @@ public class Viewer extends JPanel {
 		{ 
 			// System.out.println(TextureLoader.getAssetsPath());
 			// System.out.println(temp.getGameObject().getTexture());
-			drawPlayer((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
+			drawPlayer(temp.getGameObject(),g);	 
 		}); 
 		
 		  
@@ -163,18 +166,32 @@ public class Viewer extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
-
-	private void drawPlayer(int x, int y, int width, int height, String texture,Graphics g) { 
+	private void drawPlayer(GameObject playerObject,Graphics g) { 
+		int x = (int) playerObject.getCentre().getX();
+		int y = (int) playerObject.getCentre().getY();
+		int width = (int) playerObject.getWidth();
+		int height = (int) playerObject.getHeight();
 		// System.out.println(texture);
-		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+		File TextureToLoad = new File(playerObject.getTexture());  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 		try {
 			Image myImage = ImageIO.read(TextureToLoad);
+			// read health item texture
+			Image healthImage = ImageIO.read(new File(String.format(
+            "%s/textures/items/health/health.png", 
+            AssetLoader.getAssetsPath()
+        	)));
 			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
 			//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
 			int currentPositionInAnimation= (int) ((CurrentAnimationTime%16/4))*32; //slows down animation so every 10 frames we get another frame so every 100ms 
 			g.drawImage(myImage, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
-			
+			// draw heart for player health (above player)
+			g.drawImage(healthImage, x+(width/4), (int) (y-(width*2/3.5)), 32, 64, this);
+			// draw player health above player using draw string method
+			String health = String.format("%d", playerObject.getHealth());
+			// draw health (for now fixed black colour)
+			g.setFont(new Font("Arial", Font.BOLD, 10));
+			g.setColor(Color.WHITE);
+			g.drawString(health, x+(width/2), y-(width/4));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
