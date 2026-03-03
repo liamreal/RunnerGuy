@@ -4,6 +4,6 @@
     "playerMoveSpeed": 2,
     "playerHealth": 3,
     "maxNumEnemies": 20,
-    "maxNumItems": 2,
-    "levels": ["default", "space"]
+    "maxNumItems": 4,
+    "levels": ["default", "default", "space"]
 }

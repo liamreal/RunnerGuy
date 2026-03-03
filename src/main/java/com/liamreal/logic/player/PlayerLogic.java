@@ -88,7 +88,7 @@ public class PlayerLogic extends ObjectLogic {
     private double getEnemyHitCooldownLength() { return this.enemyHitCooldownLength; }
     private double getBulletFireCooldownLength() { return this.bulletFireCooldownLength; }
     private double getItemUseCooldownLength() { return this.itemUseCooldownLength; }
-    private ItemType getItemType() { return this.itemType; }
+    public ItemType getItemType() { return this.itemType; }
     public void setHealth(int newHealth) { playerObject.setHealth(newHealth); }
     private void setEnemyHitCooldownStartTime(Instant newStartTime) { this.enemyHitCooldownStartTime = newStartTime; }
     private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }

@@ -3,6 +3,7 @@ import com.liamreal.util.Vector3f;
 import com.liamreal.util.Point3f;
 import java.util.concurrent.CopyOnWriteArrayList;
 import com.liamreal.enums.Direction;
+import com.liamreal.enums.ItemType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.objects.GameObject;
 import com.liamreal.user.Config;
@@ -31,6 +32,8 @@ public class ObjectLogic {
     public int getHealth() {
         return getGameObject().getHealth();
     }
+    // generic item type returns null
+    public ItemType getItemType() { return null; }
     public void setMoveSpeed(int newMoveSpeed) {
         this.moveSpeed = newMoveSpeed;
     }
