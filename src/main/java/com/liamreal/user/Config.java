@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liamreal.display.GameDisplay;
 
 // default values picked from and used in classes, if do not wish to use these are able to overwrite in respective subclass
 // need to change to read these values from a file
@@ -15,6 +16,8 @@ public class Config {
     private int playerHealth = 3;
     private int maxNumEnemies = 20;
     private int maxNumItems = 1;
+    private int resolutionX = GameDisplay.getDisplayX();
+    private int resolutionY = GameDisplay.getDisplayY();
     private List<String> levels;
     public static final String filePath = "config.json";
 
@@ -46,5 +49,7 @@ public class Config {
     public int getMaxNumEnemies() { return this.maxNumEnemies; }
     public int getMaxNumItems() { return this.maxNumItems; }
     public List<String> getLevels() { return this.levels; }
+    public int getResolutionX() { return this.resolutionX; }
+    public int getResolutionY() { return this.resolutionY; }
 
 }

@@ -64,7 +64,7 @@ public class MainWindow {
 	        frame.setLocationRelativeTo(null);
 
 
-	        frame.add(canvas);  
+	        frame.add(canvas);
 	        canvas.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY()); 
 	        canvas.setBackground(new Color(255,255,255)); //white background  replaced by Space background but if you remove the background method this will draw a white screen 
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
@@ -94,13 +94,15 @@ public class MainWindow {
 				 BufferedImage myPicture = ImageIO.read(BackgroundToLoad);
 				 BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
 				 BackgroundImageForStartMenu.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
-				frame.add(BackgroundImageForStartMenu); 
+				frame.add(BackgroundImageForStartMenu);
+
 			}  catch (IOException e) { 
 				e.printStackTrace();
 			}   
 			 
-	         frame.add(startMenuButton);  
-	       frame.setVisible(true);   
+			frame.add(startMenuButton); 
+
+	       	frame.setVisible(true);   
 	}
 
 	public static void main(String[] args) {

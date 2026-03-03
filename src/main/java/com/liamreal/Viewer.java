@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -15,6 +16,7 @@ import com.liamreal.display.GameDisplay;
 import com.liamreal.enums.ItemType;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.objects.GameObject;
+import com.liamreal.user.Config;
 
 
 /*
@@ -46,7 +48,8 @@ SOFTWARE.
 public class Viewer extends JPanel {
 	private long CurrentAnimationTime= 0; 
 	
-	Model gameworld =new Model(); 
+	Model gameworld; 
+	Config config = Config.getInstance();
 	 
 	public Viewer(Model World) {
 		this.gameworld=World;
@@ -75,7 +78,11 @@ public class Viewer extends JPanel {
 		
 	}
 	
-	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(config.getResolutionX(), config.getResolutionY());
+	}
+		
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
