@@ -5,7 +5,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.liamreal.enums.EnemyType;
-import com.liamreal.enums.ItemType;
 import com.liamreal.logic.bullet.BulletLogicManager;
 import com.liamreal.logic.enemy.EnemyLogicManager;
 import com.liamreal.logic.item.ItemLogicManager;
