@@ -229,12 +229,14 @@ public class Viewer extends JPanel {
 		
 	}
 	private void drawGameOver(Graphics g) {
-		// draw player health above player using draw string method
-		String gameOver = "GAME OVER";
-		// draw health (for now fixed black colour)
-		g.setFont(new Font("Arial", Font.BOLD, 16));
-		g.setColor(Color.RED);
-		g.drawString(gameOver, (GameDisplay.getDisplayX()/2)-16, (GameDisplay.getDisplayY()/2)-16);
+		File TextureToLoad = new File("assets/game_over.png"); // game over image 
+		try {
+			Image myImage = ImageIO.read(TextureToLoad);
+			g.drawImage(myImage, 0,0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY(), this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 		 
 	 

@@ -69,7 +69,7 @@ public class MainWindow {
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
 		          
 		       
-	        JButton startMenuButton = new JButton("Begin");  // start button 
+	        JButton startMenuButton = new JButton();  // start button 
 	        startMenuButton.addActionListener(new ActionListener()
 	           { 
 				@Override
@@ -81,7 +81,8 @@ public class MainWindow {
 	            canvas.requestFocusInWindow();   // making sure that the Canvas is in focus so keyboard input will be taking in .
 					startGame=true;
 				}});  
-	        startMenuButton.setBounds(GameDisplay.getDisplayX()/3, GameDisplay.getDisplayY()/3, (GameDisplay.getDisplayX()/6)*2, (GameDisplay.getDisplayY()/6)*2); 
+	        startMenuButton.setBounds(300, 265, 250, 100); // hard coded values to match start button in background
+			startMenuButton.setOpaque(false); // makes button invisible to user but can still interact with it, done so can put start button in background image
 	        
 	        //loading background image 
 	        File BackgroundToLoad = new File(String.format(

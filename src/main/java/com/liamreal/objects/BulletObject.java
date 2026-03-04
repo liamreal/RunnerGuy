@@ -9,10 +9,7 @@ public class BulletObject extends GameObject {
     public BulletObject(GameObject playerObject) {  
         super(32, 32, findBulletCentre(playerObject));
         this.setTexture();
-        this.setFireSound(String.format(
-            "%s/sounds/projectiles/fire.wav",
-            AssetLoader.getAssetsPath()
-        ));
+        this.setSounds();
 	}
 
     // helper method to calculate player centre so can call superclass constructor
@@ -24,9 +21,16 @@ public class BulletObject extends GameObject {
         return bulletCentre;
     }
 
+    public void setSounds() {
+        this.setFireSound(String.format(
+            "%s/sounds/projectiles/fire.wav",
+            AssetLoader.getAssetsPath()
+        ));
+    }
+
     // update texture
     public void updateTexture() { this.setTexture(); }
-
+    public void updateSounds() { this.setSounds(); }
 
     public void playFireSound() {
         SoundPlayer.playSound(this.getFireSound());

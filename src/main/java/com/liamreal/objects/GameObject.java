@@ -106,6 +106,8 @@ public abstract class GameObject {
 
 	// motivation behind making class abstract, needed a way to say "this method needs to be defined, but only defined in subclasses"
 	abstract public void updateTexture();
+	// update sounds (not for all objects so not abstract)
+	public void updateSounds() { return; }
 	// by default GameObject has no item/enemy type (which gives an effect)
 	public ItemType getItemType() { return null; }
 	public EnemyType getEnemyType() { return null; }

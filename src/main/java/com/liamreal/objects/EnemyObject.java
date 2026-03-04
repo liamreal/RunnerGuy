@@ -74,6 +74,7 @@ public class EnemyObject extends GameObject {
 
     // update texture
     public void updateTexture() { this.setTexture(); }
+    public void updateSounds() { this.setSounds(); }
 
     protected void setTexture() { this.setTexture(this.getEnemyType()); }
     protected void setEnemyType(EnemyType newEnemyType) { this.enemyType = newEnemyType; }

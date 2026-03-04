@@ -55,12 +55,25 @@ public class ObjectLogicManager {
     // PRIVATE because need to only reset within manager
     private void setCooldownStartTime(Instant newTime) { this.cooldownStartTime = newTime; }
 
-
+    // update object sounds
+    public void updateSounds() {
+        for (GameObject object: this.getGameObjects()) {
+            object.updateSounds();
+        }
+    }
     // update all textures for all gameobjects this logic manager collection of logics interacts with
     public void updateTexture() {
         for (GameObject object : this.getGameObjects()) {
             // System.out.println(object.toString()); // used for debugging which objects are having texture updated
             object.updateTexture();
+        }
+    }
+    // update both textures and sounds
+    public void updateAssets() {
+        for (GameObject object: this.getGameObjects()) {
+            // System.out.println(object.toString()); // used for debugging which objects are having texture updated
+            object.updateTexture();
+            object.updateSounds();
         }
     }
 

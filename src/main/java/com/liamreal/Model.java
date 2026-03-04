@@ -95,8 +95,8 @@ public class Model {
 	}
 
 	private void enemyLogic() {
-		// update texture
-		enemies.updateTexture();
+		// update assets
+		enemies.updateAssets();
 		// move all enemies
 		enemies.moveEnemies();
 		// attempt to spawn enemy (based on random chance)
@@ -105,7 +105,7 @@ public class Model {
 
 	private void itemLogic() {
 		// update texture
-		items.updateTexture();
+		items.updateAssets();
 		// move all items
 		items.moveItems();
 		// only spawn portal once threshold reached (should be changed to time later)
@@ -121,8 +121,8 @@ public class Model {
 	}
 
 	private void bulletLogic() {
-		// update texture
-		bullets.updateTexture();
+		// update sounds
+		bullets.updateAssets();
 		// move bullets 
 		bullets.moveBullets();
 		// check bullets for collision with all enemies
