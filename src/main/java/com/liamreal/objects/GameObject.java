@@ -150,7 +150,7 @@ public abstract class GameObject {
 		if (otherObjects == null || otherObjects.isEmpty()) { return null; }
 		// will be our list we sort
 		List<GameObject> sortedList = new ArrayList<>(otherObjects);
-		// used ChatGPT to help with lambda function sorting, uses my squared distance calculation method as a comparison for sorting
+		// used ChatGPT to help with lambda function sorting since is quite tricky, uses my squared distance calculation method as a comparison for sorting
 		sortedList.sort(
 			Comparator.comparingDouble(otherObject ->
 				Metrics.computeSquaredDistance(this, otherObject)

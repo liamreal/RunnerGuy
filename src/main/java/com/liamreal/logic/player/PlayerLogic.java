@@ -33,7 +33,7 @@ public class PlayerLogic extends ObjectLogic {
     private double itemUseCooldownLength = 5.0; // player will have this item effect until over or picks up another item
     private PlayerType playerType;
     private ItemType itemType = null;
-    // using boolean supplier allows you to get player input via a lambda (suggest by ChatGPT)
+    // using boolean supplier allows you to get player input via a lambda function
     private HashMap<Direction, BooleanSupplier> playerMoves;
     private HashMap<Interaction, BooleanSupplier> playerInteractions;
 
@@ -56,7 +56,8 @@ public class PlayerLogic extends ObjectLogic {
             // cases for player
             case ONE:
                 playerMoves = new HashMap<>();
-                // storing BooleanSupplier as map values allows lambda functions to be called for player input (suggested by ChatGPT)
+                // storing BooleanSupplier as map values allows lambda function calls on key pressed functions from controller 
+                // and these functions are called whenever you access these maps
                 playerMoves.put(Direction.DOWN, playerController::isKeySPressed);
                 playerMoves.put(Direction.UP, playerController::isKeyWPressed);
                 playerMoves.put(Direction.LEFT, playerController::isKeyAPressed);
@@ -94,18 +95,6 @@ public class PlayerLogic extends ObjectLogic {
     private void setBulletFireCooldownStartTime(Instant newStartTime) { this.bulletFireCooldownStartTime = newStartTime; }
     private void setItemUseCooldownStartTime(Instant newStartTime) { this.itemUseCooldownStartTime = newStartTime; }
     public void setItemType(ItemType newItemType) { this.itemType = newItemType; }
-
-    // // find time (in seconds) since last cooldown application
-    // protected double findTimeSinceLastCooldown(Instant cooldownStartTime) {     
-    //     // get time since last enemy and calculate how much time passed
-    //     Instant lastCooldownStart = cooldownStartTime;
-    //     Duration durationSinceLastCooldown = Duration.between(lastCooldownStart, Instant.now());
-    //     double secondsSinceLastCooldown = durationSinceLastCooldown.getSeconds() + durationSinceLastCooldown.getNano() / 1000000000.0;
-    //     return secondsSinceLastCooldown;
-    // }
-    // protected boolean isOnCooldown(Instant cooldownStartTime, double cooldownLength) {
-    //     return this.findTimeSinceLastCooldown(cooldownStartTime) <= cooldownLength;
-    // }
 
     // reset start time of last time enemy hit player
     public void resetEnemyHitCooldown() {
@@ -226,8 +215,9 @@ public class PlayerLogic extends ObjectLogic {
     public GameObject spawnBullet(BulletLogicManager bulletLogicManager) {
         // check player pressing space
         GameObject playerObject = this.getGameObject();
-        boolean playerSpace = playerInteractions.get(Interaction.SHOOT).getAsBoolean();
-        if (playerSpace) {
+        // get player interaction for space as a boolean
+        boolean playerShoot = playerInteractions.get(Interaction.SHOOT).getAsBoolean();
+        if (playerShoot) {
             // only allow to fire if they have item to shoot bullets
             if (this.getItemType() == ItemType.BULLET) {
                 // check last time player fired bullet
