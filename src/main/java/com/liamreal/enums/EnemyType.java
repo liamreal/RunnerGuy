@@ -8,7 +8,7 @@ public enum EnemyType {
     BASIC("basic"),
     ADVANCED("advanced");
 
-    // string representation
+    // string representation of the current game enemy type which it will spawn
     private final String type;
 
     // string of all enemy types

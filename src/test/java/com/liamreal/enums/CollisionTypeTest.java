@@ -8,8 +8,8 @@ import java.util.List;
 public class CollisionTypeTest {
     @Test
     public void testGetAllCollisionTypes() {
-        List<CollisionType> collistionTypes = CollisionType.getAllCollisionTypes();
-        assertEquals(CollisionType.KILL, collistionTypes.get(0));
-        assertEquals(CollisionType.EXPLODE, collistionTypes.get(1));
+        List<CollisionType> types = CollisionType.getAllCollisionTypes();
+        assertEquals(CollisionType.KILL, types.get(0));
+        assertEquals(CollisionType.EXPLODE, types.get(1));
     }
 }
