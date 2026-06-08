@@ -1,4 +1,6 @@
 package com.liamreal.util;
+
+import java.util.Objects;
 /*
  * Modified by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -32,8 +34,6 @@ public class Point3f {
 	private float y;
 	private float z;
 	
-	private int boundary=900;
-	
 	
 	// default constructor
 	public Point3f() { 
@@ -48,14 +48,9 @@ public class Point3f {
 		this.setY(y);
 		this.setZ(z); 
 	}
-	
-	private void setBoundary(int boundary) {
-		this.boundary = boundary;
-		
-	}
 
 	// sometimes for different algorithms we will need to address the point using positions 0 1 2 
-	public float getPostion(int postion)
+	public float getPosition(int postion)
 	{
 		switch(postion)
 		{
@@ -64,6 +59,16 @@ public class Point3f {
 		case 2: return getZ(); 
 		default: return Float.NaN;  
 		} 
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+        if (!(o instanceof Point3f)) return false;
+		Point3f p = (Point3f) o;
+		return this.getX() == p.getX() &&
+			this.getY() == p.getY() && 
+			this.getZ() == p.getZ();
 	}
 	
 	public String toString()
@@ -93,19 +98,9 @@ public class Point3f {
 	
 	 //Use for direct application of a Vector 
 	public void ApplyVector(Vector3f vector) {
-		// // if you want it to check boundaries (will stop enemies/bullets before they exit edge of screen in negative coords and break code i wrote to remove them at those stages)
-		//  setX(CheckBoundary(this.getX()+vector.getX()));
-		//  setY(CheckBoundary(this.getY()-vector.getY()));
-		//  setZ(CheckBoundary(this.getZ()-vector.getZ())); 
 		 setX(this.getX()+vector.getX());
 		 setY(this.getY()-vector.getY());
 		 setZ(this.getZ()-vector.getZ()); 
-	}
-
-	private float CheckBoundary(float f) {
-		if (f<0) f=0.0f;
-		if (f>boundary)f=(float) boundary;
-		return f;
 	}
 
 	public float getX() {
