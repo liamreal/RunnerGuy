@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.objects;
 
 import com.liamreal.assets.AssetLoader;

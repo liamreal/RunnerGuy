@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.logic.explosion;
 
 import java.util.concurrent.CopyOnWriteArrayList;

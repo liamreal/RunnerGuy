@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.logic.player;
 
 import java.time.Instant;

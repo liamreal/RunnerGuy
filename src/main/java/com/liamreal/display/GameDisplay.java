@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.display;
 
 import com.liamreal.util.Point3f;

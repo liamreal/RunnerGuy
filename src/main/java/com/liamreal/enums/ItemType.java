@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.enums;
 
 import java.util.ArrayList;

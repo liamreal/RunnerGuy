@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.logic.bullet;
 
 import com.liamreal.logic.object.ObjectLogic;

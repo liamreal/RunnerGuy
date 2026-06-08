@@ -1,4 +1,3 @@
-// 22371791 Liam Kerrin
 package com.liamreal.logic.enemy;
 
 import java.util.concurrent.CopyOnWriteArrayList;

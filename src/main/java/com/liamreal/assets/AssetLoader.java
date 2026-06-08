@@ -1,5 +1,4 @@
 
-// 22371791 Liam Kerrin
 package com.liamreal.assets;
 
 // will be responsible for obtaining the directory whose textures are used
