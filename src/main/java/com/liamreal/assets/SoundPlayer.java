@@ -2,7 +2,6 @@ package com.liamreal.assets;
 
 import javax.sound.sampled.*;
 import java.io.File;
-import java.io.IOException;
 
 // similar to texture, but sounds will be more dynamic and can be inserted at any point, 
 // HOWEVER they will need to be passed in the sound file as a string, of which path can be obtained from AssetLoader class
