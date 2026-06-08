@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.sound.sampled.*;
-import com.liamreal.util.UnitTests;
+
 import com.liamreal.display.GameDisplay;
 import com.liamreal.user.Config;
 import com.liamreal.assets.AssetLoader;
@@ -133,9 +133,6 @@ public class MainWindow {
 						{
 							levelComplete = gameloop();
 						}
-					
-					//UNIT test to see if framerate matches 
-				UnitTests.CheckFrameRate(System.currentTimeMillis(),FrameCheck, TargetFPS);
 			}
 			// stop looping music after level is done
 			SoundPlayer.stopSound(musicClip);

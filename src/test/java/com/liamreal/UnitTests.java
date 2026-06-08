@@ -1,4 +1,7 @@
-package com.liamreal.util;
+package com.liamreal;
+
+import com.liamreal.assets.AssetLoaderTest;
+
 /*
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -36,5 +39,4 @@ public class UnitTests {
 			//Write out to log file 
 		}
 	}
-
 }
