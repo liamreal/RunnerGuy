@@ -10,6 +10,7 @@ import com.liamreal.display.GameDisplay;
 // need to change to read these values from a file
 public class Config {
     private static Config INSTANCE;
+    private int numPlayers = 2;
     private int generalMoveSpeed = 1;
     private int bulletMoveSpeed = 3;
     private int playerMoveSpeed = 2;
@@ -42,6 +43,7 @@ public class Config {
     }
 
     // getters for various fields of class
+    public int getNumPlayers() { return this.numPlayers; }
     public int getBulletMoveSpeed() { return this.bulletMoveSpeed; }
     public int getGeneralMoveSpeed() { return this.generalMoveSpeed; }
     public int getPlayerMoveSpeed() { return this.playerMoveSpeed; }

@@ -152,10 +152,11 @@ public abstract class GameObject {
 		if (otherObjects == null || otherObjects.isEmpty()) { return null; }
 		// will be our list we sort
 		List<GameObject> sortedList = new ArrayList<>(otherObjects);
-		// used ChatGPT to help with lambda function sorting since is quite tricky, uses my squared distance calculation method as a comparison for sorting
+		// lambda function sorting is quite tricky, uses my squared distance calculation method as a comparison for sorting
 		sortedList.sort(
+			// for each object in sortedList, comparing this (current GameObject) to each "other object" based on squared distance between this and that other object
 			Comparator.comparingDouble(otherObject ->
-				Metrics.computeSquaredDistance(this, otherObject)
+				Metrics.computeSquaredDistance(this, otherObject) // using squared distance because we dont need the actual distance, just whether is closer or further away
 			)
 		);
 		// return sorted list as a CopyOnWriteArrayList
@@ -202,7 +203,7 @@ public abstract class GameObject {
 		// System.out.println(String.format("THIS = x:%f, y:%f, w:%f, h:%f", thisX, thisY, width, height));
 		// System.out.println(String.format("THAT = x:%f, y:%f, w:%f, h:%f", otherX, otherY, otherWidth, otherHeight));
 
-		// use AABB collision check -- return if true (suggested in slides, seen online and also suggested by ChatGPT)
+		// use AABB collision check -- return if true (suggested in slides, basically checks is other object to right? to left? below? above? if is below and right for example did not collide)
 		return 	thisX < otherX + otherWidth &&
 				thisX + width > otherX &&
 				thisY < otherY + otherHeight &&

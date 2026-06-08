@@ -10,6 +10,7 @@ import com.liamreal.logic.enemy.EnemyLogicManager;
 import com.liamreal.logic.item.ItemLogicManager;
 import com.liamreal.logic.object.ObjectLogic;
 import com.liamreal.logic.player.PlayerLogicManager;
+import com.liamreal.user.Config;
 import com.liamreal.util.Score;
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -44,7 +45,7 @@ public class Model {
 
 	public Model() {
 		//setup game world, specify number of players (can do through config)
-		players = new PlayerLogicManager(2);
+		players = new PlayerLogicManager(Config.getInstance().getNumPlayers());
 		enemies = new EnemyLogicManager();
 		bullets = new BulletLogicManager();
 		items = new ItemLogicManager();
@@ -67,11 +68,11 @@ public class Model {
 
 
 		// if above highest threshold, switch to advanced enemies only
-		if (score.getScore()%20 > 15) {
+		if (score.getScore()%20 > 8) {
 			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
 		} 
 		// if above low threshold, randomise enemy type
-		else if (score.getScore()%20 > 5) {
+		else if (score.getScore()%20 > 3) {
 			List<EnemyType> enemyTypes = EnemyType.getAllEnemyTypes();
         	int randomEnemyType = ThreadLocalRandom.current().nextInt(0, enemyTypes.size());
 			enemies.setEnemyDifficulty(enemyTypes.get(randomEnemyType));
@@ -109,7 +110,7 @@ public class Model {
 		// move all items
 		items.moveItems();
 		// only spawn portal once threshold reached (should be changed to time later)
-		if (score.getScore() > 0 && score.getScore() > 20) {
+		if (score.getScore() > 0 && score.getScore() > 8) {
 			// 1/4 chance of portal to next level every 10 score
         	int portalChance = ThreadLocalRandom.current().nextInt(0, 4);
 			if (portalChance == 0) { items.spawnPortalItemAttempt(); } // attempt to spawn portal item (to go to next level)

@@ -1,3 +1,4 @@
+// 22371791 Liam Kerrin
 package com.liamreal.assets;
 
 import javax.sound.sampled.*;
@@ -25,7 +26,7 @@ public class SoundPlayer {
                 // reduced volume for looping clips
                 FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
                 volume.setValue(-10.0f);
-                // loop clip conitnuously
+                // loop clip continuously
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
                 // otherwise just start sound
@@ -34,7 +35,7 @@ public class SoundPlayer {
             audioStream.close();
             return clip;
 
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        } catch (Exception e) { 
             e.printStackTrace();
         }
         return null;

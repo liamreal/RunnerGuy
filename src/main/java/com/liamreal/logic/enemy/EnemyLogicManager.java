@@ -1,3 +1,4 @@
+// 22371791 Liam Kerrin
 package com.liamreal.logic.enemy;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -51,6 +52,8 @@ public class EnemyLogicManager extends ObjectLogicManager {
     public void setMaxNumEnemies(int newMaxNumEnemies) { 
         super.setMaxNumObjects(newMaxNumEnemies);
     }
+
+
 
 
 

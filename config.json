@@ -1,9 +1,10 @@
 {
+    "numPlayers": 2,
     "generalMoveSpeed": 1,
     "bulletMoveSpeed": 3,
     "playerMoveSpeed": 2,
-    "playerHealth": 3,
-    "maxNumEnemies": 20,
-    "maxNumItems": 6,
-    "levels": ["default", "adventure", "default"]
+    "playerHealth": 10,
+    "maxNumEnemies": 40,
+    "maxNumItems": 8,
+    "levels": ["default", "adventure"]
 }
