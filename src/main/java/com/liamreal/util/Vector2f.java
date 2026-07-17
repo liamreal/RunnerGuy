@@ -40,6 +40,16 @@ public class Vector2f {
 		this.setX(x);
 		this.setY(y);
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj.getClass() != this.getClass()) { return false; }
+        Vector2f other = (Vector2f) obj;
+		if (this.getX() != other.getX()) { return false; }
+		if (this.getY() != other.getY()) { return false; }
+        return true;
+    }
 	
 	 //implement Vector plus a Vector  and comment what the method does  
 	public Vector2f PlusVector(Vector2f Additonal) 
