@@ -113,9 +113,15 @@ public class Vector2fTest {
     }
     @Test
     public void testNegateVector() {
-        Vector2f v = new Vector2f(1, 3);
+        Vector2f v = new Vector2f(1, -3);
         v = v.NegateVector();
-        assertEquals(new Vector2f(-1, -3), v);
+        assertEquals(new Vector2f(-1, 3), v);
+    }
+    @Test
+    public void testNegateVectorZero() {
+        Vector2f v = new Vector2f(0, 0);
+        v = v.NegateVector();
+        assertEquals(new Vector2f(0, 0), v);
     }
     @Test
     public void testVectorLength() {
@@ -124,7 +130,7 @@ public class Vector2fTest {
         assertEquals(expectedLength, v.length());
     }
     @Test
-    public void testVectorNormal() {
+    public void testVectorNormalPositiveIntegers() {
         Vector2f v = new Vector2f(1, 3);
         double LengthOfTheVector=  v.length();
         double scaleOfTheVector = (double) (1.0f/ LengthOfTheVector);
@@ -132,17 +138,102 @@ public class Vector2fTest {
         assertEquals(expectedVectorNormal, v.Normal());
     }
     @Test
-    public void testDotProduct() {
+    public void testVectorNormalPositiveFloats() {
+        Vector2f v = new Vector2f(1, 3.5);
+        double LengthOfTheVector=  v.length();
+        double scaleOfTheVector = (double) (1.0f/ LengthOfTheVector);
+        Vector2f expectedVectorNormal = new Vector2f(1*scaleOfTheVector, 3.5*scaleOfTheVector);
+        assertEquals(expectedVectorNormal, v.Normal());
+    }
+    @Test
+    public void testVectorNormalZeroCoords() {
+        Vector2f v = new Vector2f(0, 0);
+        assertEquals(new Vector2f(0, 0), v.Normal());
+    }
+    @Test
+    public void testVectorNormalNegativeIntegers() {
+        Vector2f v = new Vector2f(1, -3);
+        double LengthOfTheVector=  v.length();
+        double scaleOfTheVector = (double) (1.0f/ LengthOfTheVector);
+        Vector2f expectedVectorNormal = new Vector2f(1*scaleOfTheVector, -3*scaleOfTheVector);
+        assertEquals(expectedVectorNormal, v.Normal());
+    }
+    @Test
+    public void testVectorNormalNegativeFloats() {
+        Vector2f v = new Vector2f(1, -3.5);
+        double LengthOfTheVector=  v.length();
+        double scaleOfTheVector = (double) (1.0f/ LengthOfTheVector);
+        Vector2f expectedVectorNormal = new Vector2f(1*scaleOfTheVector, -3.5*scaleOfTheVector);
+        assertEquals(expectedVectorNormal, v.Normal());
+    }
+    @Test
+    public void testDotProductPositiveIntegers() {
         Vector2f v = new Vector2f(1, 3);
         Vector2f o = new Vector2f(2, 5);
         double expectedDotProduct = 1*2 + 3*5;
         assertEquals(expectedDotProduct, v.dot(o));
     }
     @Test
-    public void testCrossProduct() {
+    public void testDotProductPositiveFloats() {
+        Vector2f v = new Vector2f(1.5, 3);
+        Vector2f o = new Vector2f(2, 5.5);
+        double expectedDotProduct = 1.5*2 + 3*5.5;
+        assertEquals(expectedDotProduct, v.dot(o));
+    }
+    @Test
+    public void testDotProductZero() {
+        Vector2f v = new Vector2f(1, 3);
+        Vector2f o = new Vector2f(0, 5);
+        double expectedDotProduct = 1*0 + 3*5;
+        assertEquals(expectedDotProduct, v.dot(o));
+    }
+    @Test
+    public void testDotProductNegativeIntegers() {
+        Vector2f v = new Vector2f(1, 3);
+        Vector2f o = new Vector2f(-1, -5);
+        double expectedDotProduct = 1*-1 + 3*-5;
+        assertEquals(expectedDotProduct, v.dot(o));
+    }
+    @Test
+    public void testDotProductNegativeFloats() {
+        Vector2f v = new Vector2f(1, 3);
+        Vector2f o = new Vector2f(-1.5, -5.5);
+        double expectedDotProduct = 1*-1.5 + 3*-5.5;
+        assertEquals(expectedDotProduct, v.dot(o));
+    }
+    @Test
+    public void testCrossProductPositiveIntegers() {
         Vector2f v = new Vector2f(1, 3);
         Vector2f o = new Vector2f(2, 5);
         double expectedCrossProduct = 1*5 - 3*2;
+        assertEquals(expectedCrossProduct, v.cross(o));
+    }
+    @Test
+    public void testCrossProductPositiveFloats() {
+        Vector2f v = new Vector2f(1, 3);
+        Vector2f o = new Vector2f(2.5, 5.5);
+        double expectedCrossProduct = 1*5.5 - 3*2.5;
+        assertEquals(expectedCrossProduct, v.cross(o));
+    }
+    @Test
+    public void testCrossProductZero() {
+        Vector2f v = new Vector2f(1, 3);
+        Vector2f o = new Vector2f(0, 5);
+        double expectedCrossProduct = 1*5 - 3*0;
+        assertEquals(expectedCrossProduct, v.cross(o));
+    }
+    @Test
+    public void testCrossProductNegativeIntegers() {
+        Vector2f v = new Vector2f(1, 3);
+        Vector2f o = new Vector2f(-2, -5);
+        double expectedCrossProduct = 1*-5 - 3*-2;
+        assertEquals(expectedCrossProduct, v.cross(o));
+    }
+    @Test
+    public void testCrossProductNegativeFloats() {
+        Vector2f v = new Vector2f(-1, 3);
+        Vector2f o = new Vector2f(-2.5, 5.5);
+        double expectedCrossProduct = -1*5.5 - 3*-2.5;
         assertEquals(expectedCrossProduct, v.cross(o));
     }
 }
