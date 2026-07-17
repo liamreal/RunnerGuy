@@ -155,9 +155,6 @@ public class MainWindow {
 		
 		canvas.updateview(); 
 		
-		// Both these calls could be setup as  a thread but we want to simplify the game logic for you.  
-		//score update  
-		 frame.setTitle("Score =  "+ gameworld.getScore()); 
 
 		return isLevelComplete;
 		

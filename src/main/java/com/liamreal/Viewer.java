@@ -12,9 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import com.liamreal.assets.AssetLoader;
 import com.liamreal.display.GameDisplay;
-import com.liamreal.enums.ItemType;
-import com.liamreal.logic.object.ObjectLogic;
-import com.liamreal.objects.GameObject;
 import com.liamreal.user.Config;
 
 
@@ -93,64 +90,11 @@ public class Viewer extends JPanel {
 
 		//Draw background 
 		drawBackground(g);
+	
 		
-
-		
-		// Draw players
-		gameworld.getPlayers().forEach((temp) -> 
-		{ 
-			// System.out.println(TextureLoader.getAssetsPath());
-			// System.out.println(temp.getGameObject().getTexture());
-			drawPlayer(temp, g);
-		}); 
-		
-		  
-		//Draw Bullets 
-		// change back 
-		gameworld.getBullets().forEach((temp) -> 
-		{ 
-			drawBullet((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
-		}); 
-
-		gameworld.getExplosions().forEach((temp) -> 
-		{ 
-			drawEnemies((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
-		}); 
-
-		gameworld.getItems().forEach((temp) -> 
-		{ 
-			drawBullet((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
-		}); 
-		
-		//Draw Enemies   
-		gameworld.getEnemies().forEach((temp) -> 
-		{
-			drawEnemies((int) temp.getGameObject().getCentre().getX(), (int) temp.getGameObject().getCentre().getY(), (int) temp.getGameObject().getWidth(), (int) temp.getGameObject().getHeight(), temp.getGameObject().getTexture(),g);	 
-			// System.out.println(temp.getGameObject().getCentre().getX());
-			// System.out.println(temp.getGameObject().getCentre().getY());
-			// System.out.println(temp.getGameObject().getTexture());
-	    }); 
 
 		// draw game over if updated to be game over
 		if (isGameOver) { this.drawGameOver(g); }
-	}
-	
-	private void drawEnemies(int x, int y, int width, int height, String texture, Graphics g) {
-		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
-		try {
-			Image myImage = ImageIO.read(TextureToLoad);
-			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
-			//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
-			// for speeding up animation, basis of it is at %4, then half speed is %8/2, quarter speed is %16/4, and so on,
-			// basically we are using mod 4 as a basis since there are 4 sprite animations
-			int currentPositionInAnimation= ((int) (CurrentAnimationTime%16/4 )*32); //slows down animation so every 10 frames we get another frame so every 100ms 
-			g.drawImage(myImage, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
 	}
 
 	private void drawBackground(Graphics g)
@@ -170,64 +114,52 @@ public class Viewer extends JPanel {
 		}
 	}
 	
-	private void drawBullet(int x, int y, int width, int height, String texture,Graphics g)
-	{
-		File TextureToLoad = new File(texture);  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
-		try {
-			Image myImage = ImageIO.read(TextureToLoad); 
-			// 32 by 32
-			 g.drawImage(myImage, x,y, x+width, y+height, 0 , 0, 31, 31, null); 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	private void drawPlayer(ObjectLogic player,Graphics g) { 
-		GameObject playerObject = player.getGameObject();
-		int x = (int) playerObject.getCentre().getX();
-		int y = (int) playerObject.getCentre().getY();
-		int width = (int) playerObject.getWidth();
-		int height = (int) playerObject.getHeight();
-		// System.out.println(texture);
-		File TextureToLoad = new File(playerObject.getTexture());  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
-		try {
-			Image myImage = ImageIO.read(TextureToLoad);
-			// read health item texture
-			Image healthImage = ImageIO.read(new File(String.format(
-            "%s/textures/items/health/health.png", 
-            AssetLoader.getAssetsPath()
-        	)));
-			Image bulletImage = ImageIO.read(new File(String.format(
-            "%s/textures/items/bullet/bullet.png", 
-            AssetLoader.getAssetsPath()
-        	)));
-			//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
-			//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
-			int currentPositionInAnimation= (int) ((CurrentAnimationTime%16/4))*32; //slows down animation so every 10 frames we get another frame so every 100ms 
-			g.drawImage(myImage, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
-			// draw heart for player health (above player)
-			g.drawImage(healthImage, x+(width/4), (int) (y-(width*2/3.5)), 32, 64, this);
+	// private void drawPlayer(ObjectLogic player,Graphics g) { 
+	// 	GameObject playerObject = player.getGameObject();
+	// 	int x = (int) playerObject.getCentre().getX();
+	// 	int y = (int) playerObject.getCentre().getY();
+	// 	int width = (int) playerObject.getWidth();
+	// 	int height = (int) playerObject.getHeight();
+	// 	// System.out.println(texture);
+	// 	File TextureToLoad = new File(playerObject.getTexture());  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
+	// 	try {
+	// 		Image myImage = ImageIO.read(TextureToLoad);
+	// 		// read health item texture
+	// 		Image healthImage = ImageIO.read(new File(String.format(
+    //         "%s/textures/items/health/health.png", 
+    //         AssetLoader.getAssetsPath()
+    //     	)));
+	// 		Image bulletImage = ImageIO.read(new File(String.format(
+    //         "%s/textures/items/bullet/bullet.png", 
+    //         AssetLoader.getAssetsPath()
+    //     	)));
+	// 		//The spirte is 32x32 pixel wide and 4 of them are placed together so we need to grab a different one each time 
+	// 		//remember your training :-) computer science everything starts at 0 so 32 pixels gets us to 31  
+	// 		int currentPositionInAnimation= (int) ((CurrentAnimationTime%16/4))*32; //slows down animation so every 10 frames we get another frame so every 100ms 
+	// 		g.drawImage(myImage, x,y, x+width, y+height, currentPositionInAnimation  , 0, currentPositionInAnimation+31, 32, null); 
+	// 		// draw heart for player health (above player)
+	// 		g.drawImage(healthImage, x+(width/4), (int) (y-(width*2/3.5)), 32, 64, this);
 
-			// draw player health above player using draw string method
-			String health = String.format("%d", playerObject.getHealth());
-			// draw health (for now fixed black colour)
-			g.setFont(new Font("Arial", Font.BOLD, 10));
-			g.setColor(Color.WHITE);
-			g.drawString(health, x+(width/2), y-(width/4));
+	// 		// draw player health above player using draw string method
+	// 		String health = String.format("%d", playerObject.getHealth());
+	// 		// draw health (for now fixed black colour)
+	// 		g.setFont(new Font("Arial", Font.BOLD, 10));
+	// 		g.setColor(Color.WHITE);
+	// 		g.drawString(health, x+(width/2), y-(width/4));
 
-			// draw bullet (if player has bullet powerup)
-			if (player.getItemType() == ItemType.BULLET) { g.drawImage(bulletImage, x+(width/4), y+height, 32, 64, this); }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+	// 		// draw bullet (if player has bullet powerup)
+	// 		if (player.getItemType() == ItemType.BULLET) { g.drawImage(bulletImage, x+(width/4), y+height, 32, 64, this); }
+	// 	} catch (IOException e) {
+	// 		// TODO Auto-generated catch block
+	// 		e.printStackTrace();
+	// 	} 
 		 
-		//g.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer));
-		//Lighnting Png from https://opengameart.org/content/animated-spaceships  its 32x32 thats why I know to increament by 32 each time 
-		// Bullets from https://opengameart.org/forumtopic/tatermands-art 
-		// background image from https://www.needpix.com/photo/download/677346/space-stars-nebula-background-galaxy-universe-free-pictures-free-photos-free-images
+	// 	//g.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer));
+	// 	//Lighnting Png from https://opengameart.org/content/animated-spaceships  its 32x32 thats why I know to increament by 32 each time 
+	// 	// Bullets from https://opengameart.org/forumtopic/tatermands-art 
+	// 	// background image from https://www.needpix.com/photo/download/677346/space-stars-nebula-background-galaxy-universe-free-pictures-free-photos-free-images
 		
-	}
+	// }
 	private void drawGameOver(Graphics g) {
 		File TextureToLoad = new File("assets/game_over.png"); // game over image 
 		try {

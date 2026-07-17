@@ -4,14 +4,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.liamreal.enums.EnemyType;
-import com.liamreal.logic.bullet.BulletLogicManager;
-import com.liamreal.logic.enemy.EnemyLogicManager;
-import com.liamreal.logic.item.ItemLogicManager;
-import com.liamreal.logic.object.ObjectLogic;
-import com.liamreal.logic.player.PlayerLogicManager;
-import com.liamreal.user.Config;
-import com.liamreal.util.Score;
 /*
  * Created by Abraham Campbell on 15/01/2020.
  *   Copyright (c) 2020  Abraham Campbell
@@ -36,144 +28,16 @@ SOFTWARE.
    
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
-public class Model {
-	 private  PlayerLogicManager players;
-	 private  EnemyLogicManager enemies;
-	 private  BulletLogicManager bullets;
-	 private  ItemLogicManager items;
-	 private Score score = new Score(); 
+public class Model { 
 
 	public Model() {
-		//setup game world, specify number of players (can do through config)
-		players = new PlayerLogicManager(Config.getInstance().getNumPlayers());
-		enemies = new EnemyLogicManager();
-		bullets = new BulletLogicManager();
-		items = new ItemLogicManager();
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean gamelogic() 
 	{
-		// System.out.println(TextureLoader.getAssetsPath());
-		// players.getPlayers().get(0).getGameObject().setTexture("assets/space/textures/players/player_two.png"); // WORKS!!!
-
-		// return true if players complete level (i.e. go thru portal) or all die	
-		if (players.isLevelComplete() || players.isAllDead()) { 
-			// clear player items (also clears portal item so does not instantly end game again in next level)
-			players.resetItems();
-			items.removePortals();
-			score.resetScore(); // reset score (because for now levels use localised score system to change level)
-			return true;
-		}
-
-
-		// if above highest threshold, switch to advanced enemies only
-		if (score.getScore()%20 > 8) {
-			enemies.setEnemyDifficulty(EnemyType.ADVANCED);
-		} 
-		// if above low threshold, randomise enemy type
-		else if (score.getScore()%20 > 3) {
-			List<EnemyType> enemyTypes = EnemyType.getAllEnemyTypes();
-        	int randomEnemyType = ThreadLocalRandom.current().nextInt(0, enemyTypes.size());
-			enemies.setEnemyDifficulty(enemyTypes.get(randomEnemyType));
-		} 
-		// otherwise only basic enemies
-		else {
-			enemies.setEnemyDifficulty(EnemyType.BASIC);
-		}
-
-		// Player Logic first 
-		playerLogic(); 
-		// Bullets move next 
-		bulletLogic();
-		// Enemy Logic next
-		enemyLogic();
-		// Item Logic next
-		itemLogic();
-
 		// return false if game not yet complete
 		return false;
-	}
-
-	private void enemyLogic() {
-		// update assets
-		enemies.updateAssets();
-		// move all enemies
-		enemies.moveEnemies();
-		// attempt to spawn enemy (based on random chance)
-		enemies.spawnEnemyAttempt();
-	}
-
-	private void itemLogic() {
-		// update texture
-		items.updateAssets();
-		// move all items
-		items.moveItems();
-		// only spawn portal once threshold reached (should be changed to time later)
-		if (score.getScore() > 0 && score.getScore() > 8) {
-			// 1/4 chance of portal to next level every 10 score
-        	int portalChance = ThreadLocalRandom.current().nextInt(0, 4);
-			if (portalChance == 0) { items.spawnPortalItemAttempt(); } // attempt to spawn portal item (to go to next level)
-			else { items.spawnItemAttempt(); } // spawn regular item if not chance
-		} else {
-			// attempt to spawn item (based on random chance)
-			items.spawnItemAttempt();
-		}
-	}
-
-	private void bulletLogic() {
-		// update sounds
-		bullets.updateAssets();
-		// move bullets 
-		bullets.moveBullets();
-		// check bullets for collision with all enemies
-		score.incrementScore(bullets.collideEnemy(enemies)); 
-		// score.incrementScore(bullets.killEnemy(enemies)); 
-		// score.incrementScore(bullets.explodeEnemy(enemies)); 
-		// System.out.println(bullets.getBullets().size());	// bullet logic objects list	
-	}
-
-	// logic for players
-	private void playerLogic() {
-		// update texture
-		players.updateTexture();
-		//check for movement and if you fired a bullet 
-		players.movePlayers();
-		// collision of player with enemies
-		players.collideEnemy(enemies);
-		// collision of player with items
-		players.collideItem(items);
-		// update items to see if all used up (in case of bullets being a power-up of sorts that lasts some time)
-		players.updateItems();
-		// spawn bullet on player
-		players.spawnBullet(bullets);
-	}
-
-
-	
-	public CopyOnWriteArrayList<ObjectLogic> getPlayers() {
-		return players.getPlayers();
-	}
-
-	public CopyOnWriteArrayList<ObjectLogic> getEnemies() {
-		return enemies.getEnemies();
-	}
-	
-	public CopyOnWriteArrayList<ObjectLogic> getBullets() {
-		return bullets.getBullets();
-	}
-	
-	public CopyOnWriteArrayList<ObjectLogic> getExplosions() {
-		// get explosions from bullets
-		return bullets.getExplosions();
-	}
-
-	public CopyOnWriteArrayList<ObjectLogic> getItems() {
-		return items.getItems();
-	}
-
-	public int getScore() { 
-		return score.getScore();
 	}
 
  
