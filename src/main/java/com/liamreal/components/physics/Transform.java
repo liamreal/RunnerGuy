@@ -1,6 +1,6 @@
-package com.liamreal.objects.components;
+package com.liamreal.components.physics;
 
-import com.liamreal.objects.Component;
+import com.liamreal.ecs.Component;
 import com.liamreal.util.Vector2f;
 
 public class Transform implements Component {

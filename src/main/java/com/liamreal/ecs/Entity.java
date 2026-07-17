@@ -1,4 +1,4 @@
-package com.liamreal.objects;
+package com.liamreal.ecs;
 
 import java.util.HashMap;
 import java.util.Map;

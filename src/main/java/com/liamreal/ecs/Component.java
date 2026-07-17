@@ -1,4 +1,4 @@
-package com.liamreal.objects;
+package com.liamreal.ecs;
 
 public interface Component {
 
