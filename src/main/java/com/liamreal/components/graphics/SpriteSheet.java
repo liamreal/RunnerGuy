@@ -16,6 +16,7 @@ public class SpriteSheet {
     }
 
     public BufferedImage getImage() { return this.image; }
+    public void updateImage(BufferedImage image) { this.image = image; } // for changing texture mid-game
     public int getSpriteWidth() { return this.spriteWidth; }
     public int getSpriteHeight() { return this.spriteHeight; }
 }

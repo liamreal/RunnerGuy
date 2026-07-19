@@ -2,6 +2,7 @@ package com.liamreal.components.graphics;
 
 import com.liamreal.ecs.Component;
 import com.liamreal.util.Vector2f;
+import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 public class SpriteRenderer implements Component {
@@ -9,6 +10,8 @@ public class SpriteRenderer implements Component {
     public SpriteRenderer(SpriteSheet spriteSheet) {
         this.spriteSheet = spriteSheet;
     }
+    // update texture when requested
+    public void updateImage(BufferedImage image) { spriteSheet.updateImage(image); } 
     // draw methods
     public void drawImage(Vector2f position, Graphics g, Animation animation) {
         int spriteWidth = this.spriteSheet.getSpriteWidth();
