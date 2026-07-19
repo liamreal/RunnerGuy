@@ -12,14 +12,18 @@ public class Entity {
         this.id = id;
     }
 
-    // can add, check if has, and get components based on classes
+    // can get entity id (for deletion)
+    public int getId() { return this.id; }
+
+    // can add, check if has, and get components based on classes (e.g. if has key Transform.class has Transform object)
     public void add(Component component) {
         components.put(component.getClass(), component);
     }
     public boolean has(Class<? extends Component> componentClass) {
         return components.containsKey(componentClass);
     }
-    public Component get(Class<? extends Component> componentClass) {
+    // return the type of class inferred that extends Component interface
+    public <T extends Component> T get(Class<T> componentClass) {
         // casting allows to infer based on type, e.g. get(Transform.class) --> no need to cast it using (Transform) on the hashmap getter 
         return componentClass.cast(components.get(componentClass));
     }
