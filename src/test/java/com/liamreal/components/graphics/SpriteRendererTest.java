@@ -1,7 +1,6 @@
 package com.liamreal.components.graphics;
 
 import com.liamreal.util.Vector2f;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

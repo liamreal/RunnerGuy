@@ -1,7 +1,5 @@
 package com.liamreal.components.graphics;
 
-import java.awt.image.BufferedImage;
-
 public class Animation {
     private int currentAnimationTime;
 
