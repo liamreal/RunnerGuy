@@ -16,6 +16,7 @@ class SpriteRendererTest {
     private Animation animation;
 
     @BeforeEach
+    // Mockist approach (works better for Graphics class)
     void setUp() {
         spriteSheet = mock(SpriteSheet.class);
         graphics = mock(Graphics.class);
