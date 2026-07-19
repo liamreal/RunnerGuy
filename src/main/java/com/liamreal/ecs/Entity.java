@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Entity {
-    private int id;
+    private final int id;
     private Map<Class<? extends Component>, Component> components = new HashMap<>();
 
     // entity assigned id on creation
@@ -12,7 +12,7 @@ public class Entity {
         this.id = id;
     }
 
-    // can get entity id (for deletion)
+    // can get entity id (for entity deletion)
     public int getId() { return this.id; }
 
     // can add, check if has, and get components based on classes (e.g. if has key Transform.class has Transform object)
