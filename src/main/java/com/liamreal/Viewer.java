@@ -51,7 +51,7 @@ public class Viewer extends JPanel {
 	private boolean isGameOver = false;
 	BufferedImage backgroundImage = ImageLoader.load(String.format(
 		"%s/textures/background/background.png", 
-		AssetSelector.getAssetsPath()
+		AssetSelector.getAssetsPath().toString()
 	));
 	private SpriteSheet backgroundSpriteSheet = new SpriteSheet(backgroundImage, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
 	private Entity background = new Entity(0);
