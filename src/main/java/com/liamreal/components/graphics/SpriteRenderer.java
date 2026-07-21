@@ -28,6 +28,17 @@ public class SpriteRenderer implements Component {
         int spriteWidth = this.spriteSheet.getSpriteWidth();
         int positionX = (int) position.getX();
         int positionY = (int) position.getY();
+
+        // System.out.println(
+        //     "Drawing: " +
+        //     spriteSheet.getImage().getWidth() +
+        //     "x" +
+        //     spriteSheet.getImage().getHeight() +
+        //     " at " +
+        //     spriteWidth +
+        //     "x" +
+        //     spriteSheet.getSpriteHeight()
+        // );
         g.drawImage(
             this.spriteSheet.getImage(), 
             positionX, 

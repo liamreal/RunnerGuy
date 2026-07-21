@@ -1,6 +1,7 @@
 package com.liamreal;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -66,10 +67,24 @@ public class MainWindow {
 
 
 	        frame.add(canvas);
+
+			canvas.setPreferredSize(
+				new Dimension(
+					GameDisplay.getDisplayX(),
+					GameDisplay.getDisplayY()
+				)
+			);
+
 	        canvas.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY()); 
+			// frame.setVisible(true);
+			System.out.println("Frame: "
+				+ frame.getWidth() + "x" + frame.getHeight());
+
+			System.out.println("Canvas: "
+				+ canvas.getWidth() + "x" + canvas.getHeight());
 	        canvas.setBackground(new Color(255,255,255)); //white background  replaced by Space background but if you remove the background method this will draw a white screen 
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
-		          
+			System.out.println(frame.getInsets());
 		       
 	        JButton startMenuButton = new JButton();  // start button 
 	        startMenuButton.addActionListener(new ActionListener()
@@ -104,7 +119,9 @@ public class MainWindow {
 			 
 			frame.add(startMenuButton); 
 
-	       	frame.setVisible(true);   
+	       	frame.setVisible(true);
+			// frame.pack();
+
 	}
 
 	public static void main(String[] args) {
