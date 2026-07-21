@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -90,7 +88,6 @@ class AssetManagerTest {
                 manager.getAsset("enemy.png")
         );
     }
-
 
     @Test
     void update_overwritesExistingAssetNewPath() throws Exception {
