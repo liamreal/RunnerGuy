@@ -29,7 +29,8 @@ public class AssetManager<T> {
         // for each asset found in path, load it and add that loaded asset as value to asset map with same string keys as path map
         for (Map.Entry<String, Path> entry : pathMap.entrySet()) {
             T assetLoader = this.loader.apply(entry.getValue());
-            // if asset is null, does not exist, so should not be updated and should use "default", as originally initialised in AssetManager
+            // if asset is null, does not exist, so should not be updated and should use "default", 
+            // as initialised by TextureManager and SoundManager when constructed
             if (assetLoader != null) { 
                 // update asset since we know it exists
                 this.assetMap.put(entry.getKey(), assetLoader); // apply loader function to path of asset to load it
