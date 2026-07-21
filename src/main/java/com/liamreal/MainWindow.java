@@ -16,7 +16,6 @@ import javax.sound.sampled.*;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.user.Config;
 import com.liamreal.assets.AssetBuilder;
-import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
 import com.liamreal.controllers.Controller;

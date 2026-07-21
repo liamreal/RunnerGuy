@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import com.liamreal.assets.AssetBuilder;
-import com.liamreal.assets.AssetConfig;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Entity;
 import com.liamreal.user.Config;
