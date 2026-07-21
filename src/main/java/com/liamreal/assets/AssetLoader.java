@@ -12,6 +12,11 @@ import com.liamreal.components.graphics.ImageLoader;
 public class AssetLoader {
     // will hold our actual images associated with keys
     private Map<String, BufferedImage> textureMap = new HashMap<>();
+    private static final AssetLoader instance = new AssetLoader();
+
+    public static AssetLoader getInstance() {
+        return instance;
+    }
 
     // in constructor, will build texture map and then once game is changed will update it via string formatting
     public void buildTextureMap() {
