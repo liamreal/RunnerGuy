@@ -37,8 +37,8 @@ public class AssetManager<T> {
         }
     }
     // rebuild asset map
-    public void reload() {
-        this.setPath(AssetConfig.getAssetsPath());
+    public void update(Path path) {
+        this.setPath(path);
         // rebuild asset map based on new path
         this.buildAssetMap();
     }

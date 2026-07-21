@@ -114,7 +114,7 @@ public class MainWindow {
 
 		for (String level: Config.getInstance().getLevels()) {
 			AssetConfig.setAssetType(level);
-			textureManager.reload();
+			textureManager.update();
 			boolean levelComplete = false;
 			// loop background music clip
 			Clip musicClip = SoundPlayer.loopSound(String.format(
