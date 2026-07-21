@@ -7,8 +7,6 @@ import java.util.function.Function;
 
 // will be responsible for building assets (textures or sounds)
 public class AssetBuilder<T> {
-    // type of asset currently active (KEEP THIS "default" AS DEFAULT VALUE -- ensures there are fallback textures)
-    private static String assetType = "default";
     // create asset map with string key and generic T value
     private Map<String, T> assetMap = new HashMap<>();
     private Path path;
@@ -39,10 +37,10 @@ public class AssetBuilder<T> {
         }
     }
     // rebuild asset map
-    public void updateAssetType(String newAssetType) {
+    public void reload(String newAssetType) {
         // update asset type and path
-        AssetBuilder.setAssetType(newAssetType);
-        this.setPath(AssetBuilder.getAssetsPath());
+        AssetConfig.setAssetType(newAssetType);
+        this.setPath(AssetConfig.getAssetsPath());
         // rebuild asset map based on new path
         this.buildAssetMap();
     }
@@ -53,9 +51,5 @@ public class AssetBuilder<T> {
     public T getAsset(String key) {
         return this.assetMap.get(key);
     }
-
     private void setPath(Path newPath) { this.path = newPath; }
-    private static void setAssetType(String newAssetType) { AssetBuilder.assetType = newAssetType; }
-    public static String getAssetType() { return AssetBuilder.assetType; }
-    public static Path getAssetsPath() { return Path.of(String.format("assets/%s", AssetBuilder.getAssetType())); }
 }
