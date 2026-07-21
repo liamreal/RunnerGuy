@@ -1,5 +1,7 @@
 package com.liamreal.components.graphics;
 
+import com.liamreal.graphics.Animation;
+import com.liamreal.graphics.SpriteSheet;
 import com.liamreal.util.Vector2f;
 import static org.mockito.Mockito.*;
 import java.awt.Graphics;

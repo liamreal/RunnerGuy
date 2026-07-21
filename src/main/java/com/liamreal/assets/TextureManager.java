@@ -3,7 +3,8 @@ package com.liamreal.assets;
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.Map;
-import com.liamreal.components.graphics.ImageLoader;
+
+import com.liamreal.graphics.ImageLoader;
 
 public class TextureManager {
     private final AssetManager<BufferedImage> assets;

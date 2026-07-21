@@ -1,4 +1,4 @@
-package com.liamreal.components.graphics;
+package com.liamreal.graphics;
 
 public class Animation {
     private int currentAnimationTime;
