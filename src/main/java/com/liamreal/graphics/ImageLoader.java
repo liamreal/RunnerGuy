@@ -1,4 +1,4 @@
-package com.liamreal.components.graphics;
+package com.liamreal.graphics;
 
 import javax.imageio.ImageIO;
 import java.io.File;

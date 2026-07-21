@@ -1,4 +1,4 @@
-package com.liamreal.components.graphics;
+package com.liamreal.graphics;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

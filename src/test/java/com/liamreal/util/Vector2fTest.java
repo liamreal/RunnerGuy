@@ -1,9 +1,6 @@
 package com.liamreal.util;
 
 import org.junit.jupiter.api.Test;
-
-import com.liamreal.components.physics.Velocity;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Vector2fTest {

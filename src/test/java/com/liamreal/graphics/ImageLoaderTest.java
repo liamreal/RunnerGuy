@@ -1,8 +1,7 @@
-package com.liamreal.components.graphics;
+package com.liamreal.graphics;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.awt.image.BufferedImage;
 import java.nio.file.Files;
 import java.nio.file.Path;

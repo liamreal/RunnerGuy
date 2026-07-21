@@ -1,6 +1,8 @@
 package com.liamreal.components.graphics;
 
 import com.liamreal.ecs.Component;
+import com.liamreal.graphics.SpriteSheet;
+import com.liamreal.graphics.Animation;
 import com.liamreal.util.Vector2f;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;

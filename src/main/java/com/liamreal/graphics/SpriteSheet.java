@@ -1,4 +1,4 @@
-package com.liamreal.components.graphics;
+package com.liamreal.graphics;
 
 import java.awt.image.BufferedImage;
 

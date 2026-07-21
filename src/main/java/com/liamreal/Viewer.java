@@ -9,16 +9,14 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
-import com.liamreal.assets.AssetManager;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Entity;
+import com.liamreal.graphics.Animation;
+import com.liamreal.graphics.ImageLoader;
+import com.liamreal.graphics.SpriteSheet;
 import com.liamreal.user.Config;
-import com.liamreal.components.graphics.Animation;
-import com.liamreal.components.graphics.ImageLoader;
 import com.liamreal.components.graphics.SpriteRenderer;
-import com.liamreal.components.graphics.SpriteSheet;
 import com.liamreal.components.physics.Transform;
 
 
