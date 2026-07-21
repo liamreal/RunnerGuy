@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-// will be responsible for building assets (textures or sounds)
-public class AssetBuilder<T> {
+// will be responsible for managing (building/updating) assets (textures or sounds)
+public class AssetManager<T> {
     // create asset map with string key and generic T value
     private Map<String, T> assetMap = new HashMap<>();
     private Path path;
     private Function<Path, T> loader;
 
     // upon initialising, build assets given path
-    public AssetBuilder(
+    public AssetManager(
             Path path,
             Function<Path, T> loader
     ) {
@@ -29,7 +29,7 @@ public class AssetBuilder<T> {
         // for each asset found in path, load it and add that loaded asset as value to asset map with same string keys as path map
         for (Map.Entry<String, Path> entry : pathMap.entrySet()) {
             T assetLoader = this.loader.apply(entry.getValue());
-            // if asset is null, does not exist, so should not be updated and should use "default", as originally initialised in AssetBuilder
+            // if asset is null, does not exist, so should not be updated and should use "default", as originally initialised in AssetManager
             if (assetLoader != null) { 
                 // update asset since we know it exists
                 this.assetMap.put(entry.getKey(), assetLoader); // apply loader function to path of asset to load it
@@ -37,9 +37,7 @@ public class AssetBuilder<T> {
         }
     }
     // rebuild asset map
-    public void reload(String newAssetType) {
-        // update asset type and path
-        AssetConfig.setAssetType(newAssetType);
+    public void reload() {
         this.setPath(AssetConfig.getAssetsPath());
         // rebuild asset map based on new path
         this.buildAssetMap();

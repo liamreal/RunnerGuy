@@ -15,7 +15,7 @@ import javax.sound.sampled.*;
 
 import com.liamreal.display.GameDisplay;
 import com.liamreal.user.Config;
-import com.liamreal.assets.AssetBuilder;
+import com.liamreal.assets.AssetManager;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
@@ -113,7 +113,8 @@ public class MainWindow {
 		
 
 		for (String level: Config.getInstance().getLevels()) {
-			textureManager.reload(level);
+			AssetConfig.setAssetType(level);
+			textureManager.reload();
 			boolean levelComplete = false;
 			// loop background music clip
 			Clip musicClip = SoundPlayer.loopSound(String.format(

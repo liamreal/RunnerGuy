@@ -34,10 +34,4 @@ public class PathBuilder {
             throw new RuntimeException(String.format("Failed to walk directory %s", directory), e);
         }
     }
-
-
-    public static void main(String args[]) {
-        // verify works
-        System.out.println(PathBuilder.buildPathMap(Path.of(String.format("%s/textures/", AssetConfig.getAssetsPath()))));
-    }
 }
