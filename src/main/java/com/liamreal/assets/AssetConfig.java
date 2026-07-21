@@ -7,11 +7,12 @@ import java.nio.file.Path;
 public class AssetConfig {
     private static String gameType = "default";
 
-    public static String getGameType() { return gameType; }
-    public static Path getAssetsPath() { return Path.of(String.format("assets/%s", AssetConfig.getGameType())); }
-    public static Path getTexturesPath() { return AssetConfig.getAssetsPath().resolve("textures"); }
+    // public static String getGameType() { return gameType; }
+    // public static Path getAssetsPath() { return Path.of(String.format("assets/%s", AssetConfig.getGameType())); }
+    // public static Path getTexturesPath() { return AssetConfig.getAssetsPath().resolve("textures"); }
+    // public static Path getSoundsPath() { return AssetConfig.getAssetsPath().resolve("sounds"); }
 
-    // to switch between different game types (the idea is to later allow easy switching of assets for recyclable gameplay)
-    public static void setGameType(String newGameType) { gameType = newGameType; }
+    // // to switch between different game types (the idea is to later allow easy switching of assets for recyclable gameplay)
+    // public static void setGameType(String newGameType) { gameType = newGameType; }
 
 }

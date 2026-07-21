@@ -15,8 +15,10 @@ import javax.sound.sampled.*;
 
 import com.liamreal.display.GameDisplay;
 import com.liamreal.user.Config;
+import com.liamreal.assets.AssetBuilder;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
+import com.liamreal.assets.TextureManager;
 import com.liamreal.controllers.Controller;
 
 /*
@@ -54,6 +56,7 @@ public class MainWindow {
 	private static   int TargetFPS = 100;
 	private static boolean startGame= false; 
 	private   JLabel BackgroundImageForStartMenu;
+	private static TextureManager textureManager = new TextureManager();
 	  
 	public MainWindow() {
 	        frame.setSize(GameDisplay.getDisplayX(), GameDisplay.getDisplayY());  // you can customise this later and adapt it to change on size.
@@ -87,7 +90,7 @@ public class MainWindow {
 	        //loading background image 
 	        File BackgroundToLoad = new File(String.format(
 				"assets/start_menu.png", 
-				AssetConfig.getAssetsPath()
+				AssetBuilder.getAssetsPath()
 			));  //should work okay on OSX and Linux but check if you have issues depending your eclipse install or if your running this without an IDE 
 			try {
 				 
@@ -107,14 +110,15 @@ public class MainWindow {
 
 	public static void main(String[] args) {
 		MainWindow hello = new MainWindow();  //sets up environment 
+		
 
 		for (String level: Config.getInstance().getLevels()) {
-			AssetConfig.setGameType(level);
+			textureManager.updateTextures(level);
 			boolean levelComplete = false;
 			// loop background music clip
 			Clip musicClip = SoundPlayer.loopSound(String.format(
 				"%s/sounds/background/background.wav",
-				AssetConfig.getAssetsPath()
+				AssetBuilder.getAssetsPath()
 			));
 			while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
 			{ 

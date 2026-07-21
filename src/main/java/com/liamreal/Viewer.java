@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import com.liamreal.assets.AssetBuilder;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Entity;
@@ -51,7 +53,7 @@ public class Viewer extends JPanel {
 	private boolean isGameOver = false;
 	BufferedImage backgroundImage = ImageLoader.load(String.format(
 		"%s/textures/background/background.png", 
-		AssetConfig.getAssetsPath().toString()
+		AssetBuilder.getAssetsPath().toString()
 	));
 	private SpriteSheet backgroundSpriteSheet = new SpriteSheet(backgroundImage, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
 	private Entity background = new Entity(0);
