@@ -1,5 +1,6 @@
 package com.liamreal.components.graphics;
 
+import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Component;
 import com.liamreal.graphics.SpriteSheet;
 import com.liamreal.graphics.Animation;
@@ -15,9 +16,16 @@ public class SpriteRenderer implements Component {
     // update texture when requested
     public void updateImage(BufferedImage image) { spriteSheet.updateImage(image); } 
     // draw methods
-    public void drawImage(Vector2f position, Graphics g, Animation animation) {
+    public void drawAnimatedImage(Vector2f position, Graphics g, Animation animation) {
         int spriteWidth = this.spriteSheet.getSpriteWidth();
         int currentPositionInAnimation= (int) ((animation.getAnimationTime()%16/4))*spriteWidth;
+        this.drawImage(position, g, currentPositionInAnimation);
+    }
+    public void drawStaticImage(Vector2f position, Graphics g){
+        this.drawImage(position, g, 0);
+    }
+    private void drawImage(Vector2f position, Graphics g, int currentPositionInAnimation) {
+        int spriteWidth = this.spriteSheet.getSpriteWidth();
         int positionX = (int) position.getX();
         int positionY = (int) position.getY();
         g.drawImage(

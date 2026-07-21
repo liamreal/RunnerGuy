@@ -32,12 +32,12 @@ class SpriteRendererTest {
     }
 
     @Test
-    void drawImage_drawsFirstAnimationFrame() {
+    void drawAnimatedImage_drawsFirstAnimationFrame() {
         Vector2f position = new Vector2f(100, 50);
 
         when(animation.getAnimationTime()).thenReturn(0);
 
-        spriteRenderer.drawImage(position, graphics, animation);
+        spriteRenderer.drawAnimatedImage(position, graphics, animation);
 
         verify(graphics).drawImage(
             any(),
@@ -54,13 +54,13 @@ class SpriteRendererTest {
     }
 
     @Test
-    void drawImage_drawsSecondAnimationFrame() {
+    void drawAnimatedImage_drawsSecondAnimationFrame() {
         Vector2f position = new Vector2f(100, 50);
 
         // (4 / 4) * 32 = 32
         when(animation.getAnimationTime()).thenReturn(4);
 
-        spriteRenderer.drawImage(position, graphics, animation);
+        spriteRenderer.drawAnimatedImage(position, graphics, animation);
 
         verify(graphics).drawImage(
             any(),
@@ -77,13 +77,13 @@ class SpriteRendererTest {
     }
 
     @Test
-    void drawImage_loopsAnimationAfterLastFrame() {
+    void drawAnimatedImage_loopsAnimationAfterLastFrame() {
         Vector2f position = new Vector2f(0, 0);
 
         // 16 % 16 = 0, so it loops back to frame 0
         when(animation.getAnimationTime()).thenReturn(16);
 
-        spriteRenderer.drawImage(position, graphics, animation);
+        spriteRenderer.drawAnimatedImage(position, graphics, animation);
 
         verify(graphics).drawImage(
             any(),

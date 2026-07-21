@@ -19,6 +19,6 @@ public class TextureManager {
     public void update() { this.assets.update(this.getTexturesPath()); }
     // getters
     private Path getTexturesPath() { return AssetConfig.getAssetsPath().resolve("textures"); }
-    public Map<String, BufferedImage> getTextureMap() { return this.assets.getAssetMap(); }
-    public BufferedImage getTexture(String key) { return this.assets.getAsset(key); }
+    public Map<String, BufferedImage> getAssetMap() { return this.assets.getAssetMap(); }
+    public BufferedImage getAsset(String key) { return this.assets.getAsset(key); }
 }

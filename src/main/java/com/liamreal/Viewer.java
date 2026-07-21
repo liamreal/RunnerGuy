@@ -7,17 +7,22 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyStore.Entry;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import com.liamreal.assets.AssetConfig;
+import com.liamreal.assets.TextureManager;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Entity;
+import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.graphics.Animation;
 import com.liamreal.graphics.ImageLoader;
 import com.liamreal.graphics.SpriteSheet;
 import com.liamreal.user.Config;
 import com.liamreal.components.graphics.SpriteRenderer;
 import com.liamreal.components.physics.Transform;
+import com.liamreal.systems.RenderSystem;
 
 
 /*
@@ -47,24 +52,19 @@ SOFTWARE.
  * Credits: Kelly Charles (2020)
  */ 
 public class Viewer extends JPanel {
-	private Animation animation;
+	private Animation animation = new Animation();
 	private boolean isGameOver = false;
-	BufferedImage backgroundImage = ImageLoader.load(String.format(
-		"%s/textures/background/background.png", 
-		AssetConfig.getAssetsPath().toString()
-	));
-	private SpriteSheet backgroundSpriteSheet = new SpriteSheet(backgroundImage, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
-	private Entity background = new Entity(0);
-	
+	private TextureManager textureManager = new TextureManager();
 	
 	Model gameworld; 
 	Config config = Config.getInstance();
+	
+	private RenderSystem renderSystem = new RenderSystem();
 	 
 	public Viewer(Model World) {
 		this.gameworld=World;
+		BackgroundFactory.createBackground(gameworld.getEntityManager(), textureManager);
 		// create background
-		this.background.add(new Transform(0, 0));
-		this.background.add(new SpriteRenderer(backgroundSpriteSheet));
 		// TODO Auto-generated constructor stub
 	}
 
@@ -104,7 +104,7 @@ public class Viewer extends JPanel {
 		animation.incrementAnimationTime();
 
 		//Draw background 
-		drawBackground(g);
+		drawEntities(g);
 	
 		
 
@@ -112,9 +112,12 @@ public class Viewer extends JPanel {
 		if (isGameOver) { this.drawGameOver(g); }
 	}
 
-	private void drawBackground(Graphics g)
+	private void drawEntities(Graphics g)
 	{
-		background.get(SpriteRenderer.class).drawImage(background.get(Transform.class).getPosition(), g, animation);
+
+		
+		renderSystem.render(gameworld.getEntities(), g);
+
 		
 		// File TextureToLoad = new File(String.format(
         //     "%s/textures/background/background.png", 

@@ -76,7 +76,7 @@ class TextureManagerTest {
         TextureManager manager = new TextureManager();
         // texture exists so manager loads it
         assertNotNull(
-                manager.getTexture("player.png")
+                manager.getAsset("player.png")
         );
     }
 
@@ -85,7 +85,7 @@ class TextureManagerTest {
         TextureManager manager = new TextureManager();
         // texture does not exist so is null
         assertNull(
-                manager.getTexture("missing.png")
+                manager.getAsset("missing.png")
         );
     }
 
@@ -96,7 +96,7 @@ class TextureManagerTest {
                 defaultTexturesDirectory.resolve("player.png")
         );
         TextureManager manager = new TextureManager();
-        BufferedImage texture = manager.getTexture("player.png");
+        BufferedImage texture = manager.getAsset("player.png");
         assertNotNull(texture); // ensure first obtained texture not null
 
         // mock new directory path
@@ -110,7 +110,7 @@ class TextureManagerTest {
         // since no matching file in new directory should fail
         assertSame(
                 texture,
-                manager.getTexture("player.png")
+                manager.getAsset("player.png")
         );
     }
 
@@ -123,7 +123,7 @@ class TextureManagerTest {
                 newTexturesDirectory.resolve("player.png")
         );
         TextureManager manager = new TextureManager();
-        BufferedImage texture = manager.getTexture("player.png");
+        BufferedImage texture = manager.getAsset("player.png");
         assertNotNull(texture);
 
         // again new directory mocked
@@ -137,7 +137,7 @@ class TextureManagerTest {
         // this time texture should be different because is new valid image
         assertNotSame(
                 texture,
-                manager.getTexture("player.png")
+                manager.getAsset("player.png")
         );
     }
 

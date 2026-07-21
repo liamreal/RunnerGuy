@@ -1,5 +1,12 @@
 package com.liamreal;
 
+import com.liamreal.ecs.Entity;
+import com.liamreal.ecs.EntityManager;
+import com.liamreal.factory.BackgroundFactory;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -26,6 +33,7 @@ SOFTWARE.
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
 public class Model { 
+	private EntityManager entityManager = new EntityManager();
 
 	public Model() {
 	}
@@ -33,11 +41,13 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean gamelogic() 
 	{
+
 		// return false if game not yet complete
 		return false;
 	}
 
- 
+	public EntityManager getEntityManager() { return this.entityManager; }
+	public Collection<Entity> getEntities() { return this.entityManager.getEntityMap().values(); }
 
 }
 
