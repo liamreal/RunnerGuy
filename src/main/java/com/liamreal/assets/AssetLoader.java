@@ -1,31 +1,23 @@
 package com.liamreal.assets;
 
-import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.liamreal.components.graphics.ImageLoader;
+import java.util.function.Function;
 
 // make this a singleton
 // will be responsible for obtaining the directory whose textures are used
 public class AssetLoader {
-    // will hold our actual images associated with keys
-    private Map<String, BufferedImage> textureMap = new HashMap<>();
-    private static final AssetLoader instance = new AssetLoader();
-
-    public static AssetLoader getInstance() {
-        return instance;
-    }
-
-    // in constructor, will build texture map and then once game is changed will update it via string formatting
-    public void buildTextureMap() {
-        // build path map of textures
-        Map<String, Path> pathMap = PathBuilder.buildPathMap(AssetSelector.getTexturesPath());
-        // for each texture found in path, load it and add that loaded image as value to map with same keys
+    // build map based on arguments (the Path and the Function to use to load those files)
+    public <T> Map<String, T> buildAssetMap(Path path, Function<Path, T> loader) {
+        // create asset map with string key and generic T value
+        Map<String, T> assetMap = new HashMap<>();
+        // build path map from parameter path
+        Map<String, Path> pathMap = PathBuilder.buildPathMap(path);
+        // for each asset found in path, load it and add that loaded asset as value to asset map with same string keys as path map
         for (Map.Entry<String, Path> entry : pathMap.entrySet()) {
-            this.textureMap.put(entry.getKey(), ImageLoader.load(entry.getValue()));
+            assetMap.put(entry.getKey(), loader.apply(entry.getValue())); // apply loader function to path of asset to load it
         }
+        return assetMap;
     }
-
 }

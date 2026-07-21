@@ -38,6 +38,6 @@ public class PathBuilder {
 
     public static void main(String args[]) {
         // verify works
-        System.out.println(PathBuilder.buildPathMap(Path.of(String.format("%s/textures/", AssetSelector.getAssetsPath()))));
+        System.out.println(PathBuilder.buildPathMap(Path.of(String.format("%s/textures/", AssetConfig.getAssetsPath()))));
     }
 }
