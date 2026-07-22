@@ -45,4 +45,25 @@ public class SpriteSheetTest {
         );
         assertEquals("SpriteSheet must have positive spriteWidth and spriteHeight", exception.getMessage());
     }
+    @Test
+    public void testUpdateImageSuccessfully() {
+        SpriteSheet spriteSheet = new SpriteSheet(testImage, 64, 32);
+        // ensure original image correct
+        assertSame(
+            testImage,
+            spriteSheet.getImage()
+        );
+        BufferedImage newImage =
+            new BufferedImage(
+                128,
+                64,
+                BufferedImage.TYPE_INT_ARGB
+            );
+        spriteSheet.updateImage(newImage);
+        // ensure new image applied
+        assertSame(
+            newImage,
+            spriteSheet.getImage()
+        );
+    }
 }
