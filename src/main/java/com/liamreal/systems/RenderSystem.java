@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import com.liamreal.ecs.Entity;
 import com.liamreal.graphics.Animation;
 import com.liamreal.components.physics.Transform;
-import com.liamreal.display.GameDisplay;
 import com.liamreal.components.graphics.SpriteRenderer;
 
 public class RenderSystem {

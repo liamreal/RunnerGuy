@@ -2,11 +2,7 @@ package com.liamreal;
 
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
-import com.liamreal.factory.BackgroundFactory;
-
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.

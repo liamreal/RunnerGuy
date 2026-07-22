@@ -1,6 +1,5 @@
 package com.liamreal.components.graphics;
 
-import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Component;
 import com.liamreal.graphics.SpriteSheet;
 import com.liamreal.graphics.Animation;
