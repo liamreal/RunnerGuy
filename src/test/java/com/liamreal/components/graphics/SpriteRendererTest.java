@@ -24,9 +24,9 @@ class SpriteRendererTest {
         animation = mock(Animation.class);
 
         when(spriteSheet.getSpriteWidth()).thenReturn(32);
-        when(spriteSheet.getSpriteHeight()).thenReturn(32);
+        when(spriteSheet.getSpriteHeight()).thenReturn(20); // using different height to width to test were not mixed up
         when(spriteSheet.getImage())
-            .thenReturn(new BufferedImage(128, 32, BufferedImage.TYPE_INT_ARGB));
+            .thenReturn(new BufferedImage(128, 20, BufferedImage.TYPE_INT_ARGB));
 
         spriteRenderer = new SpriteRenderer(spriteSheet);
     }
@@ -44,11 +44,11 @@ class SpriteRendererTest {
             eq(100),
             eq(50),
             eq(132),
-            eq(82),
+            eq(70),
             eq(0),
             eq(0),
             eq(31),
-            eq(32),
+            eq(20),
             isNull()
         );
     }
@@ -67,11 +67,11 @@ class SpriteRendererTest {
             eq(100),
             eq(50),
             eq(132),
-            eq(82),
+            eq(70),
             eq(32),
             eq(0),
             eq(63),
-            eq(32),
+            eq(20),
             isNull()
         );
     }
@@ -90,11 +90,11 @@ class SpriteRendererTest {
             eq(0),
             eq(0),
             eq(32),
-            eq(32),
+            eq(20),
             eq(0),
             eq(0),
             eq(31),
-            eq(32),
+            eq(20),
             isNull()
         );
     }
