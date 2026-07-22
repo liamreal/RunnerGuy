@@ -17,10 +17,5 @@ public class BackgroundFactory {
              GameDisplay.getDisplayX(), 
              GameDisplay.getDisplayY()
         )));
-
-        // System.out.println(textureManager.getAsset("background.png").getWidth());
-        // System.out.println(textureManager.getAsset("background.png").getHeight());
-        // System.out.println(GameDisplay.getDisplayX());
-        // System.out.println(GameDisplay.getDisplayY());
     }
 }

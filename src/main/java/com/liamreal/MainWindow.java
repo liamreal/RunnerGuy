@@ -77,14 +77,8 @@ public class MainWindow {
 
 	        canvas.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY()); 
 			// frame.setVisible(true);
-			System.out.println("Frame: "
-				+ frame.getWidth() + "x" + frame.getHeight());
-
-			System.out.println("Canvas: "
-				+ canvas.getWidth() + "x" + canvas.getHeight());
 	        canvas.setBackground(new Color(255,255,255)); //white background  replaced by Space background but if you remove the background method this will draw a white screen 
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
-			System.out.println(frame.getInsets());
 		       
 	        JButton startMenuButton = new JButton();  // start button 
 	        startMenuButton.addActionListener(new ActionListener()
