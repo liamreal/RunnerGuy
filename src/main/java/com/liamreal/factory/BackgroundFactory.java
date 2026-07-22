@@ -13,9 +13,11 @@ public class BackgroundFactory {
         Entity background = entityManager.createEntity();
         background.add(new Transform(0, 0));
         background.add(new SpriteRenderer(new SpriteSheet(
-            textureManager.getAsset("background.png"),
-             GameDisplay.getDisplayX(), 
-             GameDisplay.getDisplayY()
-        )));
+                textureManager.getAsset("background.png"),
+                GameDisplay.getDisplayX(), 
+                GameDisplay.getDisplayY()
+            ),
+            false
+        ));
     }
 }

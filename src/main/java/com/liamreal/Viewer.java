@@ -106,7 +106,7 @@ public class Viewer extends JPanel {
 	private void drawEntities(Graphics g)
 	{
 
-		renderSystem.render(gameworld.getEntities(), g);
+		renderSystem.render(gameworld.getEntities(), g, animation);
 
 		
 		// File TextureToLoad = new File(String.format(

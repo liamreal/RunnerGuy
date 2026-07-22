@@ -9,21 +9,27 @@ import java.awt.Graphics;
 
 public class SpriteRenderer implements Component {
     private SpriteSheet spriteSheet;
-    public SpriteRenderer(SpriteSheet spriteSheet) {
+    private final boolean isAnimated;
+    public SpriteRenderer(SpriteSheet spriteSheet, boolean isAnimated) {
         this.spriteSheet = spriteSheet;
+        this.isAnimated = isAnimated;
     }
     // update texture when requested
     public void updateImage(BufferedImage image) { spriteSheet.updateImage(image); } 
+    // get current animation, if not isAnimated returns 0
+    private int getCurrentAnimationPosition(Animation animation) {
+        if (this.isAnimated) {
+            int spriteWidth = this.spriteSheet.getSpriteWidth();
+            return (int) ((animation.getAnimationTime()%16/4))*spriteWidth;
+        }
+        return 0;
+    }
     // draw methods
-    public void drawAnimatedImage(Vector2f position, Graphics g, Animation animation) {
-        int spriteWidth = this.spriteSheet.getSpriteWidth();
-        int currentPositionInAnimation= (int) ((animation.getAnimationTime()%16/4))*spriteWidth;
-        this.drawImage(position, g, currentPositionInAnimation);
+    public void draw(Vector2f position, Graphics g, Animation animation) {
+        int currentPositionInAnimation = this.getCurrentAnimationPosition(animation);
+        this.drawFrame(position, g, currentPositionInAnimation);
     }
-    public void drawStaticImage(Vector2f position, Graphics g){
-        this.drawImage(position, g, 0);
-    }
-    private void drawImage(Vector2f position, Graphics g, int currentPositionInAnimation) {
+    private void drawFrame(Vector2f position, Graphics g, int currentPositionInAnimation) {
         int spriteWidth = this.spriteSheet.getSpriteWidth();
         int spriteHeight = this.spriteSheet.getSpriteHeight();
         int positionX = (int) position.getX();

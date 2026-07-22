@@ -28,7 +28,7 @@ class SpriteRendererTest {
         when(spriteSheet.getImage())
             .thenReturn(new BufferedImage(128, 20, BufferedImage.TYPE_INT_ARGB));
 
-        spriteRenderer = new SpriteRenderer(spriteSheet);
+        spriteRenderer = new SpriteRenderer(spriteSheet, true);
     }
 
     @Test
@@ -37,7 +37,7 @@ class SpriteRendererTest {
 
         when(animation.getAnimationTime()).thenReturn(0);
 
-        spriteRenderer.drawAnimatedImage(position, graphics, animation);
+        spriteRenderer.draw(position, graphics, animation);
 
         verify(graphics).drawImage(
             any(),
@@ -60,7 +60,7 @@ class SpriteRendererTest {
         // (4 / 4) * 32 = 32
         when(animation.getAnimationTime()).thenReturn(4);
 
-        spriteRenderer.drawAnimatedImage(position, graphics, animation);
+        spriteRenderer.draw(position, graphics, animation);
 
         verify(graphics).drawImage(
             any(),
@@ -83,7 +83,7 @@ class SpriteRendererTest {
         // 16 % 16 = 0, so it loops back to frame 0
         when(animation.getAnimationTime()).thenReturn(16);
 
-        spriteRenderer.drawAnimatedImage(position, graphics, animation);
+        spriteRenderer.draw(position, graphics, animation);
 
         verify(graphics).drawImage(
             any(),
