@@ -1,7 +1,6 @@
 package com.liamreal.systems;
 
 import java.util.Collection;
-import java.util.List;
 import java.awt.Graphics;
 import com.liamreal.ecs.Entity;
 import com.liamreal.graphics.Animation;
