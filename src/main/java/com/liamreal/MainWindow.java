@@ -3,7 +3,9 @@ package com.liamreal;
 import javax.swing.JFrame;
 import javax.sound.sampled.*;
 import com.liamreal.factory.BackgroundFactory;
+import com.liamreal.game.Model;
 import com.liamreal.user.Config;
+import com.liamreal.view.Viewer;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
@@ -57,8 +59,6 @@ public class MainWindow {
 
 	public static void main(String[] args) {
 		MainWindow window = new MainWindow();  //sets up environment 
-		
-		
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
 
 		for (String level: Config.getInstance().getLevels()) {
@@ -79,7 +79,7 @@ public class MainWindow {
 
 				
 				
-					//wait till next time step 
+				// wait till next time step 
 				while (FrameCheck > System.currentTimeMillis()){} 
 					
 					

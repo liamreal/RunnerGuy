@@ -1,4 +1,4 @@
-package com.liamreal;
+package com.liamreal.game;
 
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
