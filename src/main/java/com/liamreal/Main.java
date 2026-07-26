@@ -3,6 +3,7 @@ package com.liamreal;
 import javax.swing.JFrame;
 import javax.sound.sampled.*;
 import com.liamreal.factory.BackgroundFactory;
+import com.liamreal.game.GameLoop;
 import com.liamreal.game.Model;
 import com.liamreal.user.Config;
 import com.liamreal.view.Viewer;
@@ -43,9 +44,8 @@ public class Main {
 	private final static JFrame frame = new JFrame("Runner Guy");
 	private final static Model world = new Model();
 	private final static Viewer canvas = new Viewer(world);
-	private static int TargetFPS = 100;
 	private final static TextureManager textureManager = new TextureManager();
-	
+	private final static GameLoop gameLoop = new GameLoop(world, canvas, textureManager);
 	  
 	public Main() {
 		// create game frame
@@ -58,57 +58,12 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		Main window = new Main();  //sets up environment 
-		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
+		Main window = new Main();
 
-		for (String level: Config.getInstance().getLevels()) {
-			AssetConfig.setAssetType(level);
-			textureManager.update();
-			boolean levelComplete = false;
-			// loop background music clip
-			Clip musicClip = SoundPlayer.loopSound(String.format(
-				"%s/sounds/background/background.wav",
-				AssetConfig.getAssetsPath()
-			));
-			while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
-			{ 
-				//swing has timer class to help us time this but I'm writing my own, you can of course use the timer, but I want to set FPS and display it 
-				
-				int TimeBetweenFrames =  1000 / TargetFPS;
-				long FrameCheck = System.currentTimeMillis() + (long) TimeBetweenFrames; 
+		gameLoop.start();
 
-				
-				
-				// wait till next time step 
-				while (FrameCheck > System.currentTimeMillis()){} 
-					
-					
-				levelComplete = gameloop();
-			}
-			// stop looping music after level is done
-			SoundPlayer.stopSound(musicClip);
-		}
-		canvas.repaint();
+
 	} 
-	//Basic Model-View-Controller pattern 
-	private static boolean gameloop() { 
-		// GAMELOOP  
-		
-		// controller input  will happen on its own thread 
-		// So no need to call it explicitly 
-		
-		
-		// model update   
-		boolean isLevelComplete = world.gamelogic();
-		// view update 
-		
-		canvas.updateView(); 
-		
-
-		return isLevelComplete;
-		
-		 
-	}
 
 }
 

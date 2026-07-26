@@ -35,7 +35,7 @@ public class Model {
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
-	public boolean gamelogic() 
+	public boolean update() 
 	{
 
 		// return false if game not yet complete

@@ -3,7 +3,6 @@ package com.liamreal.view;
 import java.awt.Graphics;
 import java.awt.Dimension;
 import javax.swing.JPanel;
-
 import com.liamreal.game.Model;
 import com.liamreal.graphics.Animation;
 import com.liamreal.user.Config;
