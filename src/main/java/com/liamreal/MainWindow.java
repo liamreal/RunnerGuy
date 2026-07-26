@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.sound.sampled.*;
 
 import com.liamreal.display.GameDisplay;
+import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.user.Config;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
@@ -74,6 +75,8 @@ public class MainWindow {
 	public static void main(String[] args) {
 		MainWindow hello = new MainWindow();  //sets up environment 
 		
+		
+		BackgroundFactory.createBackground(gameworld.getEntityManager(), textureManager);
 
 		for (String level: Config.getInstance().getLevels()) {
 			AssetConfig.setAssetType(level);
