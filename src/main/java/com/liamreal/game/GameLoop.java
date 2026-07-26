@@ -6,7 +6,6 @@ import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
 import com.liamreal.factory.BackgroundFactory;
-import com.liamreal.user.Config;
 import com.liamreal.view.Viewer;
 
 public class GameLoop {
@@ -16,11 +15,11 @@ public class GameLoop {
     private final LevelManager levelManager;
 	private static int targetFPS = 100;
 
-    public GameLoop(Model world, Viewer canvas, TextureManager textureManager) {
+    public GameLoop(Model world, Viewer canvas, LevelManager levelManager, TextureManager textureManager) {
         this.world = world;
         this.canvas = canvas;
+        this.levelManager = levelManager;
         this.textureManager = textureManager;
-        this.levelManager = new LevelManager(textureManager);
     }
 
     public void start() {
@@ -28,10 +27,8 @@ public class GameLoop {
     }
 
     private void gameLoop() {
+        // background is also an entity
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
-
-        
-
         // only loop if there are levels remaining
         while (levelManager.hasLevels()) {
             levelManager.loadNextLevel();
@@ -43,17 +40,14 @@ public class GameLoop {
             ));
             while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
             { 
-                //swing has timer class to help us time this but I'm writing my own, you can of course use the timer, but I want to set FPS and display it 
-                
+                // time calculation for game framerate
                 int TimeBetweenFrames =  1000 / targetFPS;
                 long FrameCheck = System.currentTimeMillis() + (long) TimeBetweenFrames; 
 
-                
-                
                 // wait till next time step 
                 while (FrameCheck > System.currentTimeMillis()){} 
-                    
-                    
+                
+                // tick to check if level completed
                 levelComplete = this.tick();
             }
             // stop looping music after level is done
@@ -61,7 +55,6 @@ public class GameLoop {
         }
     }
 
-    
 	// for each level check given game logic if completed
 	private boolean tick() { 
 		// model update   
@@ -71,6 +64,4 @@ public class GameLoop {
 		// return boolean for if level completed
 		return isLevelComplete; 
 	}
-
-
 }

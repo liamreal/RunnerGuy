@@ -2,6 +2,7 @@ package com.liamreal;
 
 import javax.swing.JFrame;
 import com.liamreal.game.GameLoop;
+import com.liamreal.game.LevelManager;
 import com.liamreal.game.Model;
 import com.liamreal.view.Viewer;
 import com.liamreal.assets.TextureManager;
@@ -39,6 +40,7 @@ public class Main {
 	private final JFrame frame;
 	private final Model world;
 	private final Viewer canvas;
+	private final LevelManager levelManager;
 	private final TextureManager textureManager;
 	private final GameLoop gameLoop;
 	  
@@ -48,7 +50,8 @@ public class Main {
 		world = new Model();
 		canvas = new Viewer(world);
 		textureManager = new TextureManager();
-		gameLoop = new GameLoop(world, canvas, textureManager);
+		levelManager = new LevelManager(textureManager);
+		gameLoop = new GameLoop(world, canvas, levelManager, textureManager);
 		// create game frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
