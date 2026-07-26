@@ -44,8 +44,6 @@ SOFTWARE.
  */ 
 public class Viewer extends JPanel {
 	private Animation animation = new Animation();
-	private boolean isGameOver = false;
-	private TextureManager textureManager = new TextureManager();
 	
 	Model gameworld; 
 	Config config = Config.getInstance();
@@ -75,14 +73,12 @@ public class Viewer extends JPanel {
 
 	public void updateview() {
 		
+		animation.incrementAnimationTime();
 		this.repaint();
 		// TODO Auto-generated method stub
 		
 	}
 
-	// set game to be over
-	public void setGameOver(boolean isGameOver) { this.isGameOver = isGameOver; }
-	
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(config.getResolutionX(), config.getResolutionY());
@@ -91,15 +87,8 @@ public class Viewer extends JPanel {
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
-		animation.incrementAnimationTime();
-
 		//Draw background 
 		drawEntities(g);
-	
-		
-
-		// draw game over if updated to be game over
-		if (isGameOver) { this.drawGameOver(g); }
 	}
 
 	private void drawEntities(Graphics g)

@@ -52,13 +52,11 @@ SOFTWARE.
 // 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
 
 public class MainWindow {
-	private static  JFrame window = new JFrame("Runner Guy");   // Change to the name of your game 
-	private static   Model gameworld= new Model();
-	private static   Viewer canvas = new  Viewer( gameworld);
-	private Controller controller = Controller.getInstance();
-	private static   int TargetFPS = 100;
+	private static JFrame window = new JFrame("Runner Guy");   // Change to the name of your game 
+	private static Model gameworld = new Model();
+	private static Viewer canvas = new  Viewer( gameworld);
+	private static int TargetFPS = 100;
 	private static boolean startGame= true; 
-	private   JLabel BackgroundImageForStartMenu;
 	private static TextureManager textureManager = new TextureManager();
 	
 	  
@@ -108,8 +106,6 @@ public class MainWindow {
 			// stop looping music after level is done
 			SoundPlayer.stopSound(musicClip);
 		}
-		// repaint for game over text
-		canvas.setGameOver(true);
 		canvas.repaint();
 	} 
 	//Basic Model-View-Controller pattern 
