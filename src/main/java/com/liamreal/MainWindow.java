@@ -47,9 +47,11 @@ SOFTWARE.
  */ 
 
 
+// useful tutorial for having JPanel size match JFrame:
+// 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
 
 public class MainWindow {
-	private static  JFrame frame = new JFrame("Runner Guy");   // Change to the name of your game 
+	private static  JFrame window = new JFrame("Runner Guy");   // Change to the name of your game 
 	private static   Model gameworld= new Model();
 	private static   Viewer canvas = new  Viewer( gameworld);
 	private Controller controller = Controller.getInstance();
@@ -57,16 +59,19 @@ public class MainWindow {
 	private static boolean startGame= false; 
 	private   JLabel BackgroundImageForStartMenu;
 	private static TextureManager textureManager = new TextureManager();
+	
 	  
 	public MainWindow() {
-	        frame.setSize(GameDisplay.getDisplayX(), GameDisplay.getDisplayY());  // you can customise this later and adapt it to change on size.
-//	        frame.setResizable(false); // later on should remove when re-rendering game
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   //If exit // you can modify with your way of quitting , just is a template.
-	        frame.setLayout(null);
-	        frame.setLocationRelativeTo(null);
+
+		
+			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			window.setResizable(false);
+			window.setLocationRelativeTo(null);
+			window.setVisible(true);
 
 
-	        frame.add(canvas);
+	        window.add(canvas);
+			window.pack();
 
 			canvas.setPreferredSize(
 				new Dimension(
@@ -76,7 +81,7 @@ public class MainWindow {
 			);
 
 	        canvas.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY()); 
-			// frame.setVisible(true);
+			// window.setVisible(true);
 	        canvas.setBackground(new Color(255,255,255)); //white background  replaced by Space background but if you remove the background method this will draw a white screen 
 	        canvas.setVisible(false);   // this will become visible after you press the key. 
 		       
@@ -105,16 +110,16 @@ public class MainWindow {
 				 BufferedImage myPicture = ImageIO.read(BackgroundToLoad);
 				 BackgroundImageForStartMenu = new JLabel(new ImageIcon(myPicture));
 				 BackgroundImageForStartMenu.setBounds(0, 0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY());
-				frame.add(BackgroundImageForStartMenu);
+				window.add(BackgroundImageForStartMenu);
 
 			}  catch (IOException e) { 
 				e.printStackTrace();
 			}   
 			 
-			frame.add(startMenuButton); 
+			window.add(startMenuButton); 
 
-	       	frame.setVisible(true);
-			// frame.pack();
+	       	window.setVisible(true);
+			// window.pack();
 
 	}
 
