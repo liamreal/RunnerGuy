@@ -1,14 +1,9 @@
 package com.liamreal;
 
 import javax.swing.JFrame;
-import javax.sound.sampled.*;
-import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.game.GameLoop;
 import com.liamreal.game.Model;
-import com.liamreal.user.Config;
 import com.liamreal.view.Viewer;
-import com.liamreal.assets.AssetConfig;
-import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
 
 /*
@@ -41,13 +36,19 @@ SOFTWARE.
 // 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
 
 public class Main {
-	private final static JFrame frame = new JFrame("Runner Guy");
-	private final static Model world = new Model();
-	private final static Viewer canvas = new Viewer(world);
-	private final static TextureManager textureManager = new TextureManager();
-	private final static GameLoop gameLoop = new GameLoop(world, canvas, textureManager);
+	private final JFrame frame;
+	private final Model world;
+	private final Viewer canvas;
+	private final TextureManager textureManager;
+	private final GameLoop gameLoop;
 	  
 	public Main() {
+		// create instances of game objects
+		frame = new JFrame("Runner Guy");
+		world = new Model();
+		canvas = new Viewer(world);
+		textureManager = new TextureManager();
+		gameLoop = new GameLoop(world, canvas, textureManager);
 		// create game frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
@@ -57,12 +58,13 @@ public class Main {
 		frame.setVisible(true);
 	}
 
+	public void start() {
+		this.gameLoop.start();
+	}
+
 	public static void main(String[] args) {
-		Main window = new Main();
-
-		gameLoop.start();
-
-
+		Main game = new Main();
+		game.start();
 	} 
 
 }
