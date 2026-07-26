@@ -43,40 +43,19 @@ SOFTWARE.
  * Credits: Kelly Charles (2020)
  */ 
 public class Viewer extends JPanel {
-	private Animation animation = new Animation();
+	private final Animation animation = new Animation();
+	private final Model gameworld; 
+	private final Config config = Config.getInstance();
 	
-	Model gameworld; 
-	Config config = Config.getInstance();
-	
-	private RenderSystem renderSystem = new RenderSystem();
+	private final RenderSystem renderSystem = new RenderSystem();
 	 
 	public Viewer(Model World) {
 		this.gameworld=World;
-		// create background
-		// TODO Auto-generated constructor stub
-	}
-
-	public Viewer(LayoutManager layout) {
-		super(layout);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Viewer(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		// TODO Auto-generated constructor stub
-	}
-
-	public Viewer(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void updateview() {
-		
 		animation.incrementAnimationTime();
-		this.repaint();
-		// TODO Auto-generated method stub
-		
+		this.repaint();		
 	}
 
 	@Override
@@ -85,16 +64,11 @@ public class Viewer extends JPanel {
 	}
 		
 	public void paintComponent(Graphics g) {
-		
 		super.paintComponent(g);
 		//Draw background 
-		drawEntities(g);
-	}
-
-	private void drawEntities(Graphics g)
-	{
 		renderSystem.render(gameworld.getEntities(), g, animation);
 	}
+
 	private void drawGameOver(Graphics g) {
 		File TextureToLoad = new File("assets/game_over.png"); // game over image 
 		try {

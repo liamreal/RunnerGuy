@@ -52,12 +52,12 @@ SOFTWARE.
 // 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
 
 public class MainWindow {
-	private static JFrame window = new JFrame("Runner Guy");   // Change to the name of your game 
-	private static Model gameworld = new Model();
-	private static Viewer canvas = new  Viewer( gameworld);
+	private final static JFrame window = new JFrame("Runner Guy");   // Change to the name of your game 
+	private final static Model gameworld = new Model();
+	private final static Viewer canvas = new  Viewer( gameworld);
 	private static int TargetFPS = 100;
 	private static boolean startGame= true; 
-	private static TextureManager textureManager = new TextureManager();
+	private final static TextureManager textureManager = new TextureManager();
 	
 	  
 	public MainWindow() {

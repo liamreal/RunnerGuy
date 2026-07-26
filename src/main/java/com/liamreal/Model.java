@@ -29,7 +29,7 @@ SOFTWARE.
    (MIT LICENSE ) e.g do what you want with this :-) 
  */ 
 public class Model { 
-	private EntityManager entityManager = new EntityManager();
+	private final EntityManager entityManager = new EntityManager();
 
 	public Model() {
 	}
