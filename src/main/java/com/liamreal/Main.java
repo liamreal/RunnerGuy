@@ -66,7 +66,6 @@ public class Main {
 		Main game = new Main();
 		game.start();
 	} 
-
 }
 
 /*
