@@ -120,7 +120,7 @@ public class MainWindow {
 		boolean isLevelComplete = gameworld.gamelogic();
 		// view update 
 		
-		canvas.updateview(); 
+		canvas.updateView(); 
 		
 
 		return isLevelComplete;

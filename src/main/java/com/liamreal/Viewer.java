@@ -1,16 +1,8 @@
 package com.liamreal;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.Dimension;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import com.liamreal.assets.TextureManager;
-import com.liamreal.display.GameDisplay;
-import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.graphics.Animation;
 import com.liamreal.user.Config;
 import com.liamreal.systems.RenderSystem;
@@ -53,7 +45,7 @@ public class Viewer extends JPanel {
 		this.gameworld=World;
 	}
 
-	public void updateview() {
+	public void updateView() {
 		animation.incrementAnimationTime();
 		this.repaint();		
 	}
@@ -65,23 +57,9 @@ public class Viewer extends JPanel {
 		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//Draw background 
+		// render all entities
 		renderSystem.render(gameworld.getEntities(), g, animation);
 	}
-
-	private void drawGameOver(Graphics g) {
-		File TextureToLoad = new File("assets/game_over.png"); // game over image 
-		try {
-			Image myImage = ImageIO.read(TextureToLoad);
-			g.drawImage(myImage, 0,0, GameDisplay.getDisplayX(), GameDisplay.getDisplayY(), this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
-		 
-	 
-
 }
 
 
