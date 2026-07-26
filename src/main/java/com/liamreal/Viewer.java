@@ -35,14 +35,13 @@ SOFTWARE.
  * Credits: Kelly Charles (2020)
  */ 
 public class Viewer extends JPanel {
-	private final Animation animation = new Animation();
-	private final Model gameworld; 
 	private final Config config = Config.getInstance();
-	
+	private final Animation animation = new Animation();
 	private final RenderSystem renderSystem = new RenderSystem();
+	private final Model world;
 	 
 	public Viewer(Model World) {
-		this.gameworld=World;
+		this.world=World;
 	}
 
 	public void updateView() {
@@ -58,7 +57,7 @@ public class Viewer extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		// render all entities
-		renderSystem.render(gameworld.getEntities(), g, animation);
+		renderSystem.render(world.getEntities(), g, animation);
 	}
 }
 

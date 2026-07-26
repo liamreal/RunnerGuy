@@ -1,26 +1,12 @@
 package com.liamreal;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.sound.sampled.*;
-
-import com.liamreal.display.GameDisplay;
 import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.user.Config;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
-import com.liamreal.controllers.Controller;
 
 /*
  * Created by Abraham Campbell on 15/01/2020.
@@ -52,29 +38,28 @@ SOFTWARE.
 // 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
 
 public class MainWindow {
-	private final static JFrame window = new JFrame("Runner Guy");   // Change to the name of your game 
-	private final static Model gameworld = new Model();
-	private final static Viewer canvas = new  Viewer( gameworld);
+	private final static JFrame frame = new JFrame("Runner Guy");
+	private final static Model world = new Model();
+	private final static Viewer canvas = new Viewer(world);
 	private static int TargetFPS = 100;
-	private static boolean startGame= true; 
 	private final static TextureManager textureManager = new TextureManager();
 	
 	  
 	public MainWindow() {
-		// create game window
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setResizable(false);
-		window.add(canvas);
-		window.pack();
-		window.setLocationRelativeTo(null);
-		window.setVisible(true);
+		// create game frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.add(canvas);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 
 	public static void main(String[] args) {
-		MainWindow hello = new MainWindow();  //sets up environment 
+		MainWindow window = new MainWindow();  //sets up environment 
 		
 		
-		BackgroundFactory.createBackground(gameworld.getEntityManager(), textureManager);
+		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
 
 		for (String level: Config.getInstance().getLevels()) {
 			AssetConfig.setAssetType(level);
@@ -98,10 +83,7 @@ public class MainWindow {
 				while (FrameCheck > System.currentTimeMillis()){} 
 					
 					
-					if(startGame)
-						{
-							levelComplete = gameloop();
-						}
+				levelComplete = gameloop();
 			}
 			// stop looping music after level is done
 			SoundPlayer.stopSound(musicClip);
@@ -117,7 +99,7 @@ public class MainWindow {
 		
 		
 		// model update   
-		boolean isLevelComplete = gameworld.gamelogic();
+		boolean isLevelComplete = world.gamelogic();
 		// view update 
 		
 		canvas.updateView(); 
