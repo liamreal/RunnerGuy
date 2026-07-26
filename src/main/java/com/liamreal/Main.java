@@ -39,7 +39,7 @@ SOFTWARE.
 // useful tutorial for having JPanel size match JFrame:
 // 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
 
-public class MainWindow {
+public class Main {
 	private final static JFrame frame = new JFrame("Runner Guy");
 	private final static Model world = new Model();
 	private final static Viewer canvas = new Viewer(world);
@@ -47,7 +47,7 @@ public class MainWindow {
 	private final static TextureManager textureManager = new TextureManager();
 	
 	  
-	public MainWindow() {
+	public Main() {
 		// create game frame
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
@@ -58,7 +58,7 @@ public class MainWindow {
 	}
 
 	public static void main(String[] args) {
-		MainWindow window = new MainWindow();  //sets up environment 
+		Main window = new Main();  //sets up environment 
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
 
 		for (String level: Config.getInstance().getLevels()) {
