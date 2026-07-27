@@ -1,15 +1,12 @@
 package com.liamreal.systems;
 
 import java.util.Collection;
-import java.awt.Graphics;
 import com.liamreal.ecs.Entity;
-import com.liamreal.graphics.Animation;
 import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
 
 public class MovementSystem {
-
-    public void move(Collection<Entity> entities, Graphics graphics, Animation animation) {
+    public void move(Collection<Entity> entities) {
         // render each entity
         for(Entity entity : entities) {
             // if has transform (position) and sprite renderer, render sprite (where the position is)
