@@ -25,12 +25,12 @@ public class EntityTest {
     public void testAddMultipleComponents() {
         Entity entity = new Entity(0);
         entity.add(new Transform(0, 0));
-        entity.add(new Velocity(0, 0));
+        entity.add(new Velocity(0));
         Transform entityTransform = entity.get(Transform.class);
         Velocity entityVelocity = entity.get(Velocity.class);
         assertEquals(new Transform(0, 0).getPosition(), entityTransform.getPosition());
         assertEquals(Transform.class, entityTransform.getClass());
-        assertEquals(new Velocity(0, 0).getVector(), entityVelocity.getVector());
+        assertEquals(new Velocity(0).getSpeed(), entityVelocity.getSpeed());
         assertEquals(Velocity.class, entityVelocity.getClass());
     }
     @Test

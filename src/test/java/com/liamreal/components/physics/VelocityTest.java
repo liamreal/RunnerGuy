@@ -7,16 +7,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VelocityTest {
     @Test
     public void testCreateGet() {
-        Velocity t = new Velocity(5, 5);
+        Velocity t = new Velocity(5);
         assertNotNull(t);
-        Vector2f p = t.getVector();
-        assertEquals(new Vector2f(5, 5), p);
+        double p = t.getSpeed();
+        assertEquals(5, p);
     }
     @Test
     public void testSet() {
-        Velocity t = new Velocity(5, 5);
-        t.setVector(new Vector2f(10, 3));
-        Vector2f p = t.getVector();
-        assertEquals(new Vector2f(10, 3), p);
+        Velocity t = new Velocity(5);
+        t.setSpeed(5);
+        double p = t.getSpeed();
+        assertEquals(5, p);
     }
 }
