@@ -16,7 +16,7 @@ public class LevelLoader {
     }
 
     public void loadNextLevel() {
-        // if no levels, exit
+        // if no levels, does not load
         if (!hasLevels()) { return; }
         // remove and use levels until none left
         String currentLevel = levels.removeFirst();

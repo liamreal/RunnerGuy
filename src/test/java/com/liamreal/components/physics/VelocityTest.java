@@ -1,12 +1,8 @@
 package com.liamreal.components.physics;
 
 import org.junit.jupiter.api.Test;
-
 import com.liamreal.util.Vector2f;
-
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeEach;
 
 public class VelocityTest {
     private static final double DELTA = 0.000001;
