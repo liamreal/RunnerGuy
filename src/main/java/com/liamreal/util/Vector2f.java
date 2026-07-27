@@ -97,6 +97,10 @@ public class Vector2f {
 		this.y = y;
 	}
 
+	public String toString() {
+		return String.format("%s: (%.2f,%.2f)", super.toString(), this.getX(), this.getY());
+	}
+
  
 }
 	 

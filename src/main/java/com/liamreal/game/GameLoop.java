@@ -5,7 +5,11 @@ import javax.sound.sampled.Clip;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
+import com.liamreal.components.physics.Transform;
+import com.liamreal.components.physics.Velocity;
+import com.liamreal.ecs.Entity;
 import com.liamreal.factory.BackgroundFactory;
+import com.liamreal.util.Vector2f;
 import com.liamreal.view.Viewer;
 
 public class GameLoop {
@@ -28,6 +32,12 @@ public class GameLoop {
     private void initialiseGame() {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
+
+        Entity velocityEntity = world.getEntityManager().createEntity();
+        velocityEntity.add(new Transform(0, 0));
+        velocityEntity.add(new Velocity(1));
+        Velocity velocity = velocityEntity.get(Velocity.class);
+        velocity.setDirection(new Vector2f(0, 1));
     }
     
     private void gameLoop() {
