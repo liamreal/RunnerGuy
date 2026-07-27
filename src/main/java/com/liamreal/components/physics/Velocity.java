@@ -11,7 +11,7 @@ public class Velocity implements Component {
     }
 
     public Vector2f getVector() { return this.vector; }
-    public void setVector(Vector2f newVelocity) { this.vector = newVelocity; }
+    public void setVector(Vector2f newVector) { this.vector = newVector; }
 
 
 }
