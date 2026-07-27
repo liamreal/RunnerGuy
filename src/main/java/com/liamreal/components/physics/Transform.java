@@ -10,6 +10,8 @@ public class Transform implements Component {
         this.position = new Vector2f(x, y);
     }
 
+    // add displacement vector (i.e. speed and direction calculated from velocity) to position
+    public void addDisplacement(Vector2f displacementVector) { this.position = this.position.PlusVector(displacementVector); }
     public Vector2f getPosition() { return this.position; }
     public void setPosition(Vector2f newPosition) { this.position = newPosition; }
 }
