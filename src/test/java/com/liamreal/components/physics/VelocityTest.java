@@ -9,14 +9,14 @@ public class VelocityTest {
     public void testCreateGet() {
         Velocity t = new Velocity(5, 5);
         assertNotNull(t);
-        Vector2f p = t.getVelocity();
+        Vector2f p = t.getVector();
         assertEquals(new Vector2f(5, 5), p);
     }
     @Test
     public void testSet() {
         Velocity t = new Velocity(5, 5);
-        t.setVelocity(new Vector2f(10, 3));
-        Vector2f p = t.getVelocity();
+        t.setVector(new Vector2f(10, 3));
+        Vector2f p = t.getVector();
         assertEquals(new Vector2f(10, 3), p);
     }
 }

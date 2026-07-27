@@ -30,7 +30,7 @@ public class EntityTest {
         Velocity entityVelocity = entity.get(Velocity.class);
         assertEquals(new Transform(0, 0).getPosition(), entityTransform.getPosition());
         assertEquals(Transform.class, entityTransform.getClass());
-        assertEquals(new Velocity(0, 0).getVelocity(), entityVelocity.getVelocity());
+        assertEquals(new Velocity(0, 0).getVector(), entityVelocity.getVector());
         assertEquals(Velocity.class, entityVelocity.getClass());
     }
     @Test
