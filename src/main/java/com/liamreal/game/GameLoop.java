@@ -1,7 +1,6 @@
 package com.liamreal.game;
 
 import javax.sound.sampled.Clip;
-
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
@@ -29,7 +28,7 @@ public class GameLoop {
     }
 
     // create basic things needed at start of game (background, players for example, enemies and the rest are created in Model itself)
-    private void initialiseGame() {
+    void initialiseGame() {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
 
@@ -69,7 +68,7 @@ public class GameLoop {
     }
 
 	// for each level check given game logic if completed
-	private boolean tick() { 
+	boolean tick() { 
 		// model update   
 		boolean isLevelComplete = world.update();
 		// view update 
