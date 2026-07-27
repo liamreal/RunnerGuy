@@ -37,7 +37,7 @@ public class GameLoop {
         velocityEntity.add(new Transform(0, 0));
         velocityEntity.add(new Velocity(1));
         Velocity velocity = velocityEntity.get(Velocity.class);
-        velocity.setDirection(new Vector2f(0, 1));
+        velocity.setDirection(new Vector2f(1, 1));
     }
     
     private void gameLoop() {

@@ -62,9 +62,7 @@ public class Vector2f {
 	{
 		double LengthOfTheVector=  this.length();
 		// if coords are 0 would be divide by zero (infinity), so return zero vector
-		if (LengthOfTheVector == 0) {
-			return new Vector2f(0, 0);
-		}
+		if (LengthOfTheVector == 0) { return new Vector2f(0, 0); }
 		return this.byScalar(1.0f/ LengthOfTheVector); 
 	} 
 	
