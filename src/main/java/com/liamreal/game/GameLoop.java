@@ -11,27 +11,30 @@ import com.liamreal.view.Viewer;
 public class GameLoop {
     private final Model world;
     private final Viewer canvas;
-    private final TextureManager textureManager;
-    private final LevelManager levelManager;
+    private final TextureManager textureManager = new TextureManager();
+    private final LevelLoader levelLoader = new LevelLoader(textureManager);
 	private static int targetFPS = 100;
 
-    public GameLoop(Model world, Viewer canvas, LevelManager levelManager, TextureManager textureManager) {
+    public GameLoop(Model world, Viewer canvas) {
         this.world = world;
         this.canvas = canvas;
-        this.levelManager = levelManager;
-        this.textureManager = textureManager;
     }
 
     public void start() {
         this.gameLoop();
     }
 
-    private void gameLoop() {
+    // create basic things needed at start of game (background, players for example, enemies and the rest are created in Model itself)
+    private void initialiseGame() {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
+    }
+    
+    private void gameLoop() {
+        this.initialiseGame();
         // only loop if there are levels remaining
-        while (levelManager.hasLevels()) {
-            levelManager.loadNextLevel();
+        while (levelLoader.hasLevels()) {
+            levelLoader.loadNextLevel();
             boolean levelComplete = false;
             // loop background music clip
             Clip musicClip = SoundPlayer.loopSound(String.format(

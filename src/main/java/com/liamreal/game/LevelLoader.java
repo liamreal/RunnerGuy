@@ -6,11 +6,11 @@ import com.liamreal.user.Config;
 
 import java.util.List;
 
-public class LevelManager {
+public class LevelLoader {
     private final TextureManager textureManager;
     private final List<String> levels;
 
-    public LevelManager(TextureManager textureManager) {
+    public LevelLoader(TextureManager textureManager) {
         this.textureManager = textureManager;
         this.levels = Config.getInstance().getLevels();
     }
@@ -18,9 +18,9 @@ public class LevelManager {
     public void loadNextLevel() {
         // if no levels, exit
         if (!hasLevels()) { return; }
-        // otherwise get next level
-        String currentLevel = levels.get(0);
-        // update assets accordingly
+        // remove and use levels until none left
+        String currentLevel = levels.removeFirst();
+        // update assets (textures, sounds) accordingly with new level
         AssetConfig.setAssetType(currentLevel);
         textureManager.update();
     }
