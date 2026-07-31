@@ -1,6 +1,7 @@
 package com.liamreal.components.user;
 
-import java.lang.ModuleLayer.Controller;
+import java.util.Collection;
+import com.liamreal.controllers.Controller;
 import com.liamreal.ecs.Component;
 
 public class Controllable implements Component {
@@ -10,6 +11,6 @@ public class Controllable implements Component {
         this.controller = controller;
     }
     
-    // get controller instance
-    public Controller getController() { return this.controller; }
+    // get currently active controls from controller
+    public Collection<String> getActiveControls() { return this.controller.getActiveControls(); }
 }

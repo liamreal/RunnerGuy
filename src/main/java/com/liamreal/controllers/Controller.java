@@ -36,6 +36,9 @@ public class Controller implements KeyListener {
 		this.keyControls = keyControls;
 	}
 
+	// get currently active controls
+	public Collection<String> getActiveControls() { return this.activeControls.keySet(); }
+
 	// set all keys to not be pressed on construction
 	void initialiseActiveControls() {
 		for (String c : availableControls) { activeControls.put(c, false); }
