@@ -2,190 +2,77 @@ package com.liamreal.controllers;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.KeyboardFocusManager;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 
 //Singeton pattern
 public class Controller implements KeyListener {
-        
-		// player one
-	   private static boolean KeyAPressed= false;
-	   private static boolean KeySPressed= false;
-	   private static boolean KeyDPressed= false;
-	   private static boolean KeyWPressed= false;
-	   private static boolean KeySpacePressed= false;
-	   // player two
-	   private static boolean KeyJPressed= false;
-	   private static boolean KeyKPressed= false;
-	   private static boolean KeyLPressed= false;
-	   private static boolean KeyIPressed= false;
-	   private static boolean KeyPeriodPressed= false;
-	   
-	   private static final Controller instance = new Controller();
-	   
-	 public Controller() { 
-    	KeyboardFocusManager.getCurrentKeyboardFocusManager()
-        .addKeyEventDispatcher(e -> {
-            return false;
-        });
-	}
-	 
-	 public static Controller getInstance(){
-	        return instance;
-	    }
-	   
-	@Override
-	// Key pressed , will keep triggering 
-	public void keyTyped(KeyEvent e) { 
-		 
+	// will use these maps to dynamically access interactions in O(1) time
+	private Map<String, Boolean> activeControls;
+	private Map<KeyEvent, String> keyControls;
+	// key mappings for all player controls, static so can see what controls (keys) player has that you can do
+	public static HashSet<String> availableControls;
+	static {
+		availableControls = new HashSet<>();
+		availableControls.add("up");
+		availableControls.add("down");
+		availableControls.add("left");
+		availableControls.add("right");
+		availableControls.add("use");
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) 
-	{ 
-		switch (e.getKeyCode()) {
-			case KeyEvent.VK_A: setKeyAPressed(true); break;
-			case KeyEvent.VK_S: setKeySPressed(true); break;
-			case KeyEvent.VK_W: setKeyWPressed(true); break;
-			case KeyEvent.VK_D: setKeyDPressed(true); break;
+	   
+	 public Controller(Map<KeyEvent, String> keyControls) { 
+    	// KeyboardFocusManager.getCurrentKeyboardFocusManager()
+        // .addKeyEventDispatcher(e -> {
+        //     return false;
+        // });
 
-			case KeyEvent.VK_J: setKeyJPressed(true); break;
-			case KeyEvent.VK_K: setKeyKPressed(true); break;
-			case KeyEvent.VK_I: setKeyIPressed(true); break;
-			case KeyEvent.VK_L: setKeyLPressed(true); break;
+		// verify control keys passed in
+		this.verifyKeyControls(keyControls);
+		this.initialiseActiveControls();
+		// since all controls valid, assign them
+		this.keyControls = keyControls;
+	}
 
-			
-			case KeyEvent.VK_SPACE: setKeySpacePressed(true); break;
-			case KeyEvent.VK_PERIOD: setKeyPeriodPressed(true); break;
+	// set all keys to not be pressed on construction
+	void initialiseActiveControls() {
+		for (String c : availableControls) { activeControls.put(c, false); }
+	}
+
+	// ensure that key controls have all valid values for controls and no extra unnecessary controls
+	void verifyKeyControls(Map<KeyEvent, String> keyControls) {
+		// will need to make sure all possible controls have been assigned
+		Collection<String> createdControls = keyControls.values();
+		for (String c : createdControls) {
+			// if there is an invalid control name (for example "yup" instead of "up"), throw error (not a valid control)
+			if (!availableControls.contains(c)) {
+				throw new RuntimeException(String.format("%s is not a valid control! Make sure assign ALL and only valid controls!", c));
+			}
+		}
+		// if there wasnt an invalid control, could still have less controls than we need to specify
+		if (createdControls.size() < availableControls.size()) {
+			throw new RuntimeException("One or more controls have not been assigned! Ensure all controls have been assigned!");
 		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) 
-	{ 
-		switch (e.getKeyCode()) {
-			case KeyEvent.VK_A: setKeyAPressed(false); break;
-			case KeyEvent.VK_S: setKeySPressed(false); break;
-			case KeyEvent.VK_W: setKeyWPressed(false); break;
-			case KeyEvent.VK_D: setKeyDPressed(false); break;
+	// need to add this dummy to fulfil interface
+	public void keyTyped(KeyEvent e) {}
 
-			case KeyEvent.VK_J: setKeyJPressed(false); break;
-			case KeyEvent.VK_K: setKeyKPressed(false); break;
-			case KeyEvent.VK_I: setKeyIPressed(false); break;
-			case KeyEvent.VK_L: setKeyLPressed(false); break;
-
-			
-			case KeyEvent.VK_SPACE: setKeySpacePressed(false); break;
-			case KeyEvent.VK_PERIOD: setKeyPeriodPressed(false); break;
+	// used to set active/inactive control
+	void setControl(KeyEvent e, boolean active) {
+		if (keyControls.containsKey(e)) {
+			activeControls.put(keyControls.get(e), active);
 		}
 	}
 
+	@Override
+	public void keyPressed(KeyEvent e) { this.setControl(e, true); }
 
-	public boolean isKeyAPressed() {
-		return KeyAPressed;
-	}
-
-
-	public void setKeyAPressed(boolean keyAPressed) {
-		KeyAPressed = keyAPressed;
-	}
-
-
-	public boolean isKeySPressed() {
-		return KeySPressed;
-	}
-
-
-	public void setKeySPressed(boolean keySPressed) {
-		KeySPressed = keySPressed;
-	}
-
-
-	public boolean isKeyDPressed() {
-		return KeyDPressed;
-	}
-
-
-	public void setKeyDPressed(boolean keyDPressed) {
-		KeyDPressed = keyDPressed;
-	}
-
-
-	public boolean isKeyWPressed() {
-		return KeyWPressed;
-	}
-
-
-	public void setKeyWPressed(boolean keyWPressed) {
-		KeyWPressed = keyWPressed;
-	}
-
-
-	public boolean isKeySpacePressed() {
-		return KeySpacePressed;
-	}
-
-
-	public void setKeySpacePressed(boolean keySpacePressed) {
-		KeySpacePressed = keySpacePressed;
-	} 
-
-	
-
-
-
-
-
-
-	
-	public boolean isKeyJPressed() {
-		return KeyJPressed;
-	}
-
-
-	public void setKeyJPressed(boolean keyJPressed) {
-		KeyJPressed = keyJPressed;
-	}
-
-
-	public boolean isKeyKPressed() {
-		return KeyKPressed;
-	}
-
-
-	public void setKeyKPressed(boolean keyKPressed) {
-		KeyKPressed = keyKPressed;
-	}
-
-
-	public boolean isKeyLPressed() {
-		return KeyLPressed;
-	}
-
-
-	public void setKeyLPressed(boolean keyLPressed) {
-		KeyLPressed = keyLPressed;
-	}
-
-
-	public boolean isKeyIPressed() {
-		return KeyIPressed;
-	}
-
-
-	public void setKeyIPressed(boolean keyIPressed) {
-		KeyIPressed = keyIPressed;
-	}
-
-
-	public boolean isKeyPeriodPressed() {
-		return KeyPeriodPressed;
-	}
-
-
-	public void setKeyPeriodPressed(boolean keyPeriodPressed) {
-		KeyPeriodPressed = keyPeriodPressed;
-	} 
-
+	@Override
+	public void keyReleased(KeyEvent e) { this.setControl(e, false); }
 	 
 }
 
