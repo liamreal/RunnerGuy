@@ -22,12 +22,12 @@ public class Controller implements KeyListener {
 		availableControls.add("use");
 	}
 
-	   
-	 public Controller(Map<KeyEvent, String> keyControls) { 
-    	// KeyboardFocusManager.getCurrentKeyboardFocusManager()
-        // .addKeyEventDispatcher(e -> {
-        //     return false;
-        // });
+
+	public Controller(Map<KeyEvent, String> keyControls) { 
+		// KeyboardFocusManager.getCurrentKeyboardFocusManager()
+		// .addKeyEventDispatcher(e -> {
+		//     return false;
+		// });
 
 		// verify control keys passed in
 		this.verifyKeyControls(keyControls);
@@ -70,10 +70,9 @@ public class Controller implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) { this.setControl(e, true); }
-
+	
 	@Override
 	public void keyReleased(KeyEvent e) { this.setControl(e, false); }
-	 
 }
 
 /*
