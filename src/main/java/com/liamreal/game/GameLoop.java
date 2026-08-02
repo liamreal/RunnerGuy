@@ -33,6 +33,7 @@ public class GameLoop {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
 		PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
+		PlayerFactory.createPlayerTwo(world.getEntityManager(), textureManager);
 
         Entity velocityEntity = world.getEntityManager().createEntity();
         velocityEntity.add(new Transform(0, 0));

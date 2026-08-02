@@ -2,6 +2,7 @@ package com.liamreal.factory;
 
 import com.liamreal.user.Config;
 import com.liamreal.Main;
+import com.liamreal.controllers.Controller;
 import com.liamreal.assets.TextureManager;
 import com.liamreal.components.graphics.SpriteRenderer;
 import com.liamreal.components.physics.Transform;
@@ -14,18 +15,25 @@ import com.liamreal.graphics.SpriteSheet;
 
 public class PlayerFactory {
     private static Config config = Config.getInstance();
-    public static void createPlayerOne(EntityManager entityManager, TextureManager textureManager) {    
+    public static Entity createPlayerOne(EntityManager entityManager, TextureManager textureManager) {
+        return PlayerFactory.createPlayer(entityManager, textureManager, "one", Main.playerOneController);
+    }
+    public static Entity createPlayerTwo(EntityManager entityManager, TextureManager textureManager) {
+        return PlayerFactory.createPlayer(entityManager, textureManager, "two", Main.playerTwoController);
+    }
+    private static Entity createPlayer(EntityManager entityManager, TextureManager textureManager, String playerType, Controller controller) {    
         Entity player = entityManager.createEntity();
         player.add(new Transform(GameDisplay.getDisplayX()/2.0, GameDisplay.getDisplayY()/2.0));
         player.add(new Velocity(config.getPlayerMoveSpeed()));
         player.add(new SpriteRenderer(new SpriteSheet(
-                textureManager.getAsset("player_one.png"),
+                textureManager.getAsset(String.format("player_%s.png", playerType)),
                 32, 
                 32
             ),
             true
         ));
         // add controls based on pre-determined player one controls
-        player.add(new Controllable(Main.playerOneController));
+        player.add(new Controllable(controller));
+        return player;
     }
 }
