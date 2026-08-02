@@ -11,7 +11,7 @@ import java.util.Set;
 public class Controller implements KeyListener {
 	// will use these maps to dynamically access interactions in O(1) time
 	private Map<String, Boolean> activeControls;
-	private Map<KeyEvent, String> keyControls;
+	private Map<Integer, String> keyBindings;
 	// key mappings for all player controls, static so can see what controls (keys) player has that you can do
 	public static HashSet<String> availableControls;
 	static {
@@ -24,17 +24,17 @@ public class Controller implements KeyListener {
 	}
 
 
-	public Controller(Map<KeyEvent, String> keyControls) { 
+	public Controller(Map<Integer, String> keyBindings) { 
 		// KeyboardFocusManager.getCurrentKeyboardFocusManager()
 		// .addKeyEventDispatcher(e -> {
 		//     return false;
 		// });
 
 		// verify control keys passed in
-		this.verifyKeyControls(keyControls);
+		this.verifyKeyBindings(keyBindings);
 		this.initialiseActiveControls();
 		// since all controls valid, assign them
-		this.keyControls = keyControls;
+		this.keyBindings = keyBindings;
 	}
 
 	// get currently active controls
@@ -46,7 +46,7 @@ public class Controller implements KeyListener {
 	}
 
 	// ensure that key controls have all valid values for controls and no extra unnecessary controls
-	void verifyKeyControls(Map<KeyEvent, String> keyControls) {
+	void verifyKeyBindings(Map<Integer, String> keyControls) {
 		// will need to make sure all possible controls have been assigned
 		Collection<String> createdControls = keyControls.values();
 		for (String c : createdControls) {
@@ -67,8 +67,9 @@ public class Controller implements KeyListener {
 
 	// used to set active/inactive control
 	void setControl(KeyEvent e, boolean active) {
-		if (keyControls.containsKey(e)) {
-			activeControls.put(keyControls.get(e), active);
+    	int keyCode = e.getKeyCode(); // get key code from event as integer
+		if (keyBindings.containsKey(keyCode)) {
+			activeControls.put(keyBindings.get(keyCode), active);
 		}
 	}
 
