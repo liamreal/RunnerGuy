@@ -3,11 +3,14 @@ package com.liamreal.game;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
 import com.liamreal.systems.MovementSystem;
+import com.liamreal.systems.InputSystem;
 import java.util.Collection;
 
 public class Model { 
 	private final EntityManager entityManager = new EntityManager();
-	private final MovementSystem MovementSystem = new MovementSystem();
+	private final MovementSystem movementSystem = new MovementSystem();
+	private final InputSystem inputSystem = new InputSystem();
+	
 
 	public Model() {
 	}
@@ -15,7 +18,8 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean update() 
 	{
-		MovementSystem.move(this.getEntities());
+		inputSystem.update(this.getEntities());
+		movementSystem.move(this.getEntities());
 
 		// return false if game not yet complete
 		return false;

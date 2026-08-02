@@ -36,7 +36,8 @@ public class PlayerFactory {
             KeyEvent.VK_W, "up",
             KeyEvent.VK_S, "down",
             KeyEvent.VK_A, "left",
-            KeyEvent.VK_D, "right"
+            KeyEvent.VK_D, "right",
+            KeyEvent.VK_SPACE, "use"
         );
         return keyControls;
     }

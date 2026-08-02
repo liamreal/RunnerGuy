@@ -10,7 +10,7 @@ import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
 
 public class InputSystem {
-    public void control(Collection<Entity> entities) {
+    public void update(Collection<Entity> entities) {
         // render each entity
         for(Entity entity : entities) {
             // if has controllable (can be controlled by player)

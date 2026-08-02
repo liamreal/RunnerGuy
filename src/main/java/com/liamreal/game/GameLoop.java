@@ -8,6 +8,7 @@ import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
 import com.liamreal.ecs.Entity;
 import com.liamreal.factory.BackgroundFactory;
+import com.liamreal.factory.PlayerFactory;
 import com.liamreal.util.Vector2f;
 import com.liamreal.view.Viewer;
 
@@ -31,6 +32,7 @@ public class GameLoop {
     void initialiseGame() {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
+		PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
 
         Entity velocityEntity = world.getEntityManager().createEntity();
         velocityEntity.add(new Transform(0, 0));

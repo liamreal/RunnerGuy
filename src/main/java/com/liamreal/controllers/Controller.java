@@ -3,6 +3,7 @@ package com.liamreal.controllers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -42,6 +43,7 @@ public class Controller implements KeyListener {
 
 	// set all keys to not be pressed on construction
 	void initialiseActiveControls() {
+		this.activeControls = new HashMap<>();
 		for (String c : availableControls) { activeControls.put(c, false); }
 	}
 
