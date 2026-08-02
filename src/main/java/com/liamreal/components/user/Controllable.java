@@ -1,8 +1,8 @@
 package com.liamreal.components.user;
 
-import java.util.Collection;
 import com.liamreal.controllers.Controller;
 import com.liamreal.ecs.Component;
+import java.util.Set;
 
 public class Controllable implements Component {
     private Controller controller;
@@ -12,5 +12,5 @@ public class Controllable implements Component {
     }
     
     // get currently active controls from controller
-    public Collection<String> getActiveControls() { return this.controller.getActiveControls(); }
+    public Set<String> getActiveControls() { return this.controller.getActiveControls(); }
 }

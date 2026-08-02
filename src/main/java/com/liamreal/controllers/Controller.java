@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 //Singeton pattern
 public class Controller implements KeyListener {
@@ -37,7 +38,7 @@ public class Controller implements KeyListener {
 	}
 
 	// get currently active controls
-	public Collection<String> getActiveControls() { return this.activeControls.keySet(); }
+	public Set<String> getActiveControls() { return this.activeControls.keySet(); }
 
 	// set all keys to not be pressed on construction
 	void initialiseActiveControls() {
