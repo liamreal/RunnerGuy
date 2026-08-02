@@ -2,7 +2,6 @@ package com.liamreal.systems;
 
 import java.util.Collection;
 import java.util.Set;
-
 import com.liamreal.ecs.Entity;
 import com.liamreal.util.Vector2f;
 import com.liamreal.components.user.Controllable;
@@ -35,10 +34,10 @@ public class InputSystem {
             Set<String> activeControls = controllable.getActiveControls();
 
             // check each direction and apply respective vector
-            if (activeControls.contains("up")) { newDirection.PlusVector(new Vector2f(0, -1)); }
-            if (activeControls.contains("down")) { newDirection.PlusVector(new Vector2f(0, 1)); }
-            if (activeControls.contains("left")) { newDirection.PlusVector(new Vector2f(-1, 0)); }
-            if (activeControls.contains("right")) { newDirection.PlusVector(new Vector2f(1, 0)); }
+            if (activeControls.contains("up")) { newDirection = newDirection.PlusVector(new Vector2f(0, -1)); }
+            if (activeControls.contains("down")) { newDirection = newDirection.PlusVector(new Vector2f(0, 1)); }
+            if (activeControls.contains("left")) { newDirection = newDirection.PlusVector(new Vector2f(-1, 0)); }
+            if (activeControls.contains("right")) { newDirection = newDirection.PlusVector(new Vector2f(1, 0)); }
 
             // apply new direction to Entity
             velocity.setDirection(newDirection);

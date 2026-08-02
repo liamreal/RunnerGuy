@@ -1,9 +1,13 @@
 package com.liamreal;
 
+import java.awt.KeyboardFocusManager;
+
 import javax.swing.JFrame;
 import com.liamreal.game.GameLoop;
 import com.liamreal.game.Model;
 import com.liamreal.view.Viewer;
+import com.liamreal.factory.ControllerFactory;
+import com.liamreal.controllers.Controller;
 
 // useful tutorial for having JPanel size match JFrame:
 // 		https://medium.com/@nhesanda/lets-make-a-2d-rpg-game-with-java-swing-01-2cf48cc221b1
@@ -13,6 +17,8 @@ public class Main {
 	private final Model world;
 	private final Viewer canvas;
 	private final GameLoop gameLoop;
+	public static final Controller playerOneController = ControllerFactory.createPlayerOneController();
+	public static final Controller playerTwoController = ControllerFactory.createPlayerTwoController();
 	  
 	public Main() {
 		// create instances of game objects
@@ -27,6 +33,18 @@ public class Main {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		// create controllers and make program listen to them
+		this.createInput();
+	}
+
+	private void createInput() {
+		
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+			.addKeyEventDispatcher(e -> {
+				playerOneController.handleInput(e);
+				playerTwoController.handleInput(e);
+				return false;
+			});
 	}
 
 	public void start() {
