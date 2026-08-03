@@ -26,7 +26,7 @@ public class ControllerFactoryTest {
 
     @Test
     public void testCreatesPlayerTwoControlMap() {
-        Map<Integer, String> controls = ControllerFactory.createPlayerOneControls();
+        Map<Integer, String> controls = ControllerFactory.createPlayerTwoControls();
         assertEquals(
             Map.of(
                 KeyEvent.VK_I, "up",
