@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
-
 import java.awt.Graphics;
 import com.liamreal.ecs.Entity;
 import com.liamreal.graphics.Animation;
