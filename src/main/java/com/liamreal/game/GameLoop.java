@@ -4,25 +4,26 @@ import javax.sound.sampled.Clip;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
+import com.liamreal.display.GameDisplay;
 import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.factory.EnemyFactory;
 import com.liamreal.factory.PlayerFactory;
 import com.liamreal.view.Viewer;
 import com.liamreal.user.Config;
 
-public class GameLoop {
+public class GameLoop implements Runnable {
     private final Model world;
     private final Viewer canvas;
     private final TextureManager textureManager = new TextureManager();
     private final LevelLoader levelLoader = new LevelLoader(textureManager);
-	private static int targetFPS = 100;
 
     public GameLoop(Model world, Viewer canvas) {
         this.world = world;
         this.canvas = canvas;
     }
 
-    public void start() {
+    @Override
+    public void run() {
         this.gameLoop();
     }
 
@@ -55,6 +56,8 @@ public class GameLoop {
     
     private void gameLoop() {
         this.initialiseGame();
+        long lastTime = System.nanoTime(); // last time to do consistent move between game ticks instead of basing it off fps
+        double delta = 0;
         // only loop if there are levels remaining
         while (levelLoader.hasLevels()) {
             levelLoader.loadNextLevel();
@@ -66,15 +69,23 @@ public class GameLoop {
             ));
             while(!levelComplete)   //not nice but remember we do just want to keep looping till the end.  // this could be replaced by a thread but again we want to keep things simple 
             { 
-                // time calculation for game framerate
-                int TimeBetweenFrames =  1000 / targetFPS;
-                long FrameCheck = System.currentTimeMillis() + (long) TimeBetweenFrames; 
+                // time calculation for game tick speed
+                long now = System.nanoTime();
+                delta += (now - lastTime) / GameDisplay.getTimePerTick();
+                lastTime = now;
 
-                // wait till next time step 
-                while (FrameCheck > System.currentTimeMillis()){} 
-                
-                // tick to check if level completed
-                levelComplete = this.tick();
+                while (delta >= 1) {
+                    // tick to check if level completed
+                    levelComplete = this.tick();
+                    delta--;
+                }
+
+                // prevent 100% CPU usage by putting this thread to sleep
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             // stop looping music after level is done
             SoundPlayer.stopSound(musicClip);
@@ -85,8 +96,8 @@ public class GameLoop {
 	boolean tick() { 
 		// model update   
 		boolean isLevelComplete = world.update();
-		// view update 
-		canvas.updateView();
+        // view update 
+        canvas.updateView();
 		// return boolean for if level completed
 		return isLevelComplete; 
 	}

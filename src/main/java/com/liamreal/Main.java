@@ -47,7 +47,7 @@ public class Main {
 	}
 
 	public void start() {
-		this.gameLoop.start();
+		this.gameLoop.run();
 	}
 
 	public static void main(String[] args) {
