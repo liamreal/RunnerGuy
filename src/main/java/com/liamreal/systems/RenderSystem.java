@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
+import javax.management.RuntimeErrorException;
+
 import java.awt.Graphics;
 import com.liamreal.ecs.Entity;
 import com.liamreal.graphics.Animation;
@@ -12,7 +15,14 @@ import com.liamreal.components.graphics.SpriteRenderer;
 
 public class RenderSystem {
     private List<Entity> filterEntities(Collection<Entity> entities) {
-        List<Entity> entityList = new ArrayList<>(entities);
+        // filter only entities that have transform
+        List<Entity> entityList = new ArrayList<>();
+        for (Entity e : entities) {
+            if (e.has(Transform.class)) {
+                entityList.add(e);
+            }
+        }
+        // now sort, knowing all have transform
         Collections.sort(entityList, (e1, e2) -> {
             return this.compareY(e1, e2);
         });
@@ -20,20 +30,17 @@ public class RenderSystem {
     }
     // used for sorting for drawing, kind of messy but comparison of only Y is only used by RenderSystem for drawing
     private int compareY(Entity e1, Entity e2) {
-        // if first entity has transform but second does not, first comes first
-        if (e1.has(Transform.class) && !e2.has(Transform.class)) { return -1; }
-        // if second entity has transform but first does not, second comes first
-        else if (!e1.has(Transform.class) && e2.has(Transform.class)) { return 1; }
-        // if both have transform, compare y-position
-        else if (e1.has(Transform.class) && e2.has(Transform.class)) { 
-            Transform t1 = e1.get(Transform.class);
-            Transform t2 = e2.get(Transform.class);
-            return t1.compareY(t2);
-        } 
-        // otherwise order irrelevant, do not change
-        else {
-            return 0;
+        // if missing Transform, something went wrong, throw error
+        if (!e1.has(Transform.class) || !e2.has(Transform.class)) { 
+			throw new RuntimeException(
+				"One or both entities are missing Transform properties for RenderSystem despite being filtered!"
+			);
         }
+        // knowing have Transform component, compare both
+        Transform t1 = e1.get(Transform.class);
+        Transform t2 = e2.get(Transform.class);
+        return t1.compareY(t2);
+        
     }
     public void render(Collection<Entity> entities, Graphics graphics, Animation animation) {
         // sort entities based on y-position (higher Y means rendered later)
