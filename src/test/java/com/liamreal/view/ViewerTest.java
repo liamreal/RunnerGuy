@@ -1,5 +1,6 @@
 package com.liamreal.view;
 
+import java.awt.image.BufferedImage;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -71,10 +72,9 @@ public class ViewerTest {
 
         Viewer viewer = new Viewer(world);
 
-        Graphics graphics = mock(Graphics.class);
+        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics = image.getGraphics(); // using real graphics for random image to test painting with no entities works just fine
 
-        assertDoesNotThrow(() -> {
-            viewer.paintComponent(graphics);
-        });
+        assertDoesNotThrow(() -> viewer.paintComponent(graphics));
     }
 }

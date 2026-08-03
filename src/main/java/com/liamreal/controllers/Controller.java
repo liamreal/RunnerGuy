@@ -46,9 +46,7 @@ public class Controller {
 	// ensure key controls have all valid values and no missing controls
 	void verifyKeyBindings(Map<Integer, String> keyControls) {
 		// have to pass in valid map of keys
-		if (keyControls == null) {
-			throw new RuntimeException("Key bindings cannot be null!");
-		}
+		if (keyControls == null) { throw new RuntimeException("Key bindings cannot be null!"); }
 		Set<String> createdControls = new HashSet<>(keyControls.values());
 		// check that exactly all controls are assigned
 		if (!createdControls.equals(AVAILABLE_CONTROLS)) {

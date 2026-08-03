@@ -38,7 +38,6 @@ public class Main {
 	}
 
 	private void createInput() {
-		
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 			.addKeyEventDispatcher(e -> {
 				playerOneController.handleInput(e);
