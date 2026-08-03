@@ -38,8 +38,8 @@ public class PlayerFactoryTest {
         Transform transform = player.get(Transform.class);
         
         // verify player spawns in center of screen
-        assertEquals(GameDisplay.getDisplayX()/2.0, transform.getPosition().getX());
-        assertEquals(GameDisplay.getDisplayY()/2.0, transform.getPosition().getY());
+        assertEquals(GameDisplay.getDisplayCentre().getX(), transform.getPosition().getX());
+        assertEquals(GameDisplay.getDisplayCentre().getY(), transform.getPosition().getY());
 
         Velocity velocity = player.get(Velocity.class);
         

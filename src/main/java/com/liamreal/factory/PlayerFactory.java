@@ -23,12 +23,12 @@ public class PlayerFactory {
     }
     private static Entity createPlayer(EntityManager entityManager, TextureManager textureManager, String playerType, Controller controller) {    
         Entity player = entityManager.createEntity();
-        player.add(new Transform(GameDisplay.getDisplayX()/2.0, GameDisplay.getDisplayY()/2.0));
+        player.add(new Transform(GameDisplay.getDisplayCentre()));
         player.add(new Velocity(config.getPlayerMoveSpeed()));
         player.add(new SpriteRenderer(new SpriteSheet(
                 textureManager.getAsset(String.format("player_%s.png", playerType)),
-                32, 
-                32
+                GameDisplay.getSpriteWidth(), 
+                GameDisplay.getSpriteHeight()
             ),
             true
         ));
