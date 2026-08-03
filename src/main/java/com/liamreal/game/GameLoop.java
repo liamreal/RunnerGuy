@@ -34,14 +34,8 @@ public class GameLoop {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getBackgroundManager(), textureManager);
 		PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
-		PlayerFactory.createPlayerTwo(world.getEntityManager(), textureManager);
+		// PlayerFactory.createPlayerTwo(world.getEntityManager(), textureManager);
 		EnemyFactory.createBasicEnemy(world.getEntityManager(), textureManager);
-
-        Entity velocityEntity = world.getEntityManager().createEntity();
-        velocityEntity.add(new Transform(0, 0));
-        velocityEntity.add(new Velocity(1));
-        Velocity velocity = velocityEntity.get(Velocity.class);
-        velocity.setDirection(new Vector2f(1, 1));
     }
     
     private void gameLoop() {
