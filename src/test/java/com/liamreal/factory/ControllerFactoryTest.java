@@ -8,7 +8,7 @@ import com.liamreal.controllers.Controller;
 import org.junit.jupiter.api.Test;
 
 public class ControllerFactoryTest {
-    // here test both as need to ensure each has their unique controls
+    // test for player one because has unique controls to player two
     @Test
     public void testCreatesPlayerOneControlMap() {
         Map<Integer, String> controls = ControllerFactory.createPlayerOneControls();
@@ -24,6 +24,7 @@ public class ControllerFactoryTest {
         );
     }
 
+    // test for player two because has unique controls to player one
     @Test
     public void testCreatesPlayerTwoControlMap() {
         Map<Integer, String> controls = ControllerFactory.createPlayerTwoControls();
@@ -39,7 +40,7 @@ public class ControllerFactoryTest {
         );
     }
 
-    // then test controls being added to and returned through the created Controller
+    // then Controller being created successfully for both
     @Test
     public void testCreatesPlayerControllers() {
         Controller playerOneController = ControllerFactory.createPlayerOneController();
