@@ -29,9 +29,11 @@ public class Viewer extends JPanel {
 	}
 		
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		// render all entities
-		renderSystem.render(world.getEntities(), g, animation);
+        super.paintComponent(g);
+        // render background (it has its own manager)
+        renderSystem.render(world.getBackground(), g, animation);
+        // render all other entities
+        renderSystem.render(world.getEntities(), g, animation);
 	}
 }
 

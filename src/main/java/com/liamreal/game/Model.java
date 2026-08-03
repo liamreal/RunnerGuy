@@ -8,6 +8,8 @@ import java.util.Collection;
 
 public class Model { 
 	private final EntityManager entityManager = new EntityManager();
+	// easiest way to add background in its own collection for now
+	private final EntityManager backgroundManager = new EntityManager();
 	private final MovementSystem movementSystem = new MovementSystem();
 	private final InputSystem inputSystem = new InputSystem();
 	
@@ -26,7 +28,9 @@ public class Model {
 	}
 
 	public EntityManager getEntityManager() { return this.entityManager; }
+	public EntityManager getBackgroundManager() { return this.backgroundManager; }
 	public Collection<Entity> getEntities() { return this.entityManager.getEntityMap().values(); }
+	public Collection<Entity> getBackground() { return this.backgroundManager.getEntityMap().values(); }
 
 }
 

@@ -32,7 +32,7 @@ public class GameLoop {
     // create basic things needed at start of game (background, players for example, enemies and the rest are created in Model itself)
     void initialiseGame() {
         // background is also an entity
-		BackgroundFactory.createBackground(world.getEntityManager(), textureManager);
+		BackgroundFactory.createBackground(world.getBackgroundManager(), textureManager);
 		PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
 		PlayerFactory.createPlayerTwo(world.getEntityManager(), textureManager);
 		EnemyFactory.createBasicEnemy(world.getEntityManager(), textureManager);
