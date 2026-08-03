@@ -30,6 +30,47 @@ public class Vector2fTest {
         assertEquals(3, v.getY());
     }
     @Test
+    public void testCompareToEqual() {
+        Vector2f v1 = new Vector2f(3.0, 4.0);
+        Vector2f v2 = new Vector2f(3.0, 4.0);
+
+        assertEquals(0, v1.compareTo(v2));
+    }
+    @Test
+    public void testCompareToDifferent() {
+        Vector2f v1 = new Vector2f(3.0, 4.0);
+        Vector2f v2 = new Vector2f(1.0, 4.0);
+        Vector2f v3 = new Vector2f(3.0, 3.0);
+    
+        // x differs so returns early (y never reached since x not same)
+        assertTrue(v1.compareTo(v2) > 0);
+        assertTrue(v2.compareTo(v1) < 0);
+        
+        // x same but y differs, returns at y
+        assertTrue(v1.compareTo(v3) > 0);
+        assertTrue(v3.compareTo(v1) < 0);
+    }
+    @Test
+    public void testCompareX() {
+        Vector2f v1 = new Vector2f(1.0, 2.0);
+        Vector2f v2 = new Vector2f(2.0, 2.0);
+        Vector2f v3 = new Vector2f(1.0, 3.0);
+
+        assertTrue(v1.compareX(v2) < 0);
+        assertTrue(v2.compareX(v1) > 0);
+        assertEquals(0, v1.compareX(v3));
+    }
+    @Test
+    public void testCompareY() {
+        Vector2f v1 = new Vector2f(1.0, 2.0);
+        Vector2f v2 = new Vector2f(1.0, 3.0);
+        Vector2f v3 = new Vector2f(4.0, 2.0);
+
+        assertTrue(v1.compareY(v2) < 0);
+        assertTrue(v2.compareY(v1) > 0);
+        assertEquals(0, v1.compareY(v3));
+    }
+    @Test
     public void testEqualNull() {
         Vector2f v = new Vector2f(1, 3);
         assertNotEquals(v, null);

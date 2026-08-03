@@ -4,13 +4,9 @@ import javax.sound.sampled.Clip;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
-import com.liamreal.components.physics.Transform;
-import com.liamreal.components.physics.Velocity;
-import com.liamreal.ecs.Entity;
 import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.factory.EnemyFactory;
 import com.liamreal.factory.PlayerFactory;
-import com.liamreal.util.Vector2f;
 import com.liamreal.view.Viewer;
 
 public class GameLoop {
