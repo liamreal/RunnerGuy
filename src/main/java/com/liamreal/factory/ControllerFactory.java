@@ -13,7 +13,7 @@ public class ControllerFactory {
         return new Controller(ControllerFactory.createPlayerTwoControls());
     }
     // helper methods for player controls, for now hard-coded
-    private static Map<Integer, String> createPlayerOneControls() {
+    static Map<Integer, String> createPlayerOneControls() {
         Map<Integer, String> keyControls = Map.of(
             KeyEvent.VK_W, "up",
             KeyEvent.VK_S, "down",
@@ -23,7 +23,7 @@ public class ControllerFactory {
         );
         return keyControls;
     }
-    private static Map<Integer, String> createPlayerTwoControls() {
+    static Map<Integer, String> createPlayerTwoControls() {
         Map<Integer, String> keyControls = Map.of(
             KeyEvent.VK_I, "up",
             KeyEvent.VK_K, "down",
