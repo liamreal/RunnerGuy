@@ -38,13 +38,13 @@ public class Controller {
 	}
 
 	// set all keys to not be pressed on construction
-	void initialiseActiveControls() {
+	private void initialiseActiveControls() {
 		this.activeControls = new HashMap<>();
 		for (String c : AVAILABLE_CONTROLS) { activeControls.put(c, false); }
 	}
 
 	// ensure key controls have all valid values and no missing controls
-	void verifyKeyBindings(Map<Integer, String> keyControls) {
+	private void verifyKeyBindings(Map<Integer, String> keyControls) {
 		// have to pass in valid map of keys
 		if (keyControls == null) { throw new RuntimeException("Key bindings cannot be null!"); }
 		Set<String> createdControls = new HashSet<>(keyControls.values());
@@ -63,7 +63,7 @@ public class Controller {
 	}
 
 	// used to set active/inactive control
-	void setControl(KeyEvent e, boolean active) {
+	private void setControl(KeyEvent e, boolean active) {
     	int keyCode = e.getKeyCode(); // get key code from event as integer
 		if (keyBindings.containsKey(keyCode)) {
 			activeControls.put(keyBindings.get(keyCode), active);
