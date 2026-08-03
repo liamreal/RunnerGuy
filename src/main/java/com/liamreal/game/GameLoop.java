@@ -8,6 +8,7 @@ import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.factory.EnemyFactory;
 import com.liamreal.factory.PlayerFactory;
 import com.liamreal.view.Viewer;
+import com.liamreal.user.Config;
 
 public class GameLoop {
     private final Model world;
@@ -29,9 +30,27 @@ public class GameLoop {
     void initialiseGame() {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getBackgroundManager(), textureManager);
-		PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
-		// PlayerFactory.createPlayerTwo(world.getEntityManager(), textureManager);
+        this.createPlayers();
 		EnemyFactory.createBasicEnemy(world.getEntityManager(), textureManager);
+    }
+
+    // in future allow through a list of created controllers and dynamically go 1-4 players using player_%d.png string format for asset
+    // for now this works as a proof of concept and small number of players using dedicated player one and two creation methods
+    void createPlayers() {
+        // create based on number in config
+        int numPlayers = Config.getInstance().getNumPlayers();
+        // cases for number of players
+        switch (numPlayers) {
+            case 1:
+                PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
+                break;
+            case 2:
+                PlayerFactory.createPlayerOne(world.getEntityManager(), textureManager);
+                PlayerFactory.createPlayerTwo(world.getEntityManager(), textureManager);
+                break;
+            default:
+                throw new RuntimeException(String.format("Invalid number of players: %s", numPlayers));
+        }
     }
     
     private void gameLoop() {
