@@ -1,6 +1,6 @@
 package com.liamreal.util;
 
-public class Vector2f {
+public class Vector2f implements Comparable<Vector2f> {
 
 	private double x=0;
 	private  double y=0;
@@ -16,6 +16,19 @@ public class Vector2f {
 		this.setX(x);
 		this.setY(y);
 	}
+
+	// from: https://stackoverflow.com/questions/369512/how-to-compare-objects-by-multiple-fields
+	public int compareTo(Vector2f other) {
+		int i = this.compareX(other);
+		if (i != 0) return i;
+
+		i = this.compareY(other);
+		return i;
+	}
+
+	// compare individual points
+	public int compareX(Vector2f other) { return Double.compare(this.getX(), other.getX()); }
+	public int compareY(Vector2f other) { return Double.compare(this.getY(), other.getY()); }
 
     @Override
     public boolean equals(Object obj) {

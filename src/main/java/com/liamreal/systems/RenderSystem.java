@@ -14,21 +14,21 @@ public class RenderSystem {
     private List<Entity> filterEntities(Collection<Entity> entities) {
         List<Entity> entityList = new ArrayList<>(entities);
         Collections.sort(entityList, (e1, e2) -> {
-            return this.comparePosition(e1, e2);
+            return this.compareY(e1, e2);
         });
         return entityList;
     }
     // used for sorting for drawing, kind of messy but comparison of only Y is only used by RenderSystem for drawing
-    private Integer comparePosition(Entity e1, Entity e2) {
+    private int compareY(Entity e1, Entity e2) {
         // if first entity has transform but second does not, first comes first
         if (e1.has(Transform.class) && !e2.has(Transform.class)) { return -1; }
         // if second entity has transform but first does not, second comes first
         else if (!e1.has(Transform.class) && e2.has(Transform.class)) { return 1; }
         // if both have transform, compare y-position
         else if (e1.has(Transform.class) && e2.has(Transform.class)) { 
-            Double y1 = e1.get(Transform.class).getPosition().getY();
-            Double y2 = e2.get(Transform.class).getPosition().getY();
-            return Double.compare(y1, y2);
+            Transform t1 = e1.get(Transform.class);
+            Transform t2 = e2.get(Transform.class);
+            return t1.compareY(t2);
         } 
         // otherwise order irrelevant, do not change
         else {
