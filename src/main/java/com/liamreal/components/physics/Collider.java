@@ -9,6 +9,4 @@ public class Collider implements Component {
     public Collider(Circle shape) {
         this.shape = shape;
     }
-
-    
 }
