@@ -42,22 +42,26 @@ public class CollisionSystem {
         Collider otherCollider = otherEntity.get(Collider.class);
         Vector2f otherPosition = otherTransform.getPosition();
 
-        thisCollider.updatePosition(thisPosition);
-        otherCollider.updatePosition(otherPosition);
+        thisCollider.setPosition(thisPosition);
+        otherCollider.setPosition(otherPosition);
 
         double distance = thisPosition.euclideanDistance(otherPosition);
 
-        if (distance < thisCollider.getLength() + otherCollider.getLength()) {
+        if (distance <= thisCollider.getLength() + otherCollider.getLength()) {
             System.out.println(String.format("\n%d collided with %d: \n d = %.2f", thisEntity.getId(), otherEntity.getId(), distance));
 
             Vector2f thisNewVelocity = this.calculateNewVelocity(thisEntity, otherEntity);
             Vector2f otherNewVelocity = this.calculateNewVelocity(otherEntity, thisEntity);
-
-            System.out.println(thisNewVelocity);
-            System.out.println(otherNewVelocity);
             
             thisVelocity.setDirection(thisNewVelocity);
             otherVelocity.setDirection(otherNewVelocity);
+            // directly update movement here to account for MovementSystem reapplying later
+            Vector2f thisDisplacement = thisVelocity.calculateDisplacement();
+            Vector2f otherDisplacement = otherVelocity.calculateDisplacement();
+            // thisTransform.addDisplacement(thisDisplacement);
+            // thisCollider.setPosition(thisPosition);
+            // otherTransform.addDisplacement(otherDisplacement);
+            // otherCollider.setPosition(otherPosition);
         }
     }
 
@@ -78,12 +82,13 @@ public class CollisionSystem {
         
         
         Vector2f deltaVelocity = positionDifference.byScalar(numerator/denominator);
-        Vector2f newVelocity = thisVelocity.getDirection().PlusVector(deltaVelocity);
+        Vector2f newVelocity = thisVelocity.getDirection().PlusVector(deltaVelocity).Normal();
 
         return newVelocity;
 
 
     }
+
 
     // to verify Entity has components required for this system
     private boolean hasRequiredComponents(Entity entity) {

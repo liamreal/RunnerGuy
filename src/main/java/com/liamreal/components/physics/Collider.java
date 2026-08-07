@@ -11,7 +11,7 @@ public class Collider implements Component {
         this.shape = shape;
     }
 
-    public void updatePosition(Vector2f newPosition) {
+    public void setPosition(Vector2f newPosition) {
         this.shape.setCentre(newPosition);
     }
     public double getLength() { return this.shape.getRadius(); }
