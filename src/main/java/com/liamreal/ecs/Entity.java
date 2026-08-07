@@ -3,6 +3,8 @@ package com.liamreal.ecs;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.liamreal.util.Vector2f;
+
 public class Entity {
     private final int id;
     private Map<Class<? extends Component>, Component> components = new HashMap<>();
@@ -14,6 +16,14 @@ public class Entity {
 
     // can get entity id (for entity deletion)
     public int getId() { return this.id; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj.getClass() != this.getClass()) { return false; }
+        Entity other = (Entity) obj;
+        return this.getId() == other.getId();
+    }
 
     // can add, check if has, and get components based on classes (e.g. if has key Transform.class has Transform object)
     public void add(Component component) {

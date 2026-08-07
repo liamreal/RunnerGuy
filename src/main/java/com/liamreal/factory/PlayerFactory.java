@@ -1,6 +1,10 @@
 package com.liamreal.factory;
 
 import com.liamreal.user.Config;
+import com.liamreal.util.Vector2f;
+
+import java.util.Random;
+
 import com.liamreal.Main;
 import com.liamreal.controllers.Controller;
 import com.liamreal.assets.TextureManager;
@@ -24,8 +28,11 @@ public class PlayerFactory {
         return PlayerFactory.createPlayer(entityManager, textureManager, "two", Main.playerTwoController);
     }
     private static Entity createPlayer(EntityManager entityManager, TextureManager textureManager, String playerType, Controller controller) {    
+        Random r = new Random(); 
+        double rx = 0 + r.nextDouble() * GameDisplay.getDisplayX();
+        double ry = GameDisplay.getDisplayY()/2 + r.nextDouble() * GameDisplay.getDisplayY()/3;
         Entity player = entityManager.createEntity();
-        player.add(new Transform(GameDisplay.getDisplayCentre()));
+        player.add(new Transform(new Vector2f(rx, ry)));
         player.add(new Velocity(config.getPlayerMoveSpeed()));
         player.add(new SpriteRenderer(new SpriteSheet(
                 textureManager.getAsset(String.format("player_%s.png", playerType)),

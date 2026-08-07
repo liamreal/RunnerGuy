@@ -24,6 +24,7 @@ public class Model {
 	private final MovementSystem movementSystem = new MovementSystem();
 	private final CollisionSystem collisionSystem = new CollisionSystem();
 	private final InputSystem inputSystem = new InputSystem();
+	int counter = 0;
 	
 
 	public Model() {
@@ -32,12 +33,15 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean update() 
 	{
+		counter++;
 		inputSystem.update(this.getEntities());
 
 
 		// collisionSystem.collide(this.getEntities());
 		// movementSystem.move(this.getEntities());
 		this.move(this.getEntities());
+
+		// if (counter > 2) { throw new RuntimeException(); }
 
 
 		// return false if game not yet complete
@@ -48,32 +52,43 @@ public class Model {
 		List<Entity> moveableEntities = new ArrayList<>(entities).stream().filter(entity -> MovementSystem.hasRequiredComponents(entity)).collect(Collectors.toList());
 
 		
-        for (int i = 0; i < moveableEntities.size() - 1; i++) {
-            Entity thisEntity = moveableEntities.get(i);
+        for (int i = 0; i < moveableEntities.size(); i++) {
+			Entity thisEntity = moveableEntities.get(i);
 			Transform thisTransform = thisEntity.get(Transform.class);
 
-			if (thisEntity.has(Collider.class)) {
-				// then look at others can collide with
-				for (int j = i + 1; j < moveableEntities.size(); j++) {
-					// jth entity which ith collides with
-					Entity otherEntity = moveableEntities.get(j);
+			this.checkCollisions(moveableEntities, i);
 
-					if (!otherEntity.has(Collider.class)) { continue; }
-
-
-
-					Vector2f newDirection = collisionSystem.collide(thisEntity, otherEntity);
-					thisEntity.get(Velocity.class).setDirection(newDirection);
-
-				}
-				Collider thisCollider = thisEntity.get(Collider.class);
-				System.out.println(String.format("entity %d collider at (%.2f, %.2f)", thisEntity.getId(), thisCollider.getPosition().getX(), thisCollider.getPosition().getY()));
-				thisCollider.setPosition(thisTransform.getPosition());
-			}
 			Vector2f displacement = movementSystem.move(thisEntity);
 			thisTransform.addDisplacement(displacement);
         }
 		
+	}
+
+	private void checkCollisions(List<Entity> entities, int entityIndex) {
+		Entity thisEntity = entities.get(entityIndex);
+		// if no collider, exit
+		if (!thisEntity.has(Collider.class)) { return; }
+		// then look at others can collide with
+		for (int j = entityIndex + 1; j < entities.size(); j++) {
+			Entity otherEntity = entities.get(j);
+			// if same entity skip
+			if (thisEntity.equals(otherEntity)) { continue; }
+			// skip if no collider
+			if (!otherEntity.has(Collider.class)) { continue; }
+
+			// adjust both entity directions
+			Vector2f newThisDirection = collisionSystem.collide(thisEntity, otherEntity);
+			thisEntity.get(Velocity.class).setDirection(newThisDirection);
+
+			// update other collider
+			Collider otherCollider = otherEntity.get(Collider.class);
+			Transform otherTransform = otherEntity.get(Transform.class);
+			otherCollider.setPosition(otherTransform.getPosition());
+		}
+		Collider thisCollider = thisEntity.get(Collider.class);
+		Transform thisTransform = thisEntity.get(Transform.class);
+		thisCollider.setPosition(thisTransform.getPosition());
+		System.out.println(String.format("entity %d collider at (%.2f, %.2f)", thisEntity.getId(), thisCollider.getPosition().getX(), thisCollider.getPosition().getY()));
 	}
 
 	public EntityManager getEntityManager() { return this.entityManager; }
