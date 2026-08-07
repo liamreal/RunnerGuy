@@ -3,6 +3,7 @@ package com.liamreal.game;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
 import com.liamreal.systems.MovementSystem;
+import com.liamreal.systems.CollisionSystem;
 import com.liamreal.systems.InputSystem;
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ public class Model {
 	// easiest way to add background in its own collection for now
 	private final EntityManager backgroundManager = new EntityManager();
 	private final MovementSystem movementSystem = new MovementSystem();
+	private final CollisionSystem collisionSystem = new CollisionSystem();
 	private final InputSystem inputSystem = new InputSystem();
 	
 
@@ -22,6 +24,9 @@ public class Model {
 	{
 		inputSystem.update(this.getEntities());
 		movementSystem.move(this.getEntities());
+
+		collisionSystem.collide(getEntities());
+
 
 		// return false if game not yet complete
 		return false;

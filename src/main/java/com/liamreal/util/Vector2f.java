@@ -40,6 +40,15 @@ public class Vector2f implements Comparable<Vector2f> {
         return true;
     }
 	
+	// distance between 2 vectors is same as distance between 2 points
+	public double euclideanDistance(Vector2f otherVector) {
+		double xDifference = (otherVector.getX() - this.getX());
+		double yDifference = (otherVector.getY() - this.getY());
+		return Math.sqrt(
+			xDifference*xDifference + yDifference*yDifference
+		);
+	}
+
 	 //implement Vector plus a Vector  and comment what the method does  
 	public Vector2f PlusVector(Vector2f Additonal) 
 	{ 
