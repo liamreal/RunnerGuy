@@ -13,7 +13,7 @@ public class Velocity implements Component {
     }
     
     // normalise direction then multiply speed by direction to get displacement vector
-    public Vector2f calculateDisplacement() { return this.direction.Normal().byScalar(this.speed); }
+    public Vector2f calculateDisplacement() { return this.getDirection().Normal().byScalar(this.getSpeed()); }
     public double getSpeed() { return this.speed; }
     public Vector2f getDirection() { return this.direction; }
     public void setSpeed(double newSpeed) { this.speed = newSpeed; }
