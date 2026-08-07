@@ -2,7 +2,6 @@ package com.liamreal.game;
 
 import com.liamreal.components.physics.Collider;
 import com.liamreal.components.physics.Transform;
-import com.liamreal.components.physics.Velocity;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
 import com.liamreal.systems.MovementSystem;
@@ -15,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 
 public class Model { 
 	private final EntityManager entityManager = new EntityManager();
@@ -24,34 +22,23 @@ public class Model {
 	private final MovementSystem movementSystem = new MovementSystem();
 	private final CollisionSystem collisionSystem = new CollisionSystem();
 	private final InputSystem inputSystem = new InputSystem();
-	int counter = 0;
 	
-
 	public Model() {
 	}
 	
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean update() 
 	{
-		counter++;
 		inputSystem.update(this.getEntities());
-
-
-		// collisionSystem.collide(this.getEntities());
-		// movementSystem.move(this.getEntities());
 		this.move(this.getEntities());
 
-		// if (counter > 2) { throw new RuntimeException(); }
 
-
-		// return false if game not yet complete
 		return false;
 	}
 
 	private void move(Collection<Entity> entities) {
 		List<Entity> moveableEntities = new ArrayList<>(entities).stream().filter(entity -> MovementSystem.hasRequiredComponents(entity)).collect(Collectors.toList());
 
-		
         for (int i = 0; i < moveableEntities.size(); i++) {
 			Entity thisEntity = moveableEntities.get(i);
 			Transform thisTransform = thisEntity.get(Transform.class);
@@ -83,16 +70,7 @@ public class Model {
 
 			// adjust both entity directions
 			collisionSystem.collide(thisEntity, otherEntity);
-
-			// // update other collider
-			// Collider otherCollider = otherEntity.get(Collider.class);
-			// Transform otherTransform = otherEntity.get(Transform.class);
-			// otherCollider.setPosition(otherTransform.getPosition());
 		}
-		// Collider thisCollider = thisEntity.get(Collider.class);
-		// Transform thisTransform = thisEntity.get(Transform.class);
-		// thisCollider.setPosition(thisTransform.getPosition());
-		// System.out.println(String.format("entity %d collider at (%.2f, %.2f)", thisEntity.getId(), thisCollider.getPosition().getX(), thisCollider.getPosition().getY()));
 	}
 
 	public EntityManager getEntityManager() { return this.entityManager; }

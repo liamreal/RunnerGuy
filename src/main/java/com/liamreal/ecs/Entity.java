@@ -3,8 +3,6 @@ package com.liamreal.ecs;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.liamreal.util.Vector2f;
-
 public class Entity {
     private final int id;
     private Map<Class<? extends Component>, Component> components = new HashMap<>();

@@ -47,29 +47,13 @@ public class CollisionSystem {
         double distance = impactVector.length();
 
         if (distance <= thisCollider.getLength() + otherCollider.getLength()) {
-            // System.out.println(String.format("\n%d collided with %d: \n d = %.2f", thisEntity.getId(), otherEntity.getId(), distance));
-
-
             double overlap = distance - (thisCollider.getLength() + otherCollider.getLength());
-            this.calculateNewVelocity(thisEntity, otherEntity, overlap, impactVector.copy());
-
-            // Vector2f otherNewVelocity = this.calculateNewVelocity(otherEntity, thisEntity);
-            
-            // thisVelocity.setDirection(thisNewVelocity);
-            // otherVelocity.setDirection(otherNewVelocity);
-            // // directly update movement here to account for MovementSystem reapplying later
-            // Vector2f thisDisplacement = thisVelocity.calculateDisplacement();
-            // Vector2f otherDisplacement = otherVelocity.calculateDisplacement();
-            // // thisTransform.addDisplacement(thisDisplacement);
-            // // thisCollider.setPosition(thisPosition);
-            // // otherTransform.addDisplacement(otherDisplacement);
-            // // otherCollider.setPosition(otherPosition);
+            this.calculateNewVelocities(thisEntity, otherEntity, overlap, impactVector.copy());
         }
-        // return thisVelocity.getDirection();
     }
 
-    // calculate and return new velocity for THIS object
-    void calculateNewVelocity(Entity thisEntity, Entity otherEntity, double overlap, Vector2f impactVector) {
+    // calculate new velocities for two entities using overlap between each other and impact vector
+    void calculateNewVelocities(Entity thisEntity, Entity otherEntity, double overlap, Vector2f impactVector) {
         Vector2f direction = impactVector.Normal().byScalar(overlap * 0.5); // set magnitude of vector for each direction to half of overlap of 2 circles
         Transform thisTransform = thisEntity.get(Transform.class);
         Vector2f thisPosition = thisTransform.getPosition();
@@ -100,7 +84,8 @@ public class CollisionSystem {
 
 
 
-        double numerator = Math.min(Math.max(velocityDifference.dot(impactVector), distance*2), distance*distance); // lower/upper limits
+        // introducing lower/upper limits for numerator to allow for predictable interaction with movable entities with zero Velocity component
+        double numerator = Math.min(Math.max(velocityDifference.dot(impactVector), distance*2), distance*distance);
         double denominator = distance * distance;
         
 
@@ -108,30 +93,16 @@ public class CollisionSystem {
         double divisionResult;
         // catch / 0 case if entities in same exact position
         if (denominator == 0) { divisionResult = 0; }
-        else {
-            System.out.println(String.format("(%.2f, %.2f)", velocityDifference.getX(), velocityDifference.getY()));
-            System.out.println(String.format("(%.2f, %.2f)", otherVelocity.getDirection().getX(), otherVelocity.getDirection().getY()));
-            System.out.println(String.format("(%.2f, %.2f)", thisVelocity.getDirection().getX(), thisVelocity.getDirection().getY()));
-            System.out.println(String.format("%.2f / %.2f", numerator, denominator));
-            divisionResult = numerator/denominator; 
-        }
+        else { divisionResult = numerator/denominator; }
         deltaVA = deltaVA.byScalar(2 * (divisionResult));
-        // thisVelocity.setDirection(thisVelocity.getDirection().PlusVector(deltaVA));
 
         Vector2f deltaVB = impactVector.copy();
         deltaVB = deltaVB.byScalar(-2 * (divisionResult)); // negative because other direction
-        // otherVelocity.setDirection(otherVelocity.getDirection().PlusVector(deltaVB));
 
 
+        // update both this and other as they interacted with each other
         thisVelocity.setDirection(deltaVA);
         otherVelocity.setDirection(deltaVB);
-
-        // System.out.println(String.format("(%.2f, %.2f)", deltaVA.getX(), deltaVA.getY()));
-        // System.out.println(String.format("(%.2f, %.2f)", deltaVB.getX(), deltaVB.getY()));
-
-
-        
-
     }
 
 
