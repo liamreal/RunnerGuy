@@ -60,6 +60,11 @@ public class Model {
 
 			Vector2f displacement = movementSystem.move(thisEntity);
 			thisTransform.addDisplacement(displacement);
+
+			if (thisEntity.has(Collider.class)) {
+				Collider thisCollider = thisEntity.get(Collider.class);
+				thisCollider.setPosition(thisTransform.getPosition());
+			}
         }
 		
 	}
@@ -77,18 +82,17 @@ public class Model {
 			if (!otherEntity.has(Collider.class)) { continue; }
 
 			// adjust both entity directions
-			Vector2f newThisDirection = collisionSystem.collide(thisEntity, otherEntity);
-			thisEntity.get(Velocity.class).setDirection(newThisDirection);
+			collisionSystem.collide(thisEntity, otherEntity);
 
-			// update other collider
-			Collider otherCollider = otherEntity.get(Collider.class);
-			Transform otherTransform = otherEntity.get(Transform.class);
-			otherCollider.setPosition(otherTransform.getPosition());
+			// // update other collider
+			// Collider otherCollider = otherEntity.get(Collider.class);
+			// Transform otherTransform = otherEntity.get(Transform.class);
+			// otherCollider.setPosition(otherTransform.getPosition());
 		}
-		Collider thisCollider = thisEntity.get(Collider.class);
-		Transform thisTransform = thisEntity.get(Transform.class);
-		thisCollider.setPosition(thisTransform.getPosition());
-		System.out.println(String.format("entity %d collider at (%.2f, %.2f)", thisEntity.getId(), thisCollider.getPosition().getX(), thisCollider.getPosition().getY()));
+		// Collider thisCollider = thisEntity.get(Collider.class);
+		// Transform thisTransform = thisEntity.get(Transform.class);
+		// thisCollider.setPosition(thisTransform.getPosition());
+		// System.out.println(String.format("entity %d collider at (%.2f, %.2f)", thisEntity.getId(), thisCollider.getPosition().getX(), thisCollider.getPosition().getY()));
 	}
 
 	public EntityManager getEntityManager() { return this.entityManager; }

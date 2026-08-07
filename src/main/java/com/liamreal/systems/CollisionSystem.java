@@ -31,11 +31,9 @@ public class CollisionSystem {
     }
 
     // collision between two entities
-    public Vector2f collide(Entity thisEntity, Entity otherEntity) {
+    public void collide(Entity thisEntity, Entity otherEntity) {
         Transform thisTransform = thisEntity.get(Transform.class);
         Transform otherTransform = otherEntity.get(Transform.class);
-        Velocity thisVelocity = thisEntity.get(Velocity.class);
-        Velocity otherVelocity = otherEntity.get(Velocity.class);
 
         Collider thisCollider = thisEntity.get(Collider.class);
         Vector2f thisPosition = thisTransform.getPosition();
@@ -45,13 +43,16 @@ public class CollisionSystem {
         thisCollider.setPosition(thisPosition);
         otherCollider.setPosition(otherPosition);
 
-        double distance = thisPosition.euclideanDistance(otherPosition);
+        Vector2f impactVector = thisPosition.MinusVector(otherPosition);
+        double distance = impactVector.length();
 
         if (distance <= thisCollider.getLength() + otherCollider.getLength()) {
-            System.out.println(String.format("\n%d collided with %d: \n d = %.2f", thisEntity.getId(), otherEntity.getId(), distance));
+            // System.out.println(String.format("\n%d collided with %d: \n d = %.2f", thisEntity.getId(), otherEntity.getId(), distance));
 
-            Vector2f thisNewVelocityDirection = this.calculateNewVelocity(thisEntity, otherEntity);
-            return thisNewVelocityDirection;
+
+            double overlap = distance - (thisCollider.getLength() + otherCollider.getLength());
+            this.calculateNewVelocity(thisEntity, otherEntity, overlap, impactVector.copy());
+
             // Vector2f otherNewVelocity = this.calculateNewVelocity(otherEntity, thisEntity);
             
             // thisVelocity.setDirection(thisNewVelocity);
@@ -64,34 +65,59 @@ public class CollisionSystem {
             // // otherTransform.addDisplacement(otherDisplacement);
             // // otherCollider.setPosition(otherPosition);
         }
-        return thisVelocity.getDirection();
+        // return thisVelocity.getDirection();
     }
 
     // calculate and return new velocity for THIS object
-    Vector2f calculateNewVelocity(Entity thisEntity, Entity otherEntity) {
+    void calculateNewVelocity(Entity thisEntity, Entity otherEntity, double overlap, Vector2f impactVector) {
+        Vector2f direction = impactVector.Normal().byScalar(overlap * 0.5); // set magnitude of vector for each direction to half of overlap of 2 circles
+        Transform thisTransform = thisEntity.get(Transform.class);
+        Vector2f thisPosition = thisTransform.getPosition();
+        Transform otherTransform = otherEntity.get(Transform.class);
+        Vector2f otherPosition = otherTransform.getPosition();
+
+        thisTransform.setPosition(thisPosition.PlusVector(direction));
+        otherTransform.setPosition(otherPosition.MinusVector(direction));
+
+        Collider thisCollider = thisEntity.get(Collider.class);
+        Collider otherCollider = otherEntity.get(Collider.class);
+
+        double distance = thisCollider.getLength() + otherCollider.getLength();
+        impactVector = impactVector.Normal().byScalar(distance);
+
+
+
         Velocity thisVelocity = thisEntity.get(Velocity.class);
         Velocity otherVelocity = otherEntity.get(Velocity.class);
-        Vector2f thisPosition = thisEntity.get(Transform.class).getPosition();
-        Vector2f otherPosition = otherEntity.get(Transform.class).getPosition();
-
-        double distance = thisPosition.euclideanDistance(otherPosition);
         Vector2f velocityDifference = otherVelocity.getDirection().MinusVector(thisVelocity.getDirection());
-        Vector2f positionDifference = thisPosition.MinusVector(otherPosition);
 
-        
-        double numerator = velocityDifference.dot(positionDifference);
+
+
+        double numerator = velocityDifference.dot(impactVector);
         double denominator = distance * distance;
         
+
+        Vector2f deltaVA = impactVector.copy();
         double divisionResult;
         // catch / 0 case if entities in same exact position
         if (denominator == 0) { divisionResult = 0; }
-        else { divisionResult = numerator/denominator; }
+        else {
+            System.out.println(String.format("(%.2f, %.2f)", velocityDifference.getX(), velocityDifference.getY()));
+            System.out.println(String.format("%.2f / %.2f", numerator, denominator));
+            divisionResult = numerator/denominator; 
+        }
+        deltaVA = deltaVA.byScalar(2 * (divisionResult));
+        thisVelocity.setDirection(thisVelocity.getDirection().PlusVector(deltaVA));
+
+        Vector2f deltaVB = impactVector.copy();
+        deltaVB = deltaVB.byScalar(-2 * (divisionResult)); // negative because other direction
+        otherVelocity.setDirection(otherVelocity.getDirection().PlusVector(deltaVB));
+
+
+        thisVelocity.setDirection(deltaVA);
+        otherVelocity.setDirection(deltaVB);
+
         
-        Vector2f deltaVelocity = positionDifference.byScalar(divisionResult);
-        Vector2f newVelocity = thisVelocity.getDirection().PlusVector(deltaVelocity).Normal();
-
-        return newVelocity;
-
 
     }
 

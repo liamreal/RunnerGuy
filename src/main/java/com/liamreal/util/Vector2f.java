@@ -30,6 +30,9 @@ public class Vector2f implements Comparable<Vector2f> {
 	public int compareX(Vector2f other) { return Double.compare(this.getX(), other.getX()); }
 	public int compareY(Vector2f other) { return Double.compare(this.getY(), other.getY()); }
 
+	// copy this vector into a new one
+	public Vector2f copy() { return new Vector2f(this.getX(), this.getY()); }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) { return false; }
