@@ -82,8 +82,12 @@ public class CollisionSystem {
         double numerator = velocityDifference.dot(positionDifference);
         double denominator = distance * distance;
         
+        double divisionResult;
+        // catch / 0 case if entities in same exact position
+        if (denominator == 0) { divisionResult = 0; }
+        else { divisionResult = numerator/denominator; }
         
-        Vector2f deltaVelocity = positionDifference.byScalar(numerator/denominator);
+        Vector2f deltaVelocity = positionDifference.byScalar(divisionResult);
         Vector2f newVelocity = thisVelocity.getDirection().PlusVector(deltaVelocity).Normal();
 
         return newVelocity;

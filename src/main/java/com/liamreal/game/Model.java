@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 public class Model { 
 	private final EntityManager entityManager = new EntityManager();
 	// easiest way to add background in its own collection for now
@@ -36,7 +38,6 @@ public class Model {
 		// collisionSystem.collide(this.getEntities());
 		// movementSystem.move(this.getEntities());
 		this.move(this.getEntities());
-
 
 
 		// return false if game not yet complete
@@ -66,6 +67,7 @@ public class Model {
 
 				}
 				Collider thisCollider = thisEntity.get(Collider.class);
+				System.out.println(String.format("entity %d collider at (%.2f, %.2f)", thisEntity.getId(), thisCollider.getPosition().getX(), thisCollider.getPosition().getY()));
 				thisCollider.setPosition(thisTransform.getPosition());
 			}
 			Vector2f displacement = movementSystem.move(thisEntity);
