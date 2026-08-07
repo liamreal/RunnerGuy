@@ -4,12 +4,15 @@ import javax.sound.sampled.Clip;
 import com.liamreal.assets.AssetConfig;
 import com.liamreal.assets.SoundPlayer;
 import com.liamreal.assets.TextureManager;
+import com.liamreal.components.physics.Transform;
 import com.liamreal.display.GameDisplay;
+import com.liamreal.ecs.Entity;
 import com.liamreal.factory.BackgroundFactory;
 import com.liamreal.factory.EnemyFactory;
 import com.liamreal.factory.PlayerFactory;
 import com.liamreal.view.Viewer;
 import com.liamreal.user.Config;
+import com.liamreal.util.Vector2f;
 
 public class GameLoop implements Runnable {
     private final Model world;
@@ -32,7 +35,10 @@ public class GameLoop implements Runnable {
         // background is also an entity
 		BackgroundFactory.createBackground(world.getBackgroundManager(), textureManager);
         this.createPlayers();
-		EnemyFactory.createBasicEnemy(world.getEntityManager(), textureManager);
+		Entity enemyOne = EnemyFactory.createBasicEnemy(world.getEntityManager(), textureManager);
+        enemyOne.get(Transform.class).setPosition(new Vector2f(GameDisplay.getDisplayX()/2, 0));
+		Entity enemyTwo = EnemyFactory.createBasicEnemy(world.getEntityManager(), textureManager);
+        enemyTwo.get(Transform.class).setPosition(new Vector2f(GameDisplay.getDisplayX()/2, GameDisplay.getDisplayY()-10));
     }
 
     // in future allow through a list of created controllers and dynamically go 1-4 players using player_%d.png string format for asset

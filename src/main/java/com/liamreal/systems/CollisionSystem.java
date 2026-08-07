@@ -38,10 +38,12 @@ public class CollisionSystem {
         Velocity otherVelocity = otherEntity.get(Velocity.class);
 
         Collider thisCollider = thisEntity.get(Collider.class);
-        Collider otherCollider = otherEntity.get(Collider.class);
-
         Vector2f thisPosition = thisTransform.getPosition();
+        Collider otherCollider = otherEntity.get(Collider.class);
         Vector2f otherPosition = otherTransform.getPosition();
+
+        thisCollider.updatePosition(thisPosition);
+        otherCollider.updatePosition(otherPosition);
 
         double distance = thisPosition.euclideanDistance(otherPosition);
 
@@ -55,9 +57,7 @@ public class CollisionSystem {
             System.out.println(otherNewVelocity);
             
             thisVelocity.setDirection(thisNewVelocity);
-            thisCollider.updatePosition(thisNewVelocity);
             otherVelocity.setDirection(otherNewVelocity);
-            otherCollider.updatePosition(otherNewVelocity);
         }
     }
 
