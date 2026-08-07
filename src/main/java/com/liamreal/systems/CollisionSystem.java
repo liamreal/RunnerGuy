@@ -31,7 +31,7 @@ public class CollisionSystem {
     }
 
     // collision between two entities
-    void collide(Entity thisEntity, Entity otherEntity) {
+    public Vector2f collide(Entity thisEntity, Entity otherEntity) {
         Transform thisTransform = thisEntity.get(Transform.class);
         Transform otherTransform = otherEntity.get(Transform.class);
         Velocity thisVelocity = thisEntity.get(Velocity.class);
@@ -50,19 +50,21 @@ public class CollisionSystem {
         if (distance <= thisCollider.getLength() + otherCollider.getLength()) {
             System.out.println(String.format("\n%d collided with %d: \n d = %.2f", thisEntity.getId(), otherEntity.getId(), distance));
 
-            Vector2f thisNewVelocity = this.calculateNewVelocity(thisEntity, otherEntity);
-            Vector2f otherNewVelocity = this.calculateNewVelocity(otherEntity, thisEntity);
+            Vector2f thisNewVelocityDirection = this.calculateNewVelocity(thisEntity, otherEntity);
+            return thisNewVelocityDirection;
+            // Vector2f otherNewVelocity = this.calculateNewVelocity(otherEntity, thisEntity);
             
-            thisVelocity.setDirection(thisNewVelocity);
-            otherVelocity.setDirection(otherNewVelocity);
-            // directly update movement here to account for MovementSystem reapplying later
-            Vector2f thisDisplacement = thisVelocity.calculateDisplacement();
-            Vector2f otherDisplacement = otherVelocity.calculateDisplacement();
-            // thisTransform.addDisplacement(thisDisplacement);
-            // thisCollider.setPosition(thisPosition);
-            // otherTransform.addDisplacement(otherDisplacement);
-            // otherCollider.setPosition(otherPosition);
+            // thisVelocity.setDirection(thisNewVelocity);
+            // otherVelocity.setDirection(otherNewVelocity);
+            // // directly update movement here to account for MovementSystem reapplying later
+            // Vector2f thisDisplacement = thisVelocity.calculateDisplacement();
+            // Vector2f otherDisplacement = otherVelocity.calculateDisplacement();
+            // // thisTransform.addDisplacement(thisDisplacement);
+            // // thisCollider.setPosition(thisPosition);
+            // // otherTransform.addDisplacement(otherDisplacement);
+            // // otherCollider.setPosition(otherPosition);
         }
+        return thisVelocity.getDirection();
     }
 
     // calculate and return new velocity for THIS object

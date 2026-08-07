@@ -1,11 +1,19 @@
 package com.liamreal.game;
 
+import com.liamreal.components.physics.Collider;
+import com.liamreal.components.physics.Transform;
+import com.liamreal.components.physics.Velocity;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
 import com.liamreal.systems.MovementSystem;
+import com.liamreal.util.Vector2f;
 import com.liamreal.systems.CollisionSystem;
 import com.liamreal.systems.InputSystem;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Model { 
 	private final EntityManager entityManager = new EntityManager();
@@ -23,13 +31,47 @@ public class Model {
 	public boolean update() 
 	{
 		inputSystem.update(this.getEntities());
-		collisionSystem.collide(this.getEntities());
-		movementSystem.move(this.getEntities());
+
+
+		// collisionSystem.collide(this.getEntities());
+		// movementSystem.move(this.getEntities());
+		this.move(this.getEntities());
 
 
 
 		// return false if game not yet complete
 		return false;
+	}
+
+	private void move(Collection<Entity> entities) {
+		List<Entity> moveableEntities = new ArrayList<>(entities).stream().filter(entity -> MovementSystem.hasRequiredComponents(entity)).collect(Collectors.toList());
+
+		
+        for (int i = 0; i < moveableEntities.size() - 1; i++) {
+            Entity thisEntity = moveableEntities.get(i);
+			Transform thisTransform = thisEntity.get(Transform.class);
+
+			if (thisEntity.has(Collider.class)) {
+				// then look at others can collide with
+				for (int j = i + 1; j < moveableEntities.size(); j++) {
+					// jth entity which ith collides with
+					Entity otherEntity = moveableEntities.get(j);
+
+					if (!otherEntity.has(Collider.class)) { continue; }
+
+
+
+					Vector2f newDirection = collisionSystem.collide(thisEntity, otherEntity);
+					thisEntity.get(Velocity.class).setDirection(newDirection);
+
+				}
+				Collider thisCollider = thisEntity.get(Collider.class);
+				thisCollider.setPosition(thisTransform.getPosition());
+			}
+			Vector2f displacement = movementSystem.move(thisEntity);
+			thisTransform.addDisplacement(displacement);
+        }
+		
 	}
 
 	public EntityManager getEntityManager() { return this.entityManager; }
