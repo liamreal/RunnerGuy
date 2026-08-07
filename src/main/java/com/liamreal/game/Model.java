@@ -23,9 +23,9 @@ public class Model {
 	public boolean update() 
 	{
 		inputSystem.update(this.getEntities());
+		collisionSystem.collide(this.getEntities());
 		movementSystem.move(this.getEntities());
 
-		collisionSystem.collide(getEntities());
 
 
 		// return false if game not yet complete

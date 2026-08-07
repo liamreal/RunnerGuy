@@ -31,7 +31,7 @@ public class CollisionSystem {
     }
 
     // collision between two entities
-    private void collide(Entity thisEntity, Entity otherEntity) {
+    void collide(Entity thisEntity, Entity otherEntity) {
         Transform thisTransform = thisEntity.get(Transform.class);
         Transform otherTransform = otherEntity.get(Transform.class);
         Velocity thisVelocity = thisEntity.get(Velocity.class);
@@ -45,13 +45,42 @@ public class CollisionSystem {
 
         double distance = thisPosition.euclideanDistance(otherPosition);
 
-        if (distance <= thisCollider.getLength() + otherCollider.getLength()) {
+        if (distance < thisCollider.getLength() + otherCollider.getLength()) {
             System.out.println(String.format("\n%d collided with %d: \n d = %.2f", thisEntity.getId(), otherEntity.getId(), distance));
-        }
 
-        // thisCollider.updatePosition(thisTransform.getPosition());
-        // otherCollider.updatePosition(otherTransform.getPosition());
+            Vector2f thisNewVelocity = this.calculateNewVelocity(thisEntity, otherEntity);
+            Vector2f otherNewVelocity = this.calculateNewVelocity(otherEntity, thisEntity);
+
+            System.out.println(thisNewVelocity);
+            System.out.println(otherNewVelocity);
+            
+            thisVelocity.setDirection(thisNewVelocity);
+            thisCollider.updatePosition(thisNewVelocity);
+            otherVelocity.setDirection(otherNewVelocity);
+            otherCollider.updatePosition(otherNewVelocity);
+        }
+    }
+
+    // calculate and return new velocity for THIS object
+    Vector2f calculateNewVelocity(Entity thisEntity, Entity otherEntity) {
+        Velocity thisVelocity = thisEntity.get(Velocity.class);
+        Velocity otherVelocity = otherEntity.get(Velocity.class);
+        Vector2f thisPosition = thisEntity.get(Transform.class).getPosition();
+        Vector2f otherPosition = otherEntity.get(Transform.class).getPosition();
+
+        double distance = thisPosition.euclideanDistance(otherPosition);
+        Vector2f velocityDifference = otherVelocity.getDirection().MinusVector(thisVelocity.getDirection());
+        Vector2f positionDifference = thisPosition.MinusVector(otherPosition);
+
         
+        double numerator = velocityDifference.dot(positionDifference);
+        double denominator = distance * distance;
+        
+        
+        Vector2f deltaVelocity = positionDifference.byScalar(numerator/denominator);
+        Vector2f newVelocity = thisVelocity.getDirection().PlusVector(deltaVelocity);
+
+        return newVelocity;
 
 
     }
