@@ -89,13 +89,18 @@ public class CollisionSystem {
 
         Velocity thisVelocity = thisEntity.get(Velocity.class);
         Velocity otherVelocity = otherEntity.get(Velocity.class);
-        thisVelocity.setDirection(thisVelocity.getDirection().Normal());
-        otherVelocity.setDirection(otherVelocity.getDirection().Normal());
         Vector2f velocityDifference = otherVelocity.getDirection().MinusVector(thisVelocity.getDirection());
 
+        // this means stuck so fallback code to get unstuck moves them in opposite directions
+        if (velocityDifference.length() == 0) {
+            thisTransform.setPosition(thisTransform.getPosition().PlusVector((new Vector2f(1, 1)).byScalar(1.5)));
+            otherTransform.setPosition(otherTransform.getPosition().PlusVector((new Vector2f(-1, -1)).byScalar(1.5)));
+            return;
+        }
 
 
-        double numerator = Math.min(Math.max(velocityDifference.dot(impactVector), distance/2), distance*distance); // lower/upper limits
+
+        double numerator = Math.min(Math.max(velocityDifference.dot(impactVector), distance*2), distance*distance); // lower/upper limits
         double denominator = distance * distance;
         
 
@@ -104,18 +109,18 @@ public class CollisionSystem {
         // catch / 0 case if entities in same exact position
         if (denominator == 0) { divisionResult = 0; }
         else {
-            // System.out.println(String.format("(%.2f, %.2f)", velocityDifference.getX(), velocityDifference.getY()));
-            // System.out.println(String.format("(%.2f, %.2f)", otherVelocity.getDirection().getX(), otherVelocity.getDirection().getY()));
-            // System.out.println(String.format("(%.2f, %.2f)", thisVelocity.getDirection().getX(), thisVelocity.getDirection().getY()));
-            // System.out.println(String.format("%.2f / %.2f", numerator, denominator));
+            System.out.println(String.format("(%.2f, %.2f)", velocityDifference.getX(), velocityDifference.getY()));
+            System.out.println(String.format("(%.2f, %.2f)", otherVelocity.getDirection().getX(), otherVelocity.getDirection().getY()));
+            System.out.println(String.format("(%.2f, %.2f)", thisVelocity.getDirection().getX(), thisVelocity.getDirection().getY()));
+            System.out.println(String.format("%.2f / %.2f", numerator, denominator));
             divisionResult = numerator/denominator; 
         }
         deltaVA = deltaVA.byScalar(2 * (divisionResult));
-        thisVelocity.setDirection(thisVelocity.getDirection().PlusVector(deltaVA));
+        // thisVelocity.setDirection(thisVelocity.getDirection().PlusVector(deltaVA));
 
         Vector2f deltaVB = impactVector.copy();
         deltaVB = deltaVB.byScalar(-2 * (divisionResult)); // negative because other direction
-        otherVelocity.setDirection(otherVelocity.getDirection().PlusVector(deltaVB));
+        // otherVelocity.setDirection(otherVelocity.getDirection().PlusVector(deltaVB));
 
 
         thisVelocity.setDirection(deltaVA);
