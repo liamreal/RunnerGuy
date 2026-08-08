@@ -11,26 +11,27 @@ import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
 
 public class MovementSystem {
-    public void move(Collection<Entity> entities) {
-        // render each entity
-        for(Entity entity : entities) {
-            // if has transform (position) and sprite renderer, render sprite (where the position is)
-            if(entity.has(Transform.class) &&
-               entity.has(Velocity.class)) {
+    public void move(Collection<Entity> entities, CollisionSystem collisionSystem) {
+		// only iterate through applicable entities
+		List<Entity> moveableEntities = MovementSystem.filterMovableEntities(entities);
 
-                Transform transform =
-                    entity.get(Transform.class);
-                Velocity velocity =
-                    entity.get(Velocity.class);
+		// select each entity and check collisions if it has a collider
+        for (int entityIndex = 0; entityIndex < moveableEntities.size(); entityIndex++) {
+			Entity thisEntity = moveableEntities.get(entityIndex);
+			Transform thisTransform = thisEntity.get(Transform.class);
 
-                // displace position by calculated vector displacement
-                transform.addDisplacement(velocity.calculateDisplacement());
-            }
+            // if want collisions
+            if (collisionSystem != null) { collisionSystem.checkCollisions(moveableEntities, entityIndex); }
+
+			Vector2f displacement = this.displace(thisEntity);
+			thisTransform.addDisplacement(displacement);
         }
     }
-    public Vector2f move(Entity entity) {
-        // throw error if trying to move Entity lacking properties to move
-        if (!MovementSystem.hasRequiredComponents(entity)) { throw new RuntimeException("Entity does not have required movement components"); }
+
+    // if you want to ignore collisions, system will be nullified
+    public void move(Collection<Entity> entities) { this.move(entities, null); }
+
+    private Vector2f displace(Entity entity) {
         Velocity velocity =
             entity.get(Velocity.class);
 

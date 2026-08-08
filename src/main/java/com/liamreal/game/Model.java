@@ -1,15 +1,11 @@
 package com.liamreal.game;
 
-import com.liamreal.components.physics.Collider;
-import com.liamreal.components.physics.Transform;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
 import com.liamreal.systems.MovementSystem;
-import com.liamreal.util.Vector2f;
 import com.liamreal.systems.CollisionSystem;
 import com.liamreal.systems.InputSystem;
 import java.util.Collection;
-import java.util.List;
 
 
 public class Model { 
@@ -27,34 +23,11 @@ public class Model {
 	public boolean update() 
 	{
 		inputSystem.update(this.getEntities());
-		this.move(this.getEntities());
+		movementSystem.move(this.getEntities(), collisionSystem); // move with respect to collision system
 
 
 		return false;
 	}
-
-	private void move(Collection<Entity> entities) {
-		// only iterate through applicable entities
-		List<Entity> moveableEntities = MovementSystem.filterMovableEntities(entities);
-
-		// select each entity and check collisions if it has a collider
-        for (int entityIndex = 0; entityIndex < moveableEntities.size(); entityIndex++) {
-			Entity thisEntity = moveableEntities.get(entityIndex);
-			Transform thisTransform = thisEntity.get(Transform.class);
-
-			collisionSystem.checkCollisions(moveableEntities, entityIndex);
-
-			Vector2f displacement = movementSystem.move(thisEntity);
-			thisTransform.addDisplacement(displacement);
-
-			if (thisEntity.has(Collider.class)) {
-				Collider thisCollider = thisEntity.get(Collider.class);
-				thisCollider.setPosition(thisTransform.getPosition());
-			}
-        }
-		
-	}
-
 
 	public EntityManager getEntityManager() { return this.entityManager; }
 	public EntityManager getBackgroundManager() { return this.backgroundManager; }
