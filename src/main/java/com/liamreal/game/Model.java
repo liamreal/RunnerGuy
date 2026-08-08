@@ -8,11 +8,8 @@ import com.liamreal.systems.MovementSystem;
 import com.liamreal.util.Vector2f;
 import com.liamreal.systems.CollisionSystem;
 import com.liamreal.systems.InputSystem;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class Model { 
@@ -37,13 +34,15 @@ public class Model {
 	}
 
 	private void move(Collection<Entity> entities) {
-		List<Entity> moveableEntities = new ArrayList<>(entities).stream().filter(entity -> MovementSystem.hasRequiredComponents(entity)).collect(Collectors.toList());
+		// only iterate through applicable entities
+		List<Entity> moveableEntities = MovementSystem.filterMovableEntities(entities);
 
-        for (int i = 0; i < moveableEntities.size(); i++) {
-			Entity thisEntity = moveableEntities.get(i);
+		// select each entity and check collisions if it has a collider
+        for (int entityIndex = 0; entityIndex < moveableEntities.size(); entityIndex++) {
+			Entity thisEntity = moveableEntities.get(entityIndex);
 			Transform thisTransform = thisEntity.get(Transform.class);
 
-			this.checkCollisions(moveableEntities, i);
+			collisionSystem.checkCollisions(moveableEntities, entityIndex);
 
 			Vector2f displacement = movementSystem.move(thisEntity);
 			thisTransform.addDisplacement(displacement);
@@ -56,22 +55,6 @@ public class Model {
 		
 	}
 
-	private void checkCollisions(List<Entity> entities, int entityIndex) {
-		Entity thisEntity = entities.get(entityIndex);
-		// if no collider, exit
-		if (!thisEntity.has(Collider.class)) { return; }
-		// then look at others can collide with
-		for (int j = entityIndex + 1; j < entities.size(); j++) {
-			Entity otherEntity = entities.get(j);
-			// if same entity skip
-			if (thisEntity.equals(otherEntity)) { continue; }
-			// skip if no collider
-			if (!otherEntity.has(Collider.class)) { continue; }
-
-			// adjust both entity directions
-			collisionSystem.collide(thisEntity, otherEntity);
-		}
-	}
 
 	public EntityManager getEntityManager() { return this.entityManager; }
 	public EntityManager getBackgroundManager() { return this.backgroundManager; }

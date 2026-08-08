@@ -1,6 +1,10 @@
 package com.liamreal.systems;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.liamreal.ecs.Entity;
 import com.liamreal.util.Vector2f;
 import com.liamreal.components.physics.Transform;
@@ -38,4 +42,8 @@ public class MovementSystem {
 	public static boolean hasRequiredComponents(Entity entity) {
 		return entity.has(Transform.class) && entity.has(Velocity.class);
 	}
+
+    public static List<Entity> filterMovableEntities(Collection<Entity> entities) {
+        return new ArrayList<>(entities).stream().filter(entity -> MovementSystem.hasRequiredComponents(entity)).collect(Collectors.toList());
+    }
 }
