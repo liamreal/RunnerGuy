@@ -76,7 +76,7 @@ public class CollisionSystem {
         Vector2f velocityDifference = otherVelocity.getDirection().MinusVector(thisVelocity.getDirection());
 
         // this means stuck so fallback code to get unstuck moves them in opposite directions
-        if (velocityDifference.length() == 0) {
+        if (velocityDifference.length() <= 0.1) {
             thisTransform.setPosition(thisTransform.getPosition().PlusVector((new Vector2f(1, 1)).byScalar(1.5)));
             otherTransform.setPosition(otherTransform.getPosition().PlusVector((new Vector2f(-1, -1)).byScalar(1.5)));
             return;
@@ -94,6 +94,7 @@ public class CollisionSystem {
         // catch / 0 case if entities in same exact position
         if (denominator == 0) { divisionResult = 0; }
         else { divisionResult = numerator/denominator; }
+        // System.out.println(String.format("%.2f / %.2f = %.2f", numerator, denominator, divisionResult));
         deltaVA = deltaVA.byScalar(2 * (divisionResult));
 
         Vector2f deltaVB = impactVector.copy();
@@ -101,8 +102,8 @@ public class CollisionSystem {
 
 
         // update both this and other as they interacted with each other
-        thisVelocity.setDirection(deltaVA);
-        otherVelocity.setDirection(deltaVB);
+        thisVelocity.setDirection(thisVelocity.getDirection().PlusVector(deltaVA));
+        otherVelocity.setDirection(otherVelocity.getDirection().PlusVector(deltaVB));
     }
 
 
