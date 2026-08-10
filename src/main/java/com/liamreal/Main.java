@@ -17,8 +17,19 @@ public class Main {
 	private final Model world;
 	private final Viewer canvas;
 	private final GameLoop gameLoop;
-	public static final Controller playerOneController = ControllerFactory.createPlayerOneController();
-	public static final Controller playerTwoController = ControllerFactory.createPlayerTwoController();
+	public static final Controller playerOneController;
+	public static final Controller playerTwoController;
+
+	// to catch surpressed errors by static initialisation
+	static {
+		try {
+			playerOneController = ControllerFactory.createPlayerOneController();
+			playerTwoController = ControllerFactory.createPlayerTwoController();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 	  
 	public Main() {
 		// create instances of game objects

@@ -44,15 +44,14 @@ public class Controller {
 	}
 
 	// ensure key controls have all valid values and no missing controls
-	private void verifyKeyBindings(Map<Integer, String> keyControls) {
+	void verifyKeyBindings(Map<Integer, String> keyControls) {
 		// have to pass in valid map of keys
 		if (keyControls == null) { throw new RuntimeException("Key bindings cannot be null!"); }
 		Set<String> createdControls = new HashSet<>(keyControls.values());
+
 		// check that exactly all controls are assigned
 		if (!createdControls.equals(AVAILABLE_CONTROLS)) {
-			throw new RuntimeException(
-				"One or more controls have not been assigned! Ensure all controls are assigned exactly once!"
-			);
+			throw new RuntimeException("One or more controls have not been assigned! Ensure all controls are assigned exactly once!");
 		}
 	}
 
