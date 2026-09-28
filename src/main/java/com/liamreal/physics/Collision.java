@@ -1,5 +1,9 @@
 package com.liamreal.physics;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.liamreal.components.physics.Collider;
 import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
@@ -49,8 +53,24 @@ public class Collision {
         otherCollider.setPosition(otherPosition);
     }
 
+    // for comparing if 2 collisions objects same, just compare entity ids
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj.getClass() != this.getClass()) { return false; }
+        Collision other = (Collision) obj;
+        // make list for each collision containing the two colliding entities
+        List<Integer> thisCollisionEntities = new ArrayList<>(List.of(this.thisEntity.getId(), this.otherEntity.getId()));
+        List<Integer> otherCollisionEntities = new ArrayList<>(List.of(other.thisEntity.getId(), other.otherEntity.getId()));
+        // sort so order doesnt matter (i.e. this vs other == other vs this)
+        Collections.sort(thisCollisionEntities);
+        Collections.sort(otherCollisionEntities);
+        // if both collisions have both of same entities, in any order, they are same collision
+        return thisCollisionEntities.equals(otherCollisionEntities);
+    }
+    
 
-    public void check() {
+    public boolean check() {
         Vector2f impactVector = thisPosition.MinusVector(otherPosition);
         double distance = impactVector.length();
 
@@ -59,16 +79,17 @@ public class Collision {
         if (distance <= sumLengths) {
             double overlap = distance - sumLengths;
             this.resolve(impactVector, overlap, sumLengths);
+            // objects collided so true
+            return true;
         }
+        // did not collide so false
+        return false;
     }
 
     // calculate new velocities for two entities using overlap between each other and impact vector
     void resolve(Vector2f impactVector, double overlap, double sumLengths) {
         // separate the entities
         this.separateEntities(impactVector, overlap);
-
-        // normalise the impact vector and magnify by the sum of lengths
-        this.magnifyImpact(impactVector, sumLengths);
 
         // get difference in velocity between the two colliding entities
         Vector2f velocityDifference = this.calculateVelocityDifference();
@@ -90,10 +111,6 @@ public class Collision {
         Vector2f direction = impactVector.Normal().byScalar(overlap * 0.5);
         thisTransform.setPosition(thisPosition.PlusVector(direction));
         otherTransform.setPosition(otherPosition.MinusVector(direction));
-    }
-
-    private void magnifyImpact(Vector2f impactVector, double sumLengths) {
-        impactVector = impactVector.Normal().byScalar(sumLengths);
     }
 
     private Vector2f calculateVelocityDifference() {

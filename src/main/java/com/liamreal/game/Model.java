@@ -22,6 +22,7 @@ public class Model {
 	// This is the heart of the game , where the model takes in all the inputs ,decides the outcomes and then changes the model accordingly. 
 	public boolean update() 
 	{
+		collisionSystem.clearCurrentCollisions(); // reset collisions every update
 		inputSystem.update(this.getEntities());
 		movementSystem.move(this.getEntities(), collisionSystem); // move with respect to collision system
 
