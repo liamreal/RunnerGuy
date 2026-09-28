@@ -33,7 +33,7 @@ public class CollisionTest {
         return entity;
     }
 
-    // shorter one for where values dont matter
+    // shorter one for where component fields dont matter
     private Entity createEntity(
             int id
         ) {
