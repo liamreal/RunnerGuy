@@ -23,9 +23,10 @@ public class Model {
 	public boolean update() 
 	{
 		collisionSystem.clearCurrentCollisions(); // reset collisions every update
-		inputSystem.update(this.getEntities());
-		movementSystem.move(this.getEntities(), collisionSystem); // move with respect to collision system
+		inputSystem.update(this.getEntities()); // for controllable entities
+		movementSystem.move(this.getEntities(), collisionSystem); // move w.r.t collisions (put null as collisionSystem arg to ignore collisions)
 
+		System.out.println(collisionSystem.getCurrentCollisionsAsList()); // can use collisions for rest of systems
 
 		return false;
 	}

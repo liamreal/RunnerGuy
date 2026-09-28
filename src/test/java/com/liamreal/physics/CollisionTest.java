@@ -4,10 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 
 import com.liamreal.components.physics.Collider;

@@ -26,10 +26,6 @@ public class MovementSystem {
 			Vector2f displacement = this.displace(thisEntity);
 			thisTransform.addDisplacement(displacement);
         }
-        
-        if (collisionSystem != null) { 
-            System.out.println(collisionSystem.getCurrentCollisions().toString()); 
-        }
     }
 
     // if you want to ignore collisions, system will be nullified

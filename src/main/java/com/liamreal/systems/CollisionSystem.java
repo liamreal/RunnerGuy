@@ -1,5 +1,6 @@
 package com.liamreal.systems;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,19 +19,14 @@ public class CollisionSystem {
 	}
 
 	// clear current collisions
-	public void clearCurrentCollisions() {
-		this.currentCollisions.clear();
-	}
+	public void clearCurrentCollisions() { this.currentCollisions.clear(); }
 
-	// get current collisions
-	public Set<Collision> getCurrentCollisions() {
-		return this.currentCollisions;
-	}
+	// getters for current collisions
+	public Set<Collision> getCurrentCollisions() { return this.currentCollisions; }
+	public List<Collision> getCurrentCollisionsAsList() { return new ArrayList<>(this.getCurrentCollisions()); }
 
 	// add a collision to current collisions
-	public void addCurrentCollision(Collision collision) {
-		this.currentCollisions.add(collision);
-	}
+	public void addCurrentCollision(Collision collision) { this.currentCollisions.add(collision); }
 
     // collision between two entities
     public void collide(Entity thisEntity, Entity otherEntity) {
