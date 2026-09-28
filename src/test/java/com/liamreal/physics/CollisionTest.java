@@ -19,25 +19,27 @@ public class CollisionTest {
     private Entity createEntity(
             int id,
             Vector2f position,
-            Vector2f velocity,
+            double speed,
             double colliderLength
         ) {
 
         Entity entity = new Entity(id);
-
-        Transform transform = new Transform(new Vector2f());
-        transform.setPosition(position);
-
-        Velocity velocityComponent = new Velocity(0);
-        velocityComponent.setDirection(velocity);
-
-        Collider collider = new Collider(new Circle(new Vector2f(), colliderLength));
+        Transform transform = new Transform(position);
+        Velocity velocity = new Velocity(0);
+        Collider collider = new Collider(new Circle(position, colliderLength));
 
         entity.add(transform);
-        entity.add(velocityComponent);
+        entity.add(velocity);
         entity.add(collider);
 
         return entity;
+    }
+
+    // shorter one for where values dont matter
+    private Entity createEntity(
+            int id
+        ) {
+        return this.createEntity(id, new Vector2f(), 0, 0);
     }
 
     // ===============================
@@ -46,17 +48,13 @@ public class CollisionTest {
 
     @Test
     void hasRequiredComponents_returnsTrueWhenAllComponentsExist() {
-        Entity entity = new Entity(2);
-        entity.add(new Transform(0, 0));
-        entity.add(new Velocity(0));
-        entity.add(new Collider(new Circle(new Vector2f(0, 0), 0)));
+        Entity entity = this.createEntity(1);
         assertTrue(Collision.hasRequiredComponents(entity));
     }
 
     @Test
     void hasRequiredComponents_returnsFalseWhenTransformMissing() {
         Entity entity = new Entity(1);
-
         entity.add(new Velocity(0));
         entity.add(new Collider(new Circle(new Vector2f(), 0)));
 
@@ -66,12 +64,11 @@ public class CollisionTest {
     @Test
     void hasRequiredComponents_returnsFalseWhenVelocityMissing() {
         Entity entity = new Entity(1);
-
         Transform transform = new Transform(new Vector2f());
         transform.setPosition(new Vector2f(0, 0));
 
         entity.add(transform);
-        entity.add(new Collider(new Circle(new Vector2f(), 0)));
+        entity.add(new Collider(new Circle(new Vector2f(), 1)));
 
         assertFalse(Collision.hasRequiredComponents(entity));
     }
@@ -79,7 +76,6 @@ public class CollisionTest {
     @Test
     void hasRequiredComponents_returnsFalseWhenColliderMissing() {
         Entity entity = new Entity(1);
-
         Transform transform = new Transform(new Vector2f());
         transform.setPosition(new Vector2f(0, 0));
 
@@ -97,14 +93,8 @@ public class CollisionTest {
 
     @Test
     void constructor_storesEntities() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -114,14 +104,8 @@ public class CollisionTest {
 
     @Test
     void constructor_getsRequiredComponents() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -160,10 +144,7 @@ public class CollisionTest {
     @Test
     void constructor_throwsWhenThisEntityIsMissingComponents() {
         Entity entityOne = new Entity(1);
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
@@ -177,10 +158,7 @@ public class CollisionTest {
 
     @Test
     void constructor_throwsWhenOtherEntityIsMissingComponents() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = new Entity(2);
 
         RuntimeException exception = assertThrows(
@@ -202,14 +180,8 @@ public class CollisionTest {
 
     @Test
     void equals_returnsFalseForNull() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -218,14 +190,8 @@ public class CollisionTest {
 
     @Test
     void equals_returnsFalseForDifferentClass() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -234,14 +200,8 @@ public class CollisionTest {
 
     @Test
     public void equals_returnsTrueForSameEntityPair() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
         Collision collisionOne = new Collision(entityOne, entityTwo);
         Collision collisionTwo = new Collision(entityOne, entityTwo);
         assertEquals(collisionOne, collisionTwo);
@@ -250,14 +210,8 @@ public class CollisionTest {
 
     @Test
     public void equals_returnsTrueWhenEntitiesAreDifferentOrder() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
         Collision collisionOne = new Collision(entityOne, entityTwo);
         Collision collisionTwo = new Collision(entityTwo, entityOne);
         assertEquals(collisionOne, collisionTwo);
@@ -266,18 +220,9 @@ public class CollisionTest {
 
     @Test
     void equals_returnsFalseForDifferentEntityPair() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
-        Entity entityThree = new Entity(3);
-        entityThree.add(new Transform(100, 100));
-        entityThree.add(new Velocity(2));
-        entityThree.add(new Collider(new Circle(new Vector2f(100, 100), 1)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
+        Entity entityThree = this.createEntity(3, new Vector2f(100, 100), 2, 1);
 
         Collision collisionOne = new Collision(entityOne, entityTwo);
         Collision collisionTwo = new Collision(entityOne, entityThree);
@@ -292,14 +237,8 @@ public class CollisionTest {
 
     @Test
     void check_returnsFalseWhenEntitiesAreFarApart() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(34, 34));
-        entityTwo.add(new Velocity(5));
-        entityTwo.add(new Collider(new Circle(new Vector2f(34, 34), 2)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -308,14 +247,8 @@ public class CollisionTest {
 
     @Test
     void check_returnsTrueWhenEntitiesOverlap() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(50, 60));
-        entityOne.add(new Velocity(20));
-        entityOne.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(50, 60));
-        entityTwo.add(new Velocity(20));
-        entityTwo.add(new Collider(new Circle(new Vector2f(50, 60), 5)));
+        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(50, 60), 20, 5);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -324,14 +257,8 @@ public class CollisionTest {
 
     @Test
     void check_returnsTrueWhenEntitiesAreExactlyTouching() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(0, 0));
-        entityOne.add(new Velocity(0));
-        entityOne.add(new Collider(new Circle(new Vector2f(0, 0), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(10, 0));
-        entityTwo.add(new Velocity(0));
-        entityTwo.add(new Collider(new Circle(new Vector2f(10, 0), 5)));
+        Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(10, 0), 0, 5);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -340,14 +267,8 @@ public class CollisionTest {
 
     @Test
     void check_returnsFalseWhenEntitiesAreJustOutsideCollisionDistance() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(0, 0));
-        entityOne.add(new Velocity(0));
-        entityOne.add(new Collider(new Circle(new Vector2f(0, 0), 5)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(11, 0));
-        entityTwo.add(new Velocity(0));
-        entityTwo.add(new Collider(new Circle(new Vector2f(11, 0), 5)));
+        Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 5);
+        Entity entityTwo = this.createEntity(2, new Vector2f(11, 0), 0, 5);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -361,14 +282,8 @@ public class CollisionTest {
 
     @Test
     void resolve_forceSeparatesEntitiesWhenVelocityDifferenceIsSmall() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(0, 0));
-        entityOne.add(new Velocity(0));
-        entityOne.add(new Collider(new Circle(new Vector2f(0, 0), 1)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(1, 0));
-        entityTwo.add(new Velocity(0));
-        entityTwo.add(new Collider(new Circle(new Vector2f(0, 0), 1)));
+        Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 1);
+        Entity entityTwo = this.createEntity(2, new Vector2f(1, 0), 0, 1);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -394,14 +309,8 @@ public class CollisionTest {
 
     @Test
     void check_handlesZeroVelocityEntities() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(0, 0));
-        entityOne.add(new Velocity(0));
-        entityOne.add(new Collider(new Circle(new Vector2f(0, 0), 1)));
-        Entity entityTwo = new Entity(2);
-        entityTwo.add(new Transform(1, 0));
-        entityTwo.add(new Velocity(0));
-        entityTwo.add(new Collider(new Circle(new Vector2f(0, 0), 1)));
+        Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 1);
+        Entity entityTwo = this.createEntity(2, new Vector2f(1, 0), 0, 1);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
@@ -411,14 +320,8 @@ public class CollisionTest {
 
     @Test
     void check_handlesEntitiesAtSamePosition() {
-        Entity entityOne = new Entity(1);
-        entityOne.add(new Transform(0, 0));
-        entityOne.add(new Velocity(0));
-        entityOne.add(new Collider(new Circle(new Vector2f(0, 0), 1)));
-        Entity entityTwo = new Entity(1);
-        entityTwo.add(new Transform(0, 0));
-        entityTwo.add(new Velocity(0));
-        entityTwo.add(new Collider(new Circle(new Vector2f(0, 0), 1)));
+        Entity entityOne = this.createEntity(1);
+        Entity entityTwo = this.createEntity(2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
