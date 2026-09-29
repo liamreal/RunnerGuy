@@ -59,11 +59,6 @@ class CollisionSystemTest {
         system.addCurrentCollision(collisionOne);
         system.addCurrentCollision(collisionTwo);
 
-        System.out.println(collisionOne.equals(collisionTwo));
-        System.out.println(collisionOne);
-        System.out.println(collisionTwo);
-        System.out.println(system.getCurrentCollisions());
-
         assertEquals(1, system.getCurrentCollisions().size());
     }
 
