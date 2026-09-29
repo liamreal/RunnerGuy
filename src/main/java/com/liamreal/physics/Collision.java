@@ -36,6 +36,9 @@ public class Collision {
         this.setColliderPositions();
     }
 
+    public Entity getThisEntity() { return this.thisEntity; }
+    public Entity getOtherEntity() { return this.otherEntity; }
+
     // get required components
     private void getRequiredComponents() {
         thisTransform = thisEntity.get(Transform.class);
@@ -60,8 +63,8 @@ public class Collision {
         if (obj.getClass() != this.getClass()) { return false; }
         Collision other = (Collision) obj;
         // make list for each collision containing the two colliding entities
-        List<Integer> thisCollisionEntities = new ArrayList<>(List.of(this.thisEntity.getId(), this.otherEntity.getId()));
-        List<Integer> otherCollisionEntities = new ArrayList<>(List.of(other.thisEntity.getId(), other.otherEntity.getId()));
+        List<Integer> thisCollisionEntities = new ArrayList<>(List.of(this.getThisEntity().getId(), this.getOtherEntity().getId()));
+        List<Integer> otherCollisionEntities = new ArrayList<>(List.of(other.getThisEntity().getId(), other.getOtherEntity().getId()));
         // sort so order doesnt matter (i.e. this vs other == other vs this)
         Collections.sort(thisCollisionEntities);
         Collections.sort(otherCollisionEntities);

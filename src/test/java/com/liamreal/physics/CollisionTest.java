@@ -40,6 +40,19 @@ public class CollisionTest {
         return this.createEntity(id, new Vector2f(), 0, 0);
     }
 
+    // ==============================
+    // ======= entity getters =======
+    // ==============================
+
+    @Test
+    void getters_returnCorrectEntities() {
+        Entity thisEntity = this.createEntity(1);
+        Entity otherEntity = this.createEntity(2);
+        Collision collision = new Collision(thisEntity, otherEntity);
+        assertEquals(thisEntity, collision.getThisEntity());
+        assertEquals(otherEntity, collision.getOtherEntity());
+    }
+
     // ===============================
     // === hasRequiredComponents() ===
     // ===============================
