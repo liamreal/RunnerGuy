@@ -32,7 +32,7 @@ public class Model {
 		combatSystem.update(collisionSystem.getCurrentCollisions());
 
 		// System.out.println(collisionSystem.getCurrentCollisionsAsList()); // can use collisions for rest of systems
-		// System.out.println(this.entityManager.getEntity(1).get(Health.class).getHealth());
+		System.out.println(this.entityManager.getEntity(0).get(Health.class).getHealth()); // for player one!!!
 
 		return false;
 	}

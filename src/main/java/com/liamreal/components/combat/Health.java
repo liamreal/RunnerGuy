@@ -21,7 +21,7 @@ public class Health implements Component {
     // -- health methods --
     // --------------------
     
-    public void damage(int damage) { this.health -= damage; }
+    public void damage(int damage) { this.health = Math.max(this.health - damage, 0); }
     // cannot exceed max health
     public void heal(int healing) { this.health = Math.min(this.health + healing, this.maxHealth); }
 }
