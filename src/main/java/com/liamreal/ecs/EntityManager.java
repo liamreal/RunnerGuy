@@ -18,6 +18,11 @@ public class EntityManager {
         return this.entityMap;
     }
 
+    // getter for particular entity
+    public Entity getEntity(Integer entityId) {
+        return this.getEntityMap().get(entityId);
+    }
+
     // get number of entities
     public int getEntityCount() {
         return entityMap.size();

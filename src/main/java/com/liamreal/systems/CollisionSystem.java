@@ -31,7 +31,7 @@ public class CollisionSystem {
     // collision between two entities
     public void collide(Entity thisEntity, Entity otherEntity) {
         Collision collision = new Collision(thisEntity, otherEntity);
-		// add to collisions if check for collision is true
+		// add to collisions if check for collision is true (otherwise dont add as they did not collide)
         if (collision.check()){ this.addCurrentCollision(collision); }
     }
 

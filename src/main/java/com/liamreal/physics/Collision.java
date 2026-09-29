@@ -56,6 +56,16 @@ public class Collision {
         otherCollider.setPosition(otherPosition);
     }
 
+    // for set usage, otherwise treats Collision(1, 2) same as Collision(2, 1)
+    @Override
+    public int hashCode() {
+        int id1 = this.getThisEntity().getId();
+        int id2 = this.getOtherEntity().getId();
+
+        // order-independent hash (using addition), by chatgpt
+        return Integer.hashCode(id1) + Integer.hashCode(id2);
+    }
+
     // for comparing if 2 collisions objects same, just compare entity ids
     @Override
     public boolean equals(Object obj) {
@@ -155,5 +165,10 @@ public class Collision {
             return false;
         }
         return true;
+    }
+
+    public String toString() {
+        // collision of this entity id with other entity id
+        return String.format("Collision(%d, %d)", this.getThisEntity().getId(), this.getOtherEntity().getId());
     }
 }
