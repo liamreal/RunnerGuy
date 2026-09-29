@@ -11,6 +11,7 @@ import com.liamreal.components.physics.Collider;
 import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
 import com.liamreal.components.user.Controllable;
+import com.liamreal.components.combat.Health;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
@@ -38,7 +39,12 @@ public class PlayerFactory {
         ));
         // add controls based on pre-determined player one controls
         player.add(new Controllable(controller));
+
+        // collider for collision checking
         player.add(new Collider(new Circle(player.get(Transform.class).getPosition(), PlayerFactory.calculatePlayerColliderLength())));
+        
+        // health for combat
+        player.add(new Health(config.getPlayerHealth()));
         return player;
     }
 

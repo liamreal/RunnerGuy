@@ -6,6 +6,8 @@ import com.liamreal.components.graphics.SpriteRenderer;
 import com.liamreal.components.physics.Collider;
 import com.liamreal.components.physics.Transform;
 import com.liamreal.components.physics.Velocity;
+import com.liamreal.components.combat.Health;
+import com.liamreal.components.combat.Damage;
 import com.liamreal.display.GameDisplay;
 import com.liamreal.ecs.Entity;
 import com.liamreal.ecs.EntityManager;
@@ -32,6 +34,12 @@ public class EnemyFactory {
             true
         ));
         enemy.add(new Collider(new Circle(enemy.get(Transform.class).getPosition(), EnemyFactory.calculateEnemyColliderLength())));
+        
+        // combat components
+        enemy.add(new Health(1));
+        enemy.add(new Damage(1));
+
+        
         return enemy;
     }
 

@@ -5,7 +5,10 @@ import com.liamreal.ecs.EntityManager;
 import com.liamreal.systems.MovementSystem;
 import com.liamreal.systems.CollisionSystem;
 import com.liamreal.systems.InputSystem;
+import com.liamreal.systems.CombatSystem;
 import java.util.Collection;
+
+import com.liamreal.components.combat.*;
 
 
 public class Model { 
@@ -14,6 +17,7 @@ public class Model {
 	private final EntityManager backgroundManager = new EntityManager();
 	private final MovementSystem movementSystem = new MovementSystem();
 	private final CollisionSystem collisionSystem = new CollisionSystem();
+	private final CombatSystem combatSystem = new CombatSystem();
 	private final InputSystem inputSystem = new InputSystem();
 	
 	public Model() {
@@ -25,8 +29,10 @@ public class Model {
 		collisionSystem.clearCurrentCollisions(); // reset collisions every update
 		inputSystem.update(this.getEntities()); // for controllable entities
 		movementSystem.move(this.getEntities(), collisionSystem); // move w.r.t collisions (put null as collisionSystem arg to ignore collisions)
+		combatSystem.update(collisionSystem.getCurrentCollisions());
 
-		System.out.println(collisionSystem.getCurrentCollisionsAsList()); // can use collisions for rest of systems
+		// System.out.println(collisionSystem.getCurrentCollisionsAsList()); // can use collisions for rest of systems
+		// System.out.println(this.entityManager.getEntity(1).get(Health.class).getHealth());
 
 		return false;
 	}
