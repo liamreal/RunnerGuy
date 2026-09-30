@@ -5,36 +5,53 @@ import java.util.concurrent.TimeUnit;
 import com.liamreal.ecs.Component;
 
 public class Health implements Component {
-    // global hit cooldown for all entities with health component
-    private static final int DAMAGE_COOLDOWN_SECONDS = 1;
+    // cooldowns for spawn/damage (1000ms = 1s)
+    private static final long SPAWN_COOLDOWN_MILLISECONDS = 250;
+    private static final long DAMAGE_COOLDOWN_MILLISECONDS = 1000;
     private int health;
     private int maxHealth;
-    private long lastDamageTime;
+    private long lastDamageTimeNanos;
+    private long spawnTimeMillis;
 
     public Health(int health, int maxHealth) {
         this.health = health;
         this.maxHealth = maxHealth;
-        this.updateLastDamageTime();
+        this.initialiseStartTimes();
     }
 
     // automatically creates health component fully healed
     public Health(int maxHealth) { this(maxHealth, maxHealth); }
 
+    void initialiseStartTimes() { 
+        this.spawnTimeMillis = System.currentTimeMillis();
+        // if just spawned cooldown is set so it does not apply to first spawn
+        this.lastDamageTimeNanos = System.nanoTime() - TimeUnit.MILLISECONDS.toNanos(DAMAGE_COOLDOWN_MILLISECONDS);
+    }
+    long getSpawnTime() { return this.spawnTimeMillis; }
+
     // getters/setters
     public int getHealth() { return this.health; }
 
     // need to keep track of when last damaged for cooldown
-    private void updateLastDamageTime() { this.lastDamageTime = System.nanoTime(); }
+    private void updateLastDamageTime() { this.lastDamageTimeNanos = System.nanoTime(); }
+    // calculates time since spawn
+    private long getTimeSinceSpawnMilliseconds() {
+        return TimeUnit.MILLISECONDS.convert(System.currentTimeMillis() - this.getSpawnTime(), TimeUnit.MILLISECONDS);
+    }
     // calculates elapsed time in seconds since last time was damaged
-    private long getTimeSinceLastDamageSeconds() { return TimeUnit.SECONDS.convert(System.nanoTime() - this.lastDamageTime, TimeUnit.NANOSECONDS); }
+    private long getTimeSinceLastDamageMilliseconds() {
+        return TimeUnit.MILLISECONDS.convert(System.nanoTime() - this.lastDamageTimeNanos, TimeUnit.NANOSECONDS);
+    }
 
     // --------------------
     // -- health methods --
     // --------------------
     
     public void damage(int damage) { 
+        // no damage if just spawned
+        if (this.getTimeSinceSpawnMilliseconds() < SPAWN_COOLDOWN_MILLISECONDS) { return; }
         // no damage if cooldown not complete
-        if (this.getTimeSinceLastDamageSeconds() < DAMAGE_COOLDOWN_SECONDS) { return; }
+        if (this.getTimeSinceLastDamageMilliseconds() < DAMAGE_COOLDOWN_MILLISECONDS) { return; }
         // cannot have negative health
         this.health = Math.max(this.health - damage, 0);
         this.updateLastDamageTime();
