@@ -8,8 +8,8 @@ import com.liamreal.time.TimeProvider;
 
 public class Health implements Component {
     // cooldowns for spawn/damage (1000ms = 1s)
-    static final long SPAWN_COOLDOWN_MILLISECONDS = 250;
-    static final long DAMAGE_COOLDOWN_MILLISECONDS = 1000;
+    public static final long SPAWN_COOLDOWN_MILLISECONDS = 250;
+    public static final long DAMAGE_COOLDOWN_MILLISECONDS = 1000;
     private TimeProvider timeProvider;
     private int health;
     private int maxHealth;
