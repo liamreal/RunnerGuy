@@ -6,10 +6,10 @@ public class Damage implements Component {
     private int damage;
 
     public Damage(int damage) {
-        this.damage = damage;
+        this.setDamage(damage);
     }
     
     // getters/setters
     public int getDamage() { return this.damage; }
-    public void setDamage(int newDamage) { this.damage = newDamage; }
+    public void setDamage(int newDamage) { this.damage = Math.max(newDamage, 0); } // do not allow negative damage
 }
