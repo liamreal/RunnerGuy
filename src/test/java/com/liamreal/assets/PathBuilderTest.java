@@ -3,6 +3,7 @@ package com.liamreal.assets;
 import static org.junit.jupiter.api.Assertions.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ class PathBuilderTest {
 
     @Test
     void buildPathMap_singleRootFile_returnsCorrectEntry() throws Exception {
-        Path file = AssetsTestUtils.createFile(texturesDirectory, "bullet.png");
+        Path file = AssetTestUtils.createFile(texturesDirectory, "bullet.png");
 
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
@@ -47,7 +48,7 @@ class PathBuilderTest {
 
     @Test
     void buildPathMap_nestedFile_returnsCorrectEntry() throws Exception {
-        Path file = AssetsTestUtils.createFile(playerDirectory, "player.png");
+        Path file = AssetTestUtils.createFile(playerDirectory, "player.png");
 
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
@@ -56,7 +57,7 @@ class PathBuilderTest {
     
     @Test
     void buildPathMap_rootAndNestedFiles_returnsRootFile() throws Exception {
-        Path rootFile = AssetsTestUtils.createFile(texturesDirectory, "background.png");
+        Path rootFile = AssetTestUtils.createFile(texturesDirectory, "background.png");
 
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
@@ -65,8 +66,8 @@ class PathBuilderTest {
     
     @Test
     void buildPathMap_rootAndNestedFiles_returnsNestedFile() throws Exception {
-        AssetsTestUtils.createFile(texturesDirectory, "background.png");
-        Path nestedFile = AssetsTestUtils.createFile(playerDirectory, "player.png");
+        AssetTestUtils.createFile(texturesDirectory, "background.png");
+        Path nestedFile = AssetTestUtils.createFile(playerDirectory, "player.png");
 
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
@@ -75,9 +76,9 @@ class PathBuilderTest {
 
     @Test
     void buildPathMap_allFiles_mapHasAllFiles() throws Exception {
-        AssetsTestUtils.createFile(texturesDirectory, "background.png");
-        AssetsTestUtils.createFile(playerDirectory, "player.png");
-        AssetsTestUtils.createFile(enemyDirectory, "enemy.png");
+        AssetTestUtils.createFile(texturesDirectory, "background.png");
+        AssetTestUtils.createFile(playerDirectory, "player.png");
+        AssetTestUtils.createFile(enemyDirectory, "enemy.png");
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
         assertEquals(3, result.size());
@@ -85,10 +86,9 @@ class PathBuilderTest {
 
     @Test
     void buildPathMap_multipleRecursionLevels_returnsDeepestFile() throws Exception {
-        Path animations = Files.createDirectories(
-            playerDirectory.resolve("animations")
-                            .resolve("run"));
-        Path file = AssetsTestUtils.createFile(animations, "frame1.png");
+        Path animations = AssetTestUtils.createDirectory(playerDirectory, List.of("animations", "run"));
+        Path file = AssetTestUtils.createFile(animations, "frame1.png");
+
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
         assertEquals(file, result.get("frame1.png"));
