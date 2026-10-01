@@ -24,24 +24,21 @@ class TextureManagerTest {
 
     @BeforeEach
     void setUp() throws Exception {
+        // create dir structure:
+        //              assets
+        //             /     \
+        //        default     new
+        //        /             \
+        //    textures         textures
         assetsDirectory = Files.createTempDirectory("assets");
-        defaultDirectory =
-                Files.createDirectories(
-                        assetsDirectory.resolve("default")
-                );
-        defaultTexturesDirectory =
-                Files.createDirectories(
-                        defaultDirectory.resolve("textures")
-                );
-        newDirectory =
-                Files.createDirectories(
-                        assetsDirectory.resolve("new")
-                );
-        newTexturesDirectory =
-                Files.createDirectories(
-                        newDirectory.resolve("textures")
-                );
+        defaultDirectory = AssetTestUtils.createDirectory(assetsDirectory, "default");
+        defaultTexturesDirectory = AssetTestUtils.createDirectory(defaultDirectory, "textures");
+        newDirectory = AssetTestUtils.createDirectory(assetsDirectory, "new");
+        newTexturesDirectory = AssetTestUtils.createDirectory(newDirectory, "textures");
+
+        // mock AssetConfig for desired start value of "default", expected start asset pack out of game
         mockedConfig = Mockito.mockStatic(AssetConfig.class);
+
         mockedConfig
                 .when(AssetConfig::getAssetsPath)
                 .thenReturn(defaultDirectory);
@@ -70,9 +67,7 @@ class TextureManagerTest {
 
     @Test
     void constructor_loadsTextures() throws Exception {
-        createImage(
-                defaultTexturesDirectory.resolve("player.png")
-        );
+        createImage(defaultTexturesDirectory.resolve("player.png"));
         TextureManager manager = new TextureManager();
         // texture exists so manager loads it
         assertNotNull(
