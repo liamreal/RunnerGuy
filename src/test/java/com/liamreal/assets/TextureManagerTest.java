@@ -53,7 +53,7 @@ class TextureManagerTest {
     }
 
     // create sample image for new files
-    private BufferedImage createImage(Path path) throws Exception {
+    private void createImage(Path path) throws Exception {
         // image of random size 1-100 (inclusive)
         BufferedImage image =
                 new BufferedImage(
@@ -70,9 +70,6 @@ class TextureManagerTest {
 
         // change for next image width
         this.imageWidth++;
-
-		// for image file generated
-        return image;
     }
 
     @Test
@@ -119,6 +116,8 @@ class TextureManagerTest {
     void update_newTextureUpdatesExistingTexture() throws Exception {
         TextureManager manager = new TextureManager();
         BufferedImage originalTexture = manager.getAsset("player.png");
+        // create new texture in new directory
+        createImage(AssetTestUtils.createDirectory(newTexturesDirectory, "player.png"));
 
         // again new directory mocked
         mockedConfig
