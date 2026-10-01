@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Function;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -14,19 +16,45 @@ class AssetManagerTest {
 
     @BeforeEach
     void setUp() {
-        // IMPORTANT ASSUMPTION AT START OF GAME
+        // IMPORTANT ASSUMPTION AT START OF GAME so set up for each test -- DO NOT CHANGE OR BREAKS TESTS
         AssetConfig.setAssetType("default");
+    }
+
+    // sample function to load asset we want
+    static String loadAssetHelper(Path path) { return "loaded:" + path.getFileName(); }
+    // function that intentionally fails to mock load asset failing and returning null (since asset not loaded)
+    static String loadAssetNullHelper(Path path) { return null; }
+    // function to return same path
+    static Path loadAssetPathHelper(Path path) { return path; }
+    // returns null if end of path does not match default end of path
+    static String loadAssetDefaultPathEndHelper(Path path) {
+		return path.getParent().getFileName().endsWith(AssetConfig.getAssetType())
+				? String.format("%s-player", AssetConfig.getAssetType()) 
+				: null;
+	}
+
+    private <T> AssetManager<T> createAssetManager(Path tempDirectory, Function<Path, T> loader) {
+        return new AssetManager<>(
+                tempDirectory,
+                loader // use test loader func to return test-friendly result
+        );
+    } 
+
+    // helps with creating files in a dir
+    private Path createFile(Path directory, String fileName) throws Exception {
+        return Files.createFile(directory.resolve(fileName));
+    }
+    // helps with resolving dirs
+    private Path createDirectory(Path directory, String resolution) throws Exception {
+        return Files.createDirectory(directory.resolve(resolution));
     }
 
     @Test
     void constructor_buildsAssetMap() throws Exception {
         // create file in root
-        Files.createFile(tempDirectory.resolve("player.png"));
-        AssetManager<String> manager =
-                new AssetManager<>(
-                    tempDirectory,
-                    path -> "loaded:" + path.getFileName() // using lambda functions on path to apply function "loaded:"+path.getFileName()
-                );
+        createFile(tempDirectory, "player.png");
+        // use test helper to return simple string
+        AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetHelper);
         // should give result of "loaded:player.png" which was applied on "player.png"
         assertEquals(
                 "loaded:player.png",
@@ -36,53 +64,34 @@ class AssetManagerTest {
 
     @Test
     void getAsset_missingKeyReturnsNull() {
-        AssetManager<String> manager =
-                new AssetManager<>(
-                        tempDirectory,
-                        path -> "loaded:" + path.getFileName()
-                );
+        AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetHelper);
         assertNull(manager.getAsset("missing.png"));
     }
 
+
     @Test
-    void loaderReturningNull_doesNotAddAsset() throws Exception {
-        Files.createFile(tempDirectory.resolve("broken.png"));
-        AssetManager<String> manager =
-                new AssetManager<>(
-                        tempDirectory,
-                        path -> null // undefined function on object should result in null, meaning not added to map
-                );
-        // map should be empty and so null value received when querying broken file
+    void loaderReturningNull_doesNotAddAsset_emptyMap() throws Exception {
+        createFile(tempDirectory, "fails_to_be_read.png");
+        AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetNullHelper);
+        // map should be empty since null means asset failed to load, therefore not added
         assertTrue(manager.getAssetMap().isEmpty());
-        assertNull(manager.getAsset("broken.png"));
+    }
+
+    // same as above but instead getting asset should fail
+    // PROBABLY NOT NEEDED BECAUSE, SINCE MAP IS EMPTY, DOES NOT EXIST, AND GETTING NULL FILE TESTED BY getAsset_missingKeyReturnsNull
+    @Test
+    void loaderReturningNull_doesNotAddAsset_assetNull() throws Exception {
+        createFile(tempDirectory, "fails_to_be_read.png");
+        AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetNullHelper);
+        assertNull(manager.getAsset("fails_to_be_read.png"));
     }
 
     @Test
-    void update_loadsAssetsFromNewPath() throws Exception {
-        Path firstDirectory =
-                Files.createDirectory(
-                        tempDirectory.resolve("first")
-                );
-        Path secondDirectory =
-                Files.createDirectory(
-                        tempDirectory.resolve("second")
-                );
-        Files.createFile(
-                firstDirectory.resolve("player.png")
-        );
-        Files.createFile(
-                secondDirectory.resolve("enemy.png")
-        );
-        AssetManager<String> manager =
-                new AssetManager<>(
-                        firstDirectory,
-                        path -> "loaded:" + path.getFileName()
-                );
-        assertEquals(
-                "loaded:player.png",
-                manager.getAsset("player.png")
-        );
-        manager.update(secondDirectory);
+    void update_addsAssetFromNewPath() throws Exception {
+        Path addedDirectory = createDirectory(tempDirectory, "second");
+        createFile(addedDirectory, "enemy.png");
+        AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetHelper);
+        manager.update(addedDirectory);
         assertEquals(
                 "loaded:enemy.png",
                 manager.getAsset("enemy.png")
@@ -90,89 +99,66 @@ class AssetManagerTest {
     }
 
     @Test
-    void update_overwritesExistingAssetNewPath() throws Exception {
-        Path firstDirectory =
-                Files.createDirectory(
-                        tempDirectory.resolve("first")
-                );
-        Path secondDirectory =
-                Files.createDirectory(
-                        tempDirectory.resolve("second")
-                );
-        Files.createFile(
-                firstDirectory.resolve("player.png")
-        );
-        Files.createFile(
-                secondDirectory.resolve("player.png")
-        );
-        // create AssetManager of paths to check that paths are updated (file same name)
-        AssetManager<Path> manager =
-                new AssetManager<>(
-                        firstDirectory,
-                        path -> path
-                );
-        assertEquals(
-                firstDirectory.resolve("player.png"),
-                manager.getAsset("player.png")
-        );
-        manager.update(secondDirectory);
-        assertEquals(
-                secondDirectory.resolve("player.png"),
-                manager.getAsset("player.png")
-        );
-    }
-
-    @Test
     void update_missingAsset_keepsExistingAsset() throws Exception {
-        Path firstDirectory =
-                Files.createDirectory(
-                        tempDirectory.resolve("first")
-                );
-        Path secondDirectory =
-                Files.createDirectory(
-                        tempDirectory.resolve("second")
-                );
-        Files.createFile(
-                firstDirectory.resolve("player.png")
-        );
-        AssetManager<Path> manager =
-                new AssetManager<>(
-                        firstDirectory,
-                        path -> path
-                );
+        Path firstDirectory = createDirectory(tempDirectory, "first");
+        Path secondDirectory = createDirectory(tempDirectory, "second");
+        Path originalFile = createFile(firstDirectory, "player.png");
+        AssetManager<Path> manager = createAssetManager(firstDirectory, AssetManagerTest::loadAssetPathHelper);
+        // update with new directory
         manager.update(secondDirectory);
-        // file should only be found in first directory so keeps that on
+        // file not in second directory so should have kept one from previous directory
         assertEquals(
-                firstDirectory.resolve("player.png"),
+                originalFile,
                 manager.getAsset("player.png")
         );
     }
 
-    @Test
-    void update_loaderReturnsNull_keepsExistingAsset() throws Exception {
-        Path defaultDirectory =
-                Files.createDirectory(tempDirectory.resolve("default"));
-        Path overrideDirectory =
-                Files.createDirectory(tempDirectory.resolve("override"));
-        Files.createFile(defaultDirectory.resolve("player.png"));
-        Files.createFile(overrideDirectory.resolve("player.png"));
-        AssetManager<String> manager =
-                new AssetManager<>(
-                        defaultDirectory,
-                        path -> path.startsWith(defaultDirectory)
-                                ? "default-player"
-                                : null
-                );
-        // should be default-player to start with
-        assertEquals(
+	@Test
+    void update_loaderReturnsSuccessfulDefaultAsset() throws Exception {
+        Path defaultDirectory = createDirectory(tempDirectory, "default");
+        createFile(defaultDirectory, "player.png");
+        AssetManager<String> manager = createAssetManager(defaultDirectory, AssetManagerTest::loadAssetDefaultPathEndHelper);
+        // should be default-player to start with since directory is "default"
+		assertEquals(
                 "default-player",
                 manager.getAsset("player.png")
         );
+    }
+
+	@Test
+    void update_loaderReturnsNullForNewAsset_keepsDefaultAsset() throws Exception {
+        Path defaultDirectory = createDirectory(tempDirectory, "default");
+        Path overrideDirectory = createDirectory(tempDirectory, "override");
+        createFile(defaultDirectory, "player.png");
+        createFile(overrideDirectory, "player.png");
+        AssetManager<String> manager = createAssetManager(defaultDirectory, AssetManagerTest::loadAssetDefaultPathEndHelper);
+        // update with new directory
         manager.update(overrideDirectory);
         // loader fails on second file (corrupt or incorrect format) so does not update; defaults to existing file
+		// so should NOT be "override-player" and instead should remain "default-player"
         assertEquals(
                 "default-player",
                 manager.getAsset("player.png")
         );
     }
+
+    @Test
+    void update_overwritesExistingAssetNewPath() throws Exception {
+        Path firstDirectory = createDirectory(tempDirectory, "first");
+        Path secondDirectory = createDirectory(tempDirectory, "second");
+        createFile(firstDirectory, "player.png");
+        Path updatedFile = createFile(secondDirectory, "player.png");
+        // create AssetManager of paths, this will create the first/player.png
+        AssetManager<Path> manager = createAssetManager(firstDirectory, AssetManagerTest::loadAssetPathHelper);
+        // now update it with second directory
+        manager.update(secondDirectory);
+        // check if path for player.png is now in second/player.png
+        assertEquals(
+                updatedFile,
+                manager.getAsset("player.png")
+        );
+    }
+
+
+
 }
