@@ -115,7 +115,7 @@ class TextureManagerTest {
     @Test
     void update_newTextureUpdatesExistingTexture() throws Exception {
         TextureManager manager = new TextureManager();
-        BufferedImage originalTexture = manager.getAsset("player.png");
+        BufferedImage defaultTexture = manager.getAsset("player.png");
         // create new texture in new directory
         createImage(AssetTestUtils.createDirectory(newTexturesDirectory, "player.png"));
 
@@ -129,7 +129,7 @@ class TextureManagerTest {
 
         // this time texture should be new one
         assertNotSame(
-                originalTexture,
+                defaultTexture,
                 manager.getAsset("player.png")
         );
     }
