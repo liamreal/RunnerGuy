@@ -21,6 +21,7 @@ class TextureManagerTest {
     private Path defaultTexturesDirectory;
     private Path newTexturesDirectory;
     private MockedStatic<AssetConfig> mockedConfig;
+    private int imageSize = 1; // oversimplification for tests where i need to compare what ImageIO wrote
 
     @BeforeEach
     void setUp() throws Exception {
@@ -33,6 +34,7 @@ class TextureManagerTest {
         assetsDirectory = Files.createTempDirectory("assets");
         defaultDirectory = AssetTestUtils.createDirectory(assetsDirectory, "default");
         defaultTexturesDirectory = AssetTestUtils.createDirectory(defaultDirectory, "textures");
+        createImage(AssetTestUtils.createDirectory(defaultTexturesDirectory, "player.png"));
         newDirectory = AssetTestUtils.createDirectory(assetsDirectory, "new");
         newTexturesDirectory = AssetTestUtils.createDirectory(newDirectory, "textures");
 
@@ -44,16 +46,18 @@ class TextureManagerTest {
                 .thenReturn(defaultDirectory);
     }
 
+	// close static class after each test
     @AfterEach
     void tearDown() {
         mockedConfig.close();
     }
 
-    // create image for new files
-    private void createImage(Path path) throws Exception {
+    // create sample image for new files
+    private BufferedImage createImage(Path path) throws Exception {
+        // image of random size 1-100 (inclusive)
         BufferedImage image =
                 new BufferedImage(
-                        1,
+                        this.imageSize, // width will be different for every image generated so can be used as basis for comparison if is same
                         1,
                         BufferedImage.TYPE_INT_RGB
                 );
@@ -63,16 +67,14 @@ class TextureManagerTest {
                 "png",
                 path.toFile()
         );
-    }
 
-    @Test
-    void constructor_loadsTextures() throws Exception {
-        createImage(defaultTexturesDirectory.resolve("player.png"));
-        TextureManager manager = new TextureManager();
-        // texture exists so manager loads it
-        assertNotNull(
-                manager.getAsset("player.png")
-        );
+        // change image size for next call (to check image is same for this test the difference between them will be size)
+        // this is because we cant directly get the reference item that ImageIO writes, and reading it back just creates a new object
+        // so this is my solution for tests where i cannot get direct reference (instead i just compare widths)
+        this.imageSize++;
+
+		// for image file generated
+        return image;
     }
 
     @Test
@@ -84,15 +86,21 @@ class TextureManagerTest {
         );
     }
 
+    @Test
+    void constructor_loadsExistingTexture() throws Exception {
+        TextureManager manager = new TextureManager();
+        // texture exists ("default" config) so manager loads it
+        assertNotNull(
+                manager.getAsset("player.png")
+        );
+    }
+
+
     // encapsulates both missing and failed textures because of how ImageLoader is written (where exceptions result in returning null and logging)
     @Test
     void update_missingTextureKeepsExistingTexture() throws Exception {
-        createImage(
-                defaultTexturesDirectory.resolve("player.png")
-        );
         TextureManager manager = new TextureManager();
-        BufferedImage texture = manager.getAsset("player.png");
-        assertNotNull(texture); // ensure first obtained texture not null
+        BufferedImage defaultTexture = manager.getAsset("player.png"); // verified exists in previous test
 
         // mock new directory path
         mockedConfig
@@ -102,24 +110,17 @@ class TextureManagerTest {
         // internally calls config for new directory
         manager.update();
 
-        // since no matching file in new directory should fail
+        // since no matching file in new directory should return older existing file
         assertSame(
-                texture,
+                defaultTexture,
                 manager.getAsset("player.png")
         );
     }
 
     @Test
     void update_newTextureUpdatesExistingTexture() throws Exception {
-        createImage(
-                defaultTexturesDirectory.resolve("player.png")
-        );
-        createImage(
-                newTexturesDirectory.resolve("player.png")
-        );
         TextureManager manager = new TextureManager();
-        BufferedImage texture = manager.getAsset("player.png");
-        assertNotNull(texture);
+        BufferedImage image = createImage(AssetTestUtils.createDirectory(newTexturesDirectory, "player.png"));
 
         // again new directory mocked
         mockedConfig
@@ -129,10 +130,11 @@ class TextureManagerTest {
         // updated inside manager
         manager.update();
 
-        // this time texture should be different because is new valid image
-        assertNotSame(
-                texture,
-                manager.getAsset("player.png")
+        // this time texture should be new one 
+        // BUT since we are trying to compare image to one written by ImageIO, compare widths using my oversimplification of unique widths
+        assertEquals(
+                image.getWidth(),
+                manager.getAsset("player.png").getWidth()
         );
     }
 
