@@ -1,7 +1,6 @@
 package com.liamreal.assets;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 class PathBuilderTest {
-
     // mocking directories
     @TempDir
     Path tempDirectory;
+
     // base directories needed
     private Path texturesDirectory;
     private Path playerDirectory;
@@ -22,12 +21,9 @@ class PathBuilderTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        texturesDirectory = Files.createDirectories(
-                tempDirectory.resolve("textures"));
-        playerDirectory = Files.createDirectories(
-                texturesDirectory.resolve("player"));
-        enemyDirectory = Files.createDirectories(
-                texturesDirectory.resolve("enemy"));
+        texturesDirectory = AssetTestUtils.createDirectory(tempDirectory, "textures");
+        playerDirectory = AssetTestUtils.createDirectory(texturesDirectory, "player");
+        enemyDirectory = AssetTestUtils.createDirectory(texturesDirectory, "enemy");
     }
 
     @Test
@@ -79,6 +75,7 @@ class PathBuilderTest {
         AssetTestUtils.createFile(texturesDirectory, "background.png");
         AssetTestUtils.createFile(playerDirectory, "player.png");
         AssetTestUtils.createFile(enemyDirectory, "enemy.png");
+
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
         assertEquals(3, result.size());
