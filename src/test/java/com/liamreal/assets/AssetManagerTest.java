@@ -2,7 +2,6 @@ package com.liamreal.assets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Function;
 
@@ -40,19 +39,11 @@ class AssetManagerTest {
         );
     } 
 
-    // helps with creating files in a dir
-    private Path createFile(Path directory, String fileName) throws Exception {
-        return Files.createFile(directory.resolve(fileName));
-    }
-    // helps with resolving dirs
-    private Path createDirectory(Path directory, String resolution) throws Exception {
-        return Files.createDirectory(directory.resolve(resolution));
-    }
 
     @Test
     void constructor_buildsAssetMap() throws Exception {
         // create file in root
-        createFile(tempDirectory, "player.png");
+        AssetsTestUtils.createFile(tempDirectory, "player.png");
         // use test helper to return simple string
         AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetHelper);
         // should give result of "loaded:player.png" which was applied on "player.png"
@@ -71,7 +62,7 @@ class AssetManagerTest {
 
     @Test
     void loaderReturningNull_doesNotAddAsset_emptyMap() throws Exception {
-        createFile(tempDirectory, "fails_to_be_read.png");
+        AssetsTestUtils.createFile(tempDirectory, "fails_to_be_read.png");
         AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetNullHelper);
         // map should be empty since null means asset failed to load, therefore not added
         assertTrue(manager.getAssetMap().isEmpty());
@@ -81,15 +72,15 @@ class AssetManagerTest {
     // PROBABLY NOT NEEDED BECAUSE, SINCE MAP IS EMPTY, DOES NOT EXIST, AND GETTING NULL FILE TESTED BY getAsset_missingKeyReturnsNull
     @Test
     void loaderReturningNull_doesNotAddAsset_assetNull() throws Exception {
-        createFile(tempDirectory, "fails_to_be_read.png");
+        AssetsTestUtils.createFile(tempDirectory, "fails_to_be_read.png");
         AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetNullHelper);
         assertNull(manager.getAsset("fails_to_be_read.png"));
     }
 
     @Test
     void update_addsAssetFromNewPath() throws Exception {
-        Path addedDirectory = createDirectory(tempDirectory, "second");
-        createFile(addedDirectory, "enemy.png");
+        Path addedDirectory = AssetsTestUtils.createDirectory(tempDirectory, "second");
+        AssetsTestUtils.createFile(addedDirectory, "enemy.png");
         AssetManager<String> manager = createAssetManager(tempDirectory, AssetManagerTest::loadAssetHelper);
         manager.update(addedDirectory);
         assertEquals(
@@ -100,9 +91,9 @@ class AssetManagerTest {
 
     @Test
     void update_missingAsset_keepsExistingAsset() throws Exception {
-        Path firstDirectory = createDirectory(tempDirectory, "first");
-        Path secondDirectory = createDirectory(tempDirectory, "second");
-        Path originalFile = createFile(firstDirectory, "player.png");
+        Path firstDirectory = AssetsTestUtils.createDirectory(tempDirectory, "first");
+        Path secondDirectory = AssetsTestUtils.createDirectory(tempDirectory, "second");
+        Path originalFile = AssetsTestUtils.createFile(firstDirectory, "player.png");
         AssetManager<Path> manager = createAssetManager(firstDirectory, AssetManagerTest::loadAssetPathHelper);
         // update with new directory
         manager.update(secondDirectory);
@@ -115,8 +106,8 @@ class AssetManagerTest {
 
 	@Test
     void update_loaderReturnsSuccessfulDefaultAsset() throws Exception {
-        Path defaultDirectory = createDirectory(tempDirectory, "default");
-        createFile(defaultDirectory, "player.png");
+        Path defaultDirectory = AssetsTestUtils.createDirectory(tempDirectory, "default");
+        AssetsTestUtils.createFile(defaultDirectory, "player.png");
         AssetManager<String> manager = createAssetManager(defaultDirectory, AssetManagerTest::loadAssetDefaultPathEndHelper);
         // should be default-player to start with since directory is "default"
 		assertEquals(
@@ -127,10 +118,10 @@ class AssetManagerTest {
 
 	@Test
     void update_loaderReturnsNullForNewAsset_keepsDefaultAsset() throws Exception {
-        Path defaultDirectory = createDirectory(tempDirectory, "default");
-        Path overrideDirectory = createDirectory(tempDirectory, "override");
-        createFile(defaultDirectory, "player.png");
-        createFile(overrideDirectory, "player.png");
+        Path defaultDirectory = AssetsTestUtils.createDirectory(tempDirectory, "default");
+        Path overrideDirectory = AssetsTestUtils.createDirectory(tempDirectory, "override");
+        AssetsTestUtils.createFile(defaultDirectory, "player.png");
+        AssetsTestUtils.createFile(overrideDirectory, "player.png");
         AssetManager<String> manager = createAssetManager(defaultDirectory, AssetManagerTest::loadAssetDefaultPathEndHelper);
         // update with new directory
         manager.update(overrideDirectory);
@@ -144,10 +135,10 @@ class AssetManagerTest {
 
     @Test
     void update_overwritesExistingAssetNewPath() throws Exception {
-        Path firstDirectory = createDirectory(tempDirectory, "first");
-        Path secondDirectory = createDirectory(tempDirectory, "second");
-        createFile(firstDirectory, "player.png");
-        Path updatedFile = createFile(secondDirectory, "player.png");
+        Path firstDirectory = AssetsTestUtils.createDirectory(tempDirectory, "first");
+        Path secondDirectory = AssetsTestUtils.createDirectory(tempDirectory, "second");
+        AssetsTestUtils.createFile(firstDirectory, "player.png");
+        Path updatedFile = AssetsTestUtils.createFile(secondDirectory, "player.png");
         // create AssetManager of paths, this will create the first/player.png
         AssetManager<Path> manager = createAssetManager(firstDirectory, AssetManagerTest::loadAssetPathHelper);
         // now update it with second directory

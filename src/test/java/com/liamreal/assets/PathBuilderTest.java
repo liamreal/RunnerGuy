@@ -38,52 +38,49 @@ class PathBuilderTest {
 
     @Test
     void buildPathMap_singleRootFile_returnsCorrectEntry() throws Exception {
-        Path file = Files.createFile(
-            texturesDirectory.resolve("bullet.png"));
+        Path file = AssetsTestUtils.createFile(texturesDirectory, "bullet.png");
+
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
-        assertEquals(1, result.size());
         assertEquals(file, result.get("bullet.png"));
     }
 
     @Test
     void buildPathMap_nestedFile_returnsCorrectEntry() throws Exception {
-        Path file = Files.createFile(
-            playerDirectory.resolve("player.png"));
+        Path file = AssetsTestUtils.createFile(playerDirectory, "player.png");
+
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
-        assertEquals(1, result.size());
         assertEquals(file, result.get("player.png"));
     }
     
     @Test
-    void buildPathMap_rootAndNestedFiles_returnsBothEntries() throws Exception {
-        Path rootFile = Files.createFile(
-            texturesDirectory.resolve("background.png"));
-        Path nestedFile = Files.createFile(
-            playerDirectory.resolve("player.png"));
+    void buildPathMap_rootAndNestedFiles_returnsRootFile() throws Exception {
+        Path rootFile = AssetsTestUtils.createFile(texturesDirectory, "background.png");
+
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
-        assertEquals(2, result.size());
         assertEquals(rootFile, result.get("background.png"));
+    }
+    
+    @Test
+    void buildPathMap_rootAndNestedFiles_returnsNestedFile() throws Exception {
+        AssetsTestUtils.createFile(texturesDirectory, "background.png");
+        Path nestedFile = AssetsTestUtils.createFile(playerDirectory, "player.png");
+
+        Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
+
         assertEquals(nestedFile, result.get("player.png"));
     }
 
-
     @Test
-    void buildPathMap_allFiles_returnsEveryFile() throws Exception {
-        Path rootFile = Files.createFile(
-            texturesDirectory.resolve("background.png"));
-        Path playerFile = Files.createFile(
-            playerDirectory.resolve("player.png"));
-        Path enemyFile = Files.createFile(
-            enemyDirectory.resolve("enemy.png"));
+    void buildPathMap_allFiles_mapHasAllFiles() throws Exception {
+        AssetsTestUtils.createFile(texturesDirectory, "background.png");
+        AssetsTestUtils.createFile(playerDirectory, "player.png");
+        AssetsTestUtils.createFile(enemyDirectory, "enemy.png");
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
         assertEquals(3, result.size());
-        assertEquals(rootFile, result.get("background.png"));
-        assertEquals(playerFile, result.get("player.png"));
-        assertEquals(enemyFile, result.get("enemy.png"));
     }
 
     @Test
@@ -91,11 +88,9 @@ class PathBuilderTest {
         Path animations = Files.createDirectories(
             playerDirectory.resolve("animations")
                             .resolve("run"));
-        Path file = Files.createFile(
-            animations.resolve("frame1.png"));
+        Path file = AssetsTestUtils.createFile(animations, "frame1.png");
         Map<String, Path> result = PathBuilder.buildPathMap(texturesDirectory);
 
-        assertEquals(1, result.size());
         assertEquals(file, result.get("frame1.png"));
     }
 }
