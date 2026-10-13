@@ -32,7 +32,7 @@ class DamageTest {
     }
 
     @Test
-    void setDamageCanSetNegativeDamage() {
+    void setDamageCannotSetNegativeDamage() {
         Damage damage = new Damage(25);
 
         damage.setDamage(-10);
