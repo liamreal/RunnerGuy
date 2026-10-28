@@ -10,45 +10,45 @@ public class VelocityTest {
     @Test
     public void testCreateGetSpeed() {
         Velocity t = new Velocity(5);
-        assertNotNull(t);
+        
         double p = t.getSpeed();
+
         assertEquals(5, p);
     }
 
     @Test
     public void testSetSpeed() {
         Velocity t = new Velocity(5);
+
         t.setSpeed(5);
         double p = t.getSpeed();
+        
         assertEquals(5, p);
     }
     
     @Test
     public void testSetDirection() {
         Velocity v = new Velocity(5);
-
         Vector2f direction = new Vector2f(1, 0);
-        v.setDirection(direction);
 
+        v.setDirection(direction);
         Vector2f obtainedDirection = v.getDirection();
 
-        assertEquals(1, obtainedDirection.getX());
-        assertEquals(0, obtainedDirection.getY());
+        assertEquals(new Vector2f(1, 0), obtainedDirection);
     }
 
     @Test
     public void testCalculateDisplacementNormalisesDirection() {
         Velocity v = new Velocity(5);
-
-        // Length of this vector is 5
+        // length of vector is 5
         Vector2f direction = new Vector2f(3, 4);
-        v.setDirection(direction);
 
+        v.setDirection(direction);
         Vector2f displacement = v.calculateDisplacement();
 
-        // Normalised (3,4) = (0.6,0.8)
-        // Multiply by speed 5 = (3,4)
-        assertEquals(3, displacement.getX(), DELTA);
+        // normalised (3, 4) = (0.6, 0.8)
+        // multiply by speed 5 = (3, 4)
+        assertEquals(3, displacement.getX(), DELTA); // need 2 asserts here to take advantage of DELTA for margin of error
         assertEquals(4, displacement.getY(), DELTA);
     }
 
@@ -56,23 +56,21 @@ public class VelocityTest {
     public void testCalculateDisplacementZeroDirection() {
         Velocity v = new Velocity(5);
 
-        // Default direction is (0,0) as defined in constructor
+        // default direction (0, 0) in constructor
         Vector2f displacement = v.calculateDisplacement();
-
-        assertEquals(0, displacement.getX(), DELTA);
-        assertEquals(0, displacement.getY(), DELTA);
+        
+        assertEquals(new Vector2f(0, 0), displacement);
     }
 
     @Test
     public void testNegativeDirection() {
         Velocity v = new Velocity(5);
-
         Vector2f direction = new Vector2f(-1, 0);
+        
         v.setDirection(direction);
-
+        // should apply (-1*5, 0*5) normalised, which in this case results in (-5, 0) since only movement on one axis 
         Vector2f displacement = v.calculateDisplacement();
 
-        assertEquals(-5, displacement.getX(), DELTA);
-        assertEquals(0, displacement.getY(), DELTA);
+        assertEquals(new Vector2f(-5, 0), displacement);
     }
 }
