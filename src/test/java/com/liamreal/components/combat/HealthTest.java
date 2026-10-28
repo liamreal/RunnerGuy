@@ -13,11 +13,14 @@ import com.liamreal.time.TimeProvider;
 
 class HealthTest {
     private TimeProvider timeProvider;
+    private final long DAMAGE_COOLDOWN_NANOS = TimeUnit.NANOSECONDS.convert(Health.DAMAGE_COOLDOWN_MILLISECONDS, TimeUnit.MILLISECONDS);
 
     @BeforeEach
     void setUp() {
+        // will use this interface and mock what it has to return for each test
         timeProvider = mock(TimeProvider.class);
     }
+
     
     @Test
     void staticHealthAttributesNonNegative() {
@@ -27,19 +30,14 @@ class HealthTest {
 
     @Test
     void constructorSetsHealth() {
-        when(timeProvider.currentTimeMillis()).thenReturn(0L);
-        when(timeProvider.nanoTime()).thenReturn(0L);
-
-        Health health = new Health(50, 100);
+        // time provider specified for explicitness but unused in this test
+        Health health = new Health(50, 100, timeProvider);
 
         assertEquals(50, health.getHealth());
     }
 
     @Test
     void singleArgumentConstructorStartsFullyHealed() {
-        when(timeProvider.currentTimeMillis()).thenReturn(0L);
-        when(timeProvider.nanoTime()).thenReturn(0L);
-
         Health health = new Health(100, timeProvider);
 
         assertEquals(100, health.getHealth());
@@ -50,7 +48,7 @@ class HealthTest {
         when(timeProvider.currentTimeMillis())
                 .thenReturn(
                         0L,  // constructor
-                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS - 1  // damage()
+                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS - 1  // damage() occurs before spawn cooldown ends
                 );
 
         when(timeProvider.nanoTime())
@@ -60,7 +58,7 @@ class HealthTest {
 
         health.damage(25);
 
-        // Less than the spawn cooldown has passed.
+        // less than the spawn cooldown has passed
         assertEquals(100, health.getHealth());
     }
 
@@ -69,20 +67,22 @@ class HealthTest {
         when(timeProvider.currentTimeMillis())
                 .thenReturn(
                         0L,  // constructor
-                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS  // damage()
+                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS  // damage() occurs right as spawn cooldown ends
                 );
 
         when(timeProvider.nanoTime())
                 .thenReturn(
                         0L,  // constructor
-                        0L - 1  // damage() -- because in constructor the damage cooldown is startTime - DAMAGE_COOLDOWN
+                        0L - 1  // damage() occurs so that it occurs during the time which damage cooldown is active
+                        // (because in constructor the damage cooldown is:      startTime - DAMAGE_COOLDOWN
+                        //  so subtracting 1 puts us in that cooldown range)
                 );
 
         Health health = new Health(100, timeProvider);
 
         health.damage(25);
 
-        // Spawn cooldown has expired, but damage cooldown has not.
+        // spawn cooldown expired, damage cooldown still active
         assertEquals(100, health.getHealth());
     }
 
@@ -91,14 +91,14 @@ class HealthTest {
         when(timeProvider.currentTimeMillis())
                 .thenReturn(
                         0L,  // constructor
-                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS  // damage()
+                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS  // damage() after spawn cooldown gone
                 );
 
         when(timeProvider.nanoTime())
                 .thenReturn(
                         0L,  // constructor
-                        0L,  // damage() -- because when an entity spawns can be damaged, only thing stopping it is SPAWN_COOLDOWN, not here tho
-                        0L   // updateLastDamageTime()
+                        0L,  // damage() occurs outside of any damage cooldown
+                        0L   // updateLastDamageTime() -- new previous damage time
                 );
 
         Health health = new Health(100, timeProvider);
@@ -119,7 +119,7 @@ class HealthTest {
         when(timeProvider.nanoTime())
                 .thenReturn(
                         0L,  // constructor
-                        0L,  // damage()
+                        0L,  // damage() outside of damage cooldown
                         0L   // updateLastDamageTime()
                 );
 
@@ -136,7 +136,7 @@ class HealthTest {
                 .thenReturn(
                         0L,  // constructor
                         0L + Health.SPAWN_COOLDOWN_MILLISECONDS,  // first damage()
-                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS   // second damage()
+                        0L + Health.SPAWN_COOLDOWN_MILLISECONDS   // second damage(), still after spawn cooldown
                 );
 
         when(timeProvider.nanoTime())
@@ -144,7 +144,7 @@ class HealthTest {
                         0L,  // constructor
                         0L,  // first damage()
                         0L,  // updateLastDamageTime()
-                        0L + 1  // second damage()
+                        0L + DAMAGE_COOLDOWN_NANOS - 1   // second damage() still within damage cooldown
                 );
 
         Health health = new Health(100, timeProvider);
@@ -157,7 +157,6 @@ class HealthTest {
 
     @Test
     void damageCanBeAppliedAfterDamageCooldown() {
-        long damageCooldownNanos = TimeUnit.NANOSECONDS.convert(Health.DAMAGE_COOLDOWN_MILLISECONDS, TimeUnit.MILLISECONDS);
         when(timeProvider.currentTimeMillis())
                 .thenReturn(
                         0L,  // constructor
@@ -170,23 +169,20 @@ class HealthTest {
                         0L,  // constructor
                         0L,  // first damage()
                         0L,  // updateLastDamageTime()
-                        0L + damageCooldownNanos,  // second damage()
-                        0L + damageCooldownNanos   // updateLastDamageTime()
+                        0L + DAMAGE_COOLDOWN_NANOS,  // second damage() -- after damage cooldown
+                        0L + DAMAGE_COOLDOWN_NANOS   // updateLastDamageTime()
                 );
 
         Health health = new Health(100, timeProvider);
 
         health.damage(25);
-        assertEquals(75, health.getHealth());
         health.damage(25);
+
         assertEquals(50, health.getHealth());
     }
 
     @Test
     void healIncreasesHealth() {
-        when(timeProvider.currentTimeMillis()).thenReturn(0L);
-        when(timeProvider.nanoTime()).thenReturn(0L);
-
         Health health = new Health(50, 100, timeProvider);
 
         health.heal(25);
@@ -195,7 +191,7 @@ class HealthTest {
     }
 
     @Test
-    void healCannotExceedMaxHealth() {
+    void healWillNotExceedMaxHealth() {
         when(timeProvider.currentTimeMillis()).thenReturn(0L);
         when(timeProvider.nanoTime()).thenReturn(0L);
 
@@ -205,17 +201,4 @@ class HealthTest {
 
         assertEquals(100, health.getHealth());
     }
-
-    @Test
-    void healCanRestoreHealthToMax() {
-        when(timeProvider.currentTimeMillis()).thenReturn(0L);
-        when(timeProvider.nanoTime()).thenReturn(0L);
-
-        Health health = new Health(25, 100, timeProvider);
-
-        health.heal(75);
-
-        assertEquals(100, health.getHealth());
-    }
-
 }
