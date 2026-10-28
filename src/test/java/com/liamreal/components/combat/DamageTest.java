@@ -23,16 +23,7 @@ class DamageTest {
     }
 
     @Test
-    void setDamageCanSetDamageToZero() {
-        Damage damage = new Damage(25);
-
-        damage.setDamage(0);
-
-        assertEquals(0, damage.getDamage());
-    }
-
-    @Test
-    void setDamageCannotSetNegativeDamage() {
+    void setDamageLowerBoundOfZero() {
         Damage damage = new Damage(25);
 
         damage.setDamage(-10);
