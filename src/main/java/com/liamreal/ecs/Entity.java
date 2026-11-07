@@ -24,11 +24,18 @@ public class Entity {
     }
 
     // can add, check if has, and get components based on classes (e.g. if has key Transform.class has Transform object)
-    public void add(Component component) {
+    public boolean add(Component component) {
+        // if component already exists not added (prevent accidental overwrite, instead remove existing and add new)
+        if (this.has(component.getClass())) { return false; }
         components.put(component.getClass(), component);
+        return true;
     }
     public boolean has(Class<? extends Component> componentClass) {
         return components.containsKey(componentClass);
+    }
+    public <T extends Component> Component remove(Class<T> componentClass) {
+        if (!this.has(componentClass)) { return null; }
+        return this.components.remove(componentClass);
     }
     // return the type of class inferred that extends Component interface
     public <T extends Component> T get(Class<T> componentClass) {
