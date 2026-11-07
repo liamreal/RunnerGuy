@@ -115,7 +115,6 @@ public class ControllerTest {
                 RuntimeException.class,
                 () -> new Controller(bindings)
         );
-        
         assertTrue(ex.getMessage().contains("One or more controls for a controller have not been assigned! Ensure all controls are assigned exactly once!"));
     }
 
