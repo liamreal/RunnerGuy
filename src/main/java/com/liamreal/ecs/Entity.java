@@ -30,7 +30,7 @@ public class Entity {
         components.put(component.getClass(), component);
         return true;
     }
-    public boolean has(Class<? extends Component> componentClass) {
+    public <T extends Component> boolean has(Class<T> componentClass) {
         return components.containsKey(componentClass);
     }
     public <T extends Component> Component remove(Class<T> componentClass) {
