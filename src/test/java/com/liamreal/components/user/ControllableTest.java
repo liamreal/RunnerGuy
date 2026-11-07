@@ -33,7 +33,7 @@ public class ControllableTest {
         controller.handleInput(new KeyEvent(
                 new Canvas(),
                 KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
+                0,
                 0,
                 KeyEvent.VK_W,
                 'W'

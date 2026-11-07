@@ -38,7 +38,7 @@ public class ControllerTest {
         KeyEvent pressW = new KeyEvent(
                 new Canvas(),
                 KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
+                0,
                 0,
                 KeyEvent.VK_W,
                 'W'
@@ -55,16 +55,15 @@ public class ControllerTest {
         KeyEvent pressW = new KeyEvent(
                 new Canvas(),
                 KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
+                0,
                 0,
                 KeyEvent.VK_W,
                 'W'
         );
-
         KeyEvent releaseW = new KeyEvent(
                 new Canvas(),
                 KeyEvent.KEY_RELEASED,
-                System.currentTimeMillis(),
+                0,
                 0,
                 KeyEvent.VK_W,
                 'W'
@@ -82,7 +81,7 @@ public class ControllerTest {
         KeyEvent pressUnboundKey = new KeyEvent(
                 new Canvas(),
                 KeyEvent.KEY_PRESSED,
-                System.currentTimeMillis(),
+                0,
                 0,
                 KeyEvent.VK_F24,
                 KeyEvent.CHAR_UNDEFINED
@@ -93,18 +92,18 @@ public class ControllerTest {
         assertTrue(controller.getActiveControls().isEmpty());
     }
 
-    // need key bindings to create controller
+    // need key bindings to create controller, 2 asserts because we are testing the error type AND its message
     @Test
-    void constructorThrowsWhenBindingsAreNull() {
-        RuntimeException ex = assertThrows(RuntimeException.class,
+    void whenBindingsAreNull_ConstructorThrowsRuntimeException() {
+        Exception ex = assertThrows(RuntimeException.class,
                 () -> new Controller(null));
 
-        assertEquals("Key bindings cannot be null!", ex.getMessage());
+        assertTrue(ex.getMessage().contains("Key bindings for a controller cannot be null!"));
     }
 
     // missing keybinds result in runtime error with given error message
     @Test
-    void constructorThrowsWhenAControlIsMissing() {
+    void whenAControlIsMissing_ConstructorThrowsRuntimeException() {
         Map<Integer, String> bindings = Map.of(
                 KeyEvent.VK_W, "up",
                 KeyEvent.VK_S, "down",
@@ -112,15 +111,12 @@ public class ControllerTest {
                 KeyEvent.VK_D, "right"
         );
 
-        RuntimeException exception = assertThrows(
+        Exception ex = assertThrows(
                 RuntimeException.class,
                 () -> new Controller(bindings)
         );
         
-        assertEquals(
-                "One or more controls have not been assigned! Ensure all controls are assigned exactly once!",
-                exception.getMessage()
-        );
+        assertTrue(ex.getMessage().contains("One or more controls for a controller have not been assigned! Ensure all controls are assigned exactly once!"));
     }
 
     // handling of multiple keys being active at once
