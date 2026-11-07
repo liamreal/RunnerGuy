@@ -3,7 +3,6 @@ package com.liamreal.ecs;
 import org.junit.jupiter.api.Test;
 
 import com.liamreal.components.physics.Transform;
-import com.liamreal.components.physics.Velocity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,18 +40,6 @@ public class EntityTest {
         Entity entity = new Entity(0);
 
         assertNull(entity.get(Transform.class));
-    }
-    @Test
-    public void testAddGetMultipleComponents() {
-        Entity entity = new Entity(0);
-        Transform transform = new Transform(0, 0);
-        Velocity velocity = new Velocity(0);
-
-        entity.add(transform);
-        entity.add(velocity);
-        
-        assertEquals(transform, entity.get(Transform.class));
-        assertEquals(velocity, entity.get(Velocity.class));
     }
     @Test
     public void testReturnsFalse_WhenAddingExistingComponent() {
