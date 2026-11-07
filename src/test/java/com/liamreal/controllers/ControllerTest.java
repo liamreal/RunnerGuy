@@ -92,10 +92,10 @@ public class ControllerTest {
         assertTrue(controller.getActiveControls().isEmpty());
     }
 
-    // need key bindings to create controller, 2 asserts because we are testing the error type AND its message
+    // need key bindings to create controller, 2 asserts because we are getting the exception to see its message
     @Test
     void whenBindingsAreNull_ConstructorThrowsRuntimeException() {
-        Exception ex = assertThrows(RuntimeException.class,
+        RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> new Controller(null));
 
         assertTrue(ex.getMessage().contains("Key bindings for a controller cannot be null!"));
@@ -111,7 +111,7 @@ public class ControllerTest {
                 KeyEvent.VK_D, "right"
         );
 
-        Exception ex = assertThrows(
+        RuntimeException ex = assertThrows(
                 RuntimeException.class,
                 () -> new Controller(bindings)
         );
