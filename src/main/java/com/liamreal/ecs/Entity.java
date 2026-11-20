@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Entity {
     private final int id;
+    // can add, check if has, and get components based on classes (e.g. if has key Transform.class has Transform object)
     private Map<Class<? extends Component>, Component> components = new HashMap<>();
 
     // entity assigned id on creation
@@ -23,19 +24,21 @@ public class Entity {
         return this.getId() == other.getId();
     }
 
-    // can add, check if has, and get components based on classes (e.g. if has key Transform.class has Transform object)
     public <T extends Component> boolean add(T component) {
-        // if component already exists not added (prevent accidental overwrite, instead remove existing and add new)
-        if (this.has(component.getClass())) { return false; }
+        // if component null, or if already exists not added (prevent accidental overwrite, instead use replace)
+        if (component == null || this.has(component.getClass())) { return false; }
         components.put(component.getClass(), component);
         return true;
     }
-    // // replace with new component, return old one
-    // public <T extends Component> T replace(T component) {
-    //     T removedComponent = this.remove((Class<T>) component.getClass());
-    //     this.add(component); // add new component
-    //     return removedComponent;
-    // }
+    
+    // replace with new component, return old one
+    @SuppressWarnings("unchecked")
+    public <T extends Component> T replace(T component) {
+        if (component == null) { return null; } // cannot add a null component
+        T removedComponent = this.remove((Class<T>) component.getClass()); // this cast gives warning but its safe, trust me bro
+        this.add(component); // add new component
+        return removedComponent;
+    }
     public <T extends Component> boolean has(Class<T> componentClass) {
         return components.containsKey(componentClass);
     }

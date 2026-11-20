@@ -36,6 +36,12 @@ public class EntityTest {
         assertEquals(transform, entity.get(Transform.class));
     }
     @Test
+    public void testCannotAddNullComponent() {
+        Entity entity = new Entity(0);
+        
+        assertFalse(entity.add(null));
+    }
+    @Test
     public void test_GetReturnsNull_ForNonExistingComponent() {
         Entity entity = new Entity(0);
 
@@ -107,5 +113,33 @@ public class EntityTest {
         Entity entity = new Entity(0);
 
         assertNull(entity.remove(Transform.class));
+    }
+    @Test
+    public void test_ReplacingComponent_WhenComponentExists_ReturnsOldComponent() {
+        Entity entity = new Entity(0);
+        Transform transform = new Transform(0, 0);
+        entity.add(transform);
+        Transform newTransform = new Transform(1, 1);
+
+        Transform oldTransform = entity.replace(newTransform);
+        
+        assertEquals(transform, oldTransform);
+    }
+    @Test
+    public void test_ReplacingComponent_WhenComponentDoesNotExist_ReturnsNull() {
+        Entity entity = new Entity(0);
+        Transform newTransform = new Transform(1, 1);
+
+        Transform oldTransform = entity.replace(newTransform);
+        
+        assertNull(oldTransform);
+    }
+    @Test
+    public void test_ReplacingComponent_WhenComponentIsNull_ReturnsNull() {
+        Entity entity = new Entity(0);
+
+        Transform oldTransform = entity.replace(null);
+        
+        assertNull(oldTransform);
     }
 }
