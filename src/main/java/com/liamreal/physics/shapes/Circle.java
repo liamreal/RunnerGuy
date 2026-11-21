@@ -11,6 +11,16 @@ public class Circle {
         this.radius = radius;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj.getClass() != this.getClass()) { return false; }
+        Circle other = (Circle) obj;
+		if (!this.getCentre().equals(other.getCentre())) { return false; }
+		if (this.getRadius() != other.getRadius()) { return false; }
+        return true;
+    }
+
     public Vector2f getCentre() { return this.centre; }
     public double getRadius() { return this.radius; }
     public void setCentre(Vector2f newCentre) { this.centre = newCentre; }

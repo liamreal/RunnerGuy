@@ -7,20 +7,17 @@ import com.liamreal.util.Vector2f;
 class CircleTest {
 
     @Test
-    void constructor_initialisesCircle() {
+    void constructor_initialisesCircleDataSuccessfuly() {
         Vector2f centre = new Vector2f(0, 0);
         Circle circle = new Circle(centre, 0);
 
-        assertEquals(centre, circle.getCentre());
-        assertEquals(0, circle.getRadius());
+        assertEquals(new Circle(new Vector2f(0, 0), 0), circle);
     }
 
     @Test
     void setter_updatesCentre() {
         Vector2f centre = new Vector2f(0, 0);
         Circle circle = new Circle(centre, 0);
-
-        assertEquals(centre, circle.getCentre());
 
         circle.setCentre(new Vector2f(50, 25));
 
