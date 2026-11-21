@@ -26,10 +26,10 @@ public class CollisionSystem {
 	public List<Collision> getCurrentCollisionsAsList() { return new ArrayList<>(this.getCurrentCollisions()); }
 
 	// add a collision to current collisions
-	public void addCurrentCollision(Collision collision) { this.currentCollisions.add(collision); }
+	private void addCurrentCollision(Collision collision) { this.currentCollisions.add(collision); }
 
     // collision between two entities
-    public void collide(Entity thisEntity, Entity otherEntity) {
+    private void collide(Entity thisEntity, Entity otherEntity) {
         Collision collision = new Collision(thisEntity, otherEntity);
 		// add to collisions if check for collision is true (otherwise dont add as they did not collide)
         if (collision.check()){ this.addCurrentCollision(collision); }
