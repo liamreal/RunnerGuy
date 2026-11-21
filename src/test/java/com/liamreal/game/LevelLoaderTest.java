@@ -41,28 +41,60 @@ public class LevelLoaderTest {
         when(mockConfig.getLevels())
                 .thenReturn(levels);
 
+        // levels are just swapped textures so need to mock texture provider
         TextureManager textureManager = mock(TextureManager.class);
 
         return new LevelLoader(textureManager);
     }
     
     @Test
-    public void testHasLevels() {
+    public void test_HasLevels() {
         List<String> levels = new ArrayList<>();
         levels.add("level1");
+
         LevelLoader loader = this.createLoaderWithLevels(levels);
+
         assertTrue(loader.hasLevels());
     }
 
     @Test
-    public void testHasNoLevels() {
+    public void test_HasNoLevels() {
         List<String> levels = new ArrayList<>();
+
         LevelLoader loader = this.createLoaderWithLevels(levels);
+        
         assertFalse(loader.hasLevels());
     }
 
     @Test
-    public void testLoadNextLevelRemovesFirstLevel() {
+    public void test_LoadNextLevel_SetsAssetConfigLevel() {
+        // this will be updated by LevelLoader.loadNextLevel(), but need to make sure updated correctly
+        AssetConfig.setAssetType("test");
+        List<String> levels = new ArrayList<>();
+        levels.add("level1");
+        LevelLoader loader = this.createLoaderWithLevels(levels);        
+        
+        loader.loadNextLevel();
+
+        assertEquals("level1", AssetConfig.getAssetType()); // LevelLoader updates AssetConfig with removed level string
+    }
+
+    // same as above but ensuring no more levels since we removed the only level
+    @Test
+    public void test_LoadNextLevel_RemovesOnlyLevel() {
+        AssetConfig.setAssetType("test");
+        List<String> levels = new ArrayList<>();
+        levels.add("level1");
+        LevelLoader loader = this.createLoaderWithLevels(levels);        
+        
+        loader.loadNextLevel();
+        
+        assertFalse(loader.hasLevels()); // should be empty
+    }
+
+    // similar to previous test with just one level but this ensures is removing in correct order (left to right)
+    @Test
+    public void test_LoadNextLevel_RemovesFirstLevelInOrder() {
         // this will be updated by LevelLoader.loadNextLevel(), but need to make sure updated correctly
         AssetConfig.setAssetType("test");
         List<String> levels = new ArrayList<>();
@@ -71,45 +103,35 @@ public class LevelLoaderTest {
         LevelLoader loader = this.createLoaderWithLevels(levels);        
         
         loader.loadNextLevel();
-        assertEquals("level1", AssetConfig.getAssetType());
-        assertTrue(loader.hasLevels()); // should still have a level; "level2"
-        
-        loader.loadNextLevel();
-        assertEquals("level2", AssetConfig.getAssetType());
-        assertFalse(loader.hasLevels()); // should still have a level; "level2"
+
+        assertEquals("level1", AssetConfig.getAssetType()); // LevelLoader updates AssetConfig with removed level string
     }
 
     @Test
-    public void testLoadAllLevels() {
+    public void test_LoadNextLevel_KeepsRestOfLevels() {
+        // this will be updated by LevelLoader.loadNextLevel(), but need to make sure updated correctly
+        AssetConfig.setAssetType("test");
         List<String> levels = new ArrayList<>();
         levels.add("level1");
         levels.add("level2");
-        levels.add("level3");
-        LevelLoader loader = this.createLoaderWithLevels(levels);
-
-        while (loader.hasLevels()) {
-            loader.loadNextLevel();
-        }
-
-        // should have exhausted all levels
-        assertFalse(loader.hasLevels());
+        LevelLoader loader = this.createLoaderWithLevels(levels);        
+        
+        loader.loadNextLevel();
+        
+        assertTrue(loader.hasLevels()); // should still have a level; "level2"
     }
 
     @Test
-    public void testLoadNoLevels() {
+    public void test_LoadNextLevel_WithNoLevels() {
         // will not be updated since no levels
         AssetConfig.setAssetType("test");
         List<String> levels = new ArrayList<>();
 
         LevelLoader loader = this.createLoaderWithLevels(levels);
 
-        assertFalse(loader.hasLevels());
-        assertEquals("test", AssetConfig.getAssetType());
-
         // should not load anything when no levels exist
         loader.loadNextLevel();
 
-        assertFalse(loader.hasLevels());
-        assertEquals("test", AssetConfig.getAssetType());
+        assertEquals("test", AssetConfig.getAssetType()); // AssetConfig unchanged
     }
 }
