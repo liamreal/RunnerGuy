@@ -12,6 +12,7 @@ import com.liamreal.physics.shapes.Circle;
 import com.liamreal.util.Vector2f;
 
 public class CollisionTest {
+    private static final double DELTA = 0.0001;
     
     // helper method to easily create entity
     private Entity createEntity(
@@ -46,9 +47,11 @@ public class CollisionTest {
 
     @Test
     void getters_returnCorrectEntities() {
-        Entity thisEntity = this.createEntity(1);
+        Entity thisEntity = this.createEntity(1); // using helper method to assign all necessary components
         Entity otherEntity = this.createEntity(2);
+
         Collision collision = new Collision(thisEntity, otherEntity);
+
         assertEquals(thisEntity, collision.getThisEntity());
         assertEquals(otherEntity, collision.getOtherEntity());
     }
@@ -60,6 +63,7 @@ public class CollisionTest {
     @Test
     void hasRequiredComponents_returnsTrueWhenAllComponentsExist() {
         Entity entity = this.createEntity(1);
+
         assertTrue(Collision.hasRequiredComponents(entity));
     }
 
@@ -75,10 +79,7 @@ public class CollisionTest {
     @Test
     void hasRequiredComponents_returnsFalseWhenVelocityMissing() {
         Entity entity = new Entity(1);
-        Transform transform = new Transform(new Vector2f());
-        transform.setPosition(new Vector2f(0, 0));
-
-        entity.add(transform);
+        entity.add(new Transform(new Vector2f(0, 0)));
         entity.add(new Collider(new Circle(new Vector2f(), 1)));
 
         assertFalse(Collision.hasRequiredComponents(entity));
@@ -87,10 +88,7 @@ public class CollisionTest {
     @Test
     void hasRequiredComponents_returnsFalseWhenColliderMissing() {
         Entity entity = new Entity(1);
-        Transform transform = new Transform(new Vector2f());
-        transform.setPosition(new Vector2f(0, 0));
-
-        entity.add(transform);
+        entity.add(new Transform(new Vector2f(0, 0)));
         entity.add(new Velocity(0));
 
         assertFalse(Collision.hasRequiredComponents(entity));
@@ -109,48 +107,9 @@ public class CollisionTest {
 
         Collision collision = new Collision(entityOne, entityTwo);
 
-        assertSame(entityOne, collision.thisEntity);
-        assertSame(entityTwo, collision.otherEntity);
+        assertSame(entityOne, collision.getThisEntity());
+        assertSame(entityTwo, collision.getOtherEntity());
     }
-
-    @Test
-    void constructor_getsRequiredComponents() {
-        Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
-        Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
-
-        Collision collision = new Collision(entityOne, entityTwo);
-
-        assertSame(
-                entityOne.get(Transform.class),
-                collision.thisTransform
-        );
-
-        assertSame(
-                entityOne.get(Velocity.class),
-                collision.thisVelocity
-        );
-
-        assertSame(
-                entityOne.get(Collider.class),
-                collision.thisCollider
-        );
-
-        assertSame(
-                entityTwo.get(Transform.class),
-                collision.otherTransform
-        );
-
-        assertSame(
-                entityTwo.get(Velocity.class),
-                collision.otherVelocity
-        );
-
-        assertSame(
-                entityTwo.get(Collider.class),
-                collision.otherCollider
-        );
-    }
-
 
     @Test
     void constructor_throwsWhenThisEntityIsMissingComponents() {
@@ -190,7 +149,7 @@ public class CollisionTest {
     // ========================================================
 
     @Test
-    void equals_returnsFalseForNull() {
+    void equals_returnsFalse_forNull() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
@@ -200,7 +159,7 @@ public class CollisionTest {
     }
 
     @Test
-    void equals_returnsFalseForDifferentClass() {
+    void equals_returnsFalse_forDifferentClass() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
@@ -210,27 +169,31 @@ public class CollisionTest {
     }
 
     @Test
-    public void equals_returnsTrueForSameEntityPair() {
+    public void equals_returnsTrue_forSameEntityPair() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
+
         Collision collisionOne = new Collision(entityOne, entityTwo);
         Collision collisionTwo = new Collision(entityOne, entityTwo);
+
         assertEquals(collisionOne, collisionTwo);
         assertEquals(collisionTwo, collisionOne);
     }
 
     @Test
-    public void equals_returnsTrueWhenEntitiesAreDifferentOrder() {
+    public void equals_returnsTrue_forSameEntityPairWhenEntitiesAreInDifferentOrder() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
+
         Collision collisionOne = new Collision(entityOne, entityTwo);
         Collision collisionTwo = new Collision(entityTwo, entityOne);
+
         assertEquals(collisionOne, collisionTwo);
         assertEquals(collisionTwo, collisionOne);
     }
 
     @Test
-    void equals_returnsFalseForDifferentEntityPair() {
+    void equals_returnsFalse_forDifferentEntityPair() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
         Entity entityThree = this.createEntity(3, new Vector2f(100, 100), 2, 1);
@@ -247,7 +210,7 @@ public class CollisionTest {
     // =========================================================
 
     @Test
-    void check_returnsFalseWhenEntitiesAreFarApart() {
+    void check_returnsFalse_whenEntitiesAreFarApart() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(30, 30), 5, 2);
 
@@ -257,7 +220,7 @@ public class CollisionTest {
     }
 
     @Test
-    void check_returnsTrueWhenEntitiesOverlap() {
+    void check_returnsTrue_whenEntitiesOverlap() {
         Entity entityOne = this.createEntity(1, new Vector2f(50, 60), 20, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(50, 60), 20, 5);
 
@@ -267,7 +230,7 @@ public class CollisionTest {
     }
 
     @Test
-    void check_returnsTrueWhenEntitiesAreExactlyTouching() {
+    void check_returnsTrue_whenEntitiesAreExactlyTouching() {
         Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(10, 0), 0, 5);
 
@@ -277,7 +240,7 @@ public class CollisionTest {
     }
 
     @Test
-    void check_returnsFalseWhenEntitiesAreJustOutsideCollisionDistance() {
+    void check_returnsFalse_whenEntitiesAreJustOutsideCollisionDistance() {
         Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 5);
         Entity entityTwo = this.createEntity(2, new Vector2f(11, 0), 0, 5);
 
@@ -292,51 +255,47 @@ public class CollisionTest {
     // =========================================================
 
     @Test
-    void resolve_forceSeparatesEntitiesWhenVelocityDifferenceIsSmall() {
+    void resolve_forceSeparatesEntities_whenVelocityDifferenceIsSmall() {
         Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 1);
         Entity entityTwo = this.createEntity(2, new Vector2f(1, 0), 0, 1);
-
         Collision collision = new Collision(entityOne, entityTwo);
 
         // MUST REFLECT INPUT CONDITIONS
         collision.resolve(
-                new Vector2f(-1, 0),
-                -1,
-                2
+            new Vector2f(-1, 0),    // impact vector = thisPosition - otherPosition => (0, 0) - (1, 0) = (-1, 0)
+            -1,                       // overlap = distance - sumLengths => sqrt((-1)^2 + 0^2) - (1 + 1) = sqrt(1) - 2 = -1
+            2              // thisLength + otherLength => 1 + 1 = 2
         );
-
         Vector2f positionOne =
                 entityOne.get(Transform.class).getPosition();
-
         Vector2f positionTwo =
                 entityTwo.get(Transform.class).getPosition();
 
-        assertEquals(2.0, positionOne.getX(), 0.0001);
-        assertEquals(1.5, positionOne.getY(), 0.0001);
-
-        assertEquals(-1.0, positionTwo.getX(), 0.0001);
-        assertEquals(-1.5, positionTwo.getY(), 0.0001);
+        // compare two entities positions given margin of error, we do multiple asserts so can have margin of error
+        //      -- okay to do here because each assert is only part of full thing we are testing (collision resolved and moved them)
+        assertEquals(2.0, positionOne.getX(), DELTA);
+        assertEquals(1.5, positionOne.getY(), DELTA);
+        assertEquals(-1.0, positionTwo.getX(), DELTA);
+        assertEquals(-1.5, positionTwo.getY(), DELTA);
     }
 
     @Test
-    void check_handlesZeroVelocityEntities() {
+    void test_check_handlesCollidingEntitiesWithZeroVelocity() {
         Entity entityOne = this.createEntity(1, new Vector2f(0, 0), 0, 1);
         Entity entityTwo = this.createEntity(2, new Vector2f(1, 0), 0, 1);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
-        assertDoesNotThrow(collision::check);
         assertTrue(collision.check());
     }
 
     @Test
-    void check_handlesEntitiesAtSamePosition() {
+    void test_check_handlesCollidingEntitiesAtSamePosition() {
         Entity entityOne = this.createEntity(1);
         Entity entityTwo = this.createEntity(2);
 
         Collision collision = new Collision(entityOne, entityTwo);
 
-        assertDoesNotThrow(collision::check);
         assertTrue(collision.check());
     }
 }

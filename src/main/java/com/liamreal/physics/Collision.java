@@ -12,17 +12,17 @@ import com.liamreal.util.Vector2f;
 
 public class Collision {
     // this entity
-    public Entity thisEntity;
-    public Transform thisTransform;
-    public Vector2f thisPosition;
-    public Velocity thisVelocity;
-    public Collider thisCollider;
+    private Entity thisEntity;
+    private Transform thisTransform;
+    private Vector2f thisPosition;
+    private Velocity thisVelocity;
+    private Collider thisCollider;
     // other entity
-    public Entity otherEntity;
-    public Transform otherTransform;
-    public Vector2f otherPosition;
-    public Velocity otherVelocity;
-    public Collider otherCollider;
+    private Entity otherEntity;
+    private Transform otherTransform;
+    private Vector2f otherPosition;
+    private Velocity otherVelocity;
+    private Collider otherCollider;
 
     public Collision(Entity thisEntity, Entity otherEntity) {
         this.thisEntity = thisEntity;
