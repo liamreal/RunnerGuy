@@ -8,9 +8,6 @@ import com.liamreal.systems.InputSystem;
 import com.liamreal.systems.CombatSystem;
 import java.util.Collection;
 
-import com.liamreal.components.combat.*;
-
-
 public class Model { 
 	private final EntityManager entityManager = new EntityManager();
 	// easiest way to add background in its own collection for now
