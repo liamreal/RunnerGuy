@@ -17,6 +17,7 @@ import com.liamreal.util.Vector2f;
 
 class SystemUtilsTest {
 
+    // helper method for adding specific things to entity
     private void addCollisionComponents(Entity entity) {
         entity.add(new Transform(0, 0));
         entity.add(new Velocity(0));
@@ -25,15 +26,15 @@ class SystemUtilsTest {
 
     // simple tests to ensure that both combinations of entity method calls are called
     @Test
-    void executeWithEntitiesExecutesMethodForBothEntityOrders() {
+    void execute_WithTwoEntities_AcceptsMethodInBothOrders() {
         Entity thisEntity = new Entity(1);
         Entity otherEntity = new Entity(2);
-
         List<String> calls = new ArrayList<>();
-
+        // create a method that does something from the two arguments (here calls is local variable so in scope)
         BiConsumer<Entity, Entity> method =
                 (first, second) -> calls.add(first.getId() + " -> " + second.getId());
 
+        // run our method in test that is supposed to accept the BiConsumer method both ways
         SystemUtils.execute(method, thisEntity, otherEntity);
 
         assertEquals(
@@ -42,17 +43,15 @@ class SystemUtilsTest {
         );
     }
 
+    // same as test above except passing in collision instead using method overloading, making sure it is unwrapped correctly
     @Test
-    void executeWithCollisionExecutesMethodForBothEntityOrders() {
+    void execute_WithCollision_AcceptsMethodInBothOrders() {
         Entity thisEntity = new Entity(1);
-        this.addCollisionComponents(thisEntity);
         Entity otherEntity = new Entity(2);
+        this.addCollisionComponents(thisEntity);
         this.addCollisionComponents(otherEntity);
-
         Collision collision = new Collision(thisEntity, otherEntity);
-
         List<String> calls = new ArrayList<>();
-
         BiConsumer<Entity, Entity> method =
                 (first, second) -> calls.add(first.getId() + " -> " + second.getId());
 
